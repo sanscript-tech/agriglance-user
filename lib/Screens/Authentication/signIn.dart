@@ -3,15 +3,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SignIn extends StatelessWidget {
+class SignIn extends StatefulWidget {
+  final Function toogleView;
+
+  SignIn({this.toogleView});
+
+  @override
+  _SignInState createState() => _SignInState();
+}
+
+class _SignInState extends State<SignIn> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextStyle defaultStyle = TextStyle(color: Colors.grey, fontSize: 20.0);
   final TextStyle linkStyle = TextStyle(color: Colors.blue, fontSize: 20.0);
-
-  final Function toogleView;
-
-  SignIn({this.toogleView});
+  var opacity = 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +50,9 @@ class SignIn extends StatelessWidget {
               child: RaisedButton(
                 color: Colors.yellow,
                 onPressed: () {
+                  setState(() {
+                    opacity = 1.0;
+                  });
                   context
                       .read<AuthenticationService>()
                       .signIn(emailController.text, passwordController.text);
@@ -60,13 +69,20 @@ class SignIn extends StatelessWidget {
                 Text('Not Registered Yet?  ', style: defaultStyle),
                 GestureDetector(
                   onTap: () {
-                    toogleView();
+                    widget.toogleView();
                   },
                   child: Container(
                     child: Text('Sign Up', style: linkStyle),
                   ),
                 ),
               ],
+            ),
+            Opacity(
+              opacity: opacity,
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.yellow,
+                strokeWidth: 8,
+              ),
             ),
           ],
         ),

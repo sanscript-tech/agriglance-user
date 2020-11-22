@@ -1,12 +1,13 @@
 import 'package:agriglance/Services/authentication_service.dart';
+import 'package:agriglance/Services/firestore_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key key, @required this.user}) : super(key: key);
-  final User user;
+  const Home({Key key}) : super(key: key);
 
   @override
   _HomeState createState() {
@@ -17,25 +18,22 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Center(child: Text("Agriglance")),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: Column(
-            children: [
-              Text('Welcome  ${widget.user.email}'),
-              RaisedButton(
-                onPressed: () {
-                  context.read<AuthenticationService>().signOut();
-                },
-                child: Text('SignOut'),
-              ),
-            ],
-          ),
+    return StreamProvider<QuerySnapshot>.value(
+      value: FirestoreService().getReference.snapshots(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Center(child: Text("Agriglance")),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: () {
+                context.read<AuthenticationService>().signOut();
+              },
+            ),
+          ],
         ),
+        body: Center(
+            child: Text("Welcome ${FirebaseAuth.instance.currentUser.email}")),
       ),
     );
   }

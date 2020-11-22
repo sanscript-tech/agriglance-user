@@ -3,7 +3,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SignUp extends StatelessWidget {
+class SignUp extends StatefulWidget {
+  final Function toogleView;
+
+  SignUp({this.toogleView});
+
+  @override
+  _SignUpState createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
@@ -11,10 +20,7 @@ class SignUp extends StatelessWidget {
   final TextEditingController universityController = TextEditingController();
   final TextStyle defaultStyle = TextStyle(color: Colors.grey, fontSize: 20.0);
   final TextStyle linkStyle = TextStyle(color: Colors.blue, fontSize: 20.0);
-
-  final Function toogleView;
-
-  SignUp({this.toogleView});
+  var opacity = 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +58,15 @@ class SignUp extends StatelessWidget {
             RaisedButton(
               color: Colors.yellow,
               onPressed: () {
-                context
-                    .read<AuthenticationService>()
-                    .signIn(emailController.text, passwordController.text);
+                setState(() {
+                  opacity = 1.0;
+                });
+                context.read<AuthenticationService>().signUp(
+                    emailController.text,
+                    passwordController.text,
+                    nameController.text,
+                    qualificationController.text,
+                    universityController.text);
               },
               child: Text(
                 "Sign Up",
@@ -67,13 +79,20 @@ class SignUp extends StatelessWidget {
                 Text('Already have an Account?  ', style: defaultStyle),
                 GestureDetector(
                   onTap: () {
-                    toogleView();
+                    widget.toogleView();
                   },
                   child: Container(
                     child: Text('Sign In', style: linkStyle),
                   ),
                 ),
               ],
+            ),
+            Opacity(
+              opacity: opacity,
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.yellow,
+                strokeWidth: 8,
+              ),
             ),
           ],
         ),
