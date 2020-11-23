@@ -17,8 +17,17 @@ class FirestoreService {
 
   Future getUser(uid) async {
     try {
-      var userDate = await _userCollectionReference.doc(uid).get();
-      return UserModel.fromData(userDate.data());
+      var userData = await _userCollectionReference.doc(uid).get();
+      return UserModel.fromData(userData.data());
+    } catch (e) {
+      return e.message;
+    }
+  }
+
+  Future<bool> isUserRegistered(uid) async {
+    try {
+      final userData = await _userCollectionReference.doc(uid).get();
+      return userData.exists ? true : false;
     } catch (e) {
       return e.message;
     }

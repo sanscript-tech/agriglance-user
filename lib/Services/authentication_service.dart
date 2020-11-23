@@ -1,8 +1,10 @@
 import 'package:agriglance/Models/usermodel.dart';
 import 'package:agriglance/Services/firestore_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthenticationService {
+  final GoogleSignIn googleSignIn = GoogleSignIn();
   final FirebaseAuth _firebaseAuth;
   final FirestoreService _firestoreService = FirestoreService();
   UserModel _currentUser;
@@ -40,6 +42,40 @@ class AuthenticationService {
 
   Future<String> signOut() async {
     await _firebaseAuth.signOut();
+  }
+
+  Future<String> signInWithGoogle() async {
+    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+
+    final UserCredential authResult =
+        await _firebaseAuth.signInWithCredential(credential);
+    final User user = authResult.user;
+
+    if (user != null) {
+      assert(!user.isAnonymous);
+      assert(await user.getIdToken() != null);
+
+      final User currentUser = _firebaseAuth.currentUser;
+      assert(user.uid == currentUser.uid);
+
+      print('signInWithGoogle succeeded: $user');
+      if (_firestoreService.isUserRegistered(user.uid) != null) {
+        _currentUser = UserModel(user.uid, "", user.email, "", "");
+        await _firestoreService.createUser(_currentUser);
+      } else {
+        await _populateCurrentUser(user);
+      }
+      return '$user';
+    }
+
+    return null;
   }
 
   Future _populateCurrentUser(User firebaseUser) async {
