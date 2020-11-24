@@ -25,7 +25,7 @@ class _HomeState extends State<Home> {
           title: Center(child: Text("Agriglance")),
           actions: [
             IconButton(
-              icon: Icon(Icons.logout),
+              icon: Icon(Icons.do_not_disturb_on),
               onPressed: () {
                 context.read<AuthenticationService>().signOut();
               },
