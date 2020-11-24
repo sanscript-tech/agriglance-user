@@ -33,7 +33,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             title: Center(child: Text("Agriglance")),
             actions: [
               IconButton(
-                icon: Icon(Icons.logout),
+                icon: Icon(Icons.outlined_flag),
                 onPressed: () {
                   context.read<AuthenticationService>().signOut();
                 },
