@@ -1,6 +1,7 @@
 import 'package:agriglance/Models/usermodel.dart';
 import 'package:agriglance/Services/firestore_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthenticationService {
@@ -41,7 +42,7 @@ class AuthenticationService {
   }
 
   Future<String> signOut() async {
-    await _firebaseAuth.signOut();
+    await _firebaseAuth.signOut().then((_) => googleSignIn.signOut());
   }
 
   Future<String> signInWithGoogle() async {
@@ -76,6 +77,12 @@ class AuthenticationService {
     }
 
     return null;
+  }
+
+  Future resetPassword(String email) async {
+    await _firebaseAuth
+        .sendPasswordResetEmail(email: email)
+        .then((value) => print("Email sent"));
   }
 
   Future _populateCurrentUser(User firebaseUser) async {

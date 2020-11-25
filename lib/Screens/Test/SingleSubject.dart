@@ -13,7 +13,11 @@ class _SingleSubjectState extends State<SingleSubject> {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(tooltip: "Add test",child: Icon(Icons.add),backgroundColor: Colors.amber,onPressed: () {}),
+      floatingActionButton: FloatingActionButton(
+          tooltip: "Add test",
+          child: Icon(Icons.add),
+          backgroundColor: Colors.amber,
+          onPressed: () {}),
       appBar: AppBar(
         title: Text("Agriglance"),
         centerTitle: true,

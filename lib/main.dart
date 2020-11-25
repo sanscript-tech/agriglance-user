@@ -33,8 +33,8 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.amber,
           ),
-          //home: AuthenticationWrapper(),
-          home: TestSubject(),
+          home: AuthenticationWrapper(),
+          // home: TestSubject(),
         ));
   }
 }

@@ -7,6 +7,7 @@ class TestSubject extends StatefulWidget {
 
 class _TestSubjectState extends State<TestSubject> {
   List<String> subjects = [];
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -41,8 +42,7 @@ class _TestSubjectState extends State<TestSubject> {
                     fontFamily: "Roboto",
                     fontSize: screenHeight * 0.035),
               ),
-              SizedBox(height: screenHeight*0.03),
-
+              SizedBox(height: screenHeight * 0.03),
             ]),
           ),
           Expanded(
@@ -60,10 +60,6 @@ class _TestSubjectState extends State<TestSubject> {
             _getSubjects("English", 29),
             _getSubjects("English", 29),
             _getSubjects("English", 29),
-            
-
-            
-
           ])),
         ],
       )),
@@ -80,10 +76,11 @@ Widget _getSubjects(String subject, int num) {
     padding: const EdgeInsets.all(8.0),
     child: Container(
       decoration: BoxDecoration(
-          border: Border(right: BorderSide(color: Colors.black, width: 2.0),
-          left: BorderSide(color: Colors.black, width: 2.0),
-          top: BorderSide(color: Colors.black, width: 2.0),
-          bottom: BorderSide(color: Colors.black, width: 2.0))),
+          border: Border(
+              right: BorderSide(color: Colors.black, width: 2.0),
+              left: BorderSide(color: Colors.black, width: 2.0),
+              top: BorderSide(color: Colors.black, width: 2.0),
+              bottom: BorderSide(color: Colors.black, width: 2.0))),
       child: (ListTile(
         title: isAvailable
             ? Text(
