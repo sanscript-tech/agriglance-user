@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AddJobs extends StatefulWidget {
+  String uid;
+  AddJobs({this.uid});
   @override
   _AddJobsState createState() => _AddJobsState();
 }
@@ -23,6 +25,7 @@ class _AddJobsState extends State<AddJobs> {
       form.save();
     }
     _uploadJob();
+    Navigator.pop(context);
   }
 
   Future<void> _uploadJob() async {
@@ -32,7 +35,8 @@ class _AddJobsState extends State<AddJobs> {
       'jobResponsibility': _jobResponsibility,
       'jobSalary': _salary,
       'jobTitle': _jobTitle,
-      'skillsRequired': _jobSkills
+      'skillsRequired': _jobSkills,
+      'postedBy': widget.uid
     });
   }
 
@@ -110,7 +114,7 @@ class _AddJobsState extends State<AddJobs> {
                 Container(
                     padding: EdgeInsets.only(left: 40.0, top: 20.0),
                     child: RaisedButton(
-                      child: Text('Add Job'),
+                      child: Text('Submit job for approval'),
                       onPressed: _submitForm,
                     )),
               ],
