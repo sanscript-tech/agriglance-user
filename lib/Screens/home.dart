@@ -1,3 +1,4 @@
+import 'package:agriglance/Screens/jobs_home.dart';
 import 'package:agriglance/Screens/materials_home.dart';
 import 'package:agriglance/Screens/test_home.dart';
 import 'package:agriglance/Services/authentication_service.dart';
@@ -63,7 +64,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               TestHome(),
               MaterialsHome(),
               Text("This is notification Tab View"),
-              Text("This is notification Tab View"),
+              JobsHome(),
             ],
           )),
     );
