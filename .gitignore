@@ -1,3 +1,5 @@
+pubspec.lock
+
 # Miscellaneous
 *.class
 *.log
@@ -45,5 +47,5 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-#pubspec.lock
-pubspec.lock
+
+

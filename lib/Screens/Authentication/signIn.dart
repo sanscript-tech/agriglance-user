@@ -1,3 +1,4 @@
+import 'package:agriglance/Screens/Authentication/forgotPassword.dart';
 import 'package:agriglance/Services/authentication_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -114,6 +115,20 @@ class _SignInState extends State<SignIn> {
                   ),
                 ),
               ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ForgotPassword()));
+                },
+                child: Container(
+                  child: Text('Forgot Password', style: linkStyle),
+                ),
+              ),
             ),
             Opacity(
               opacity: opacity,
