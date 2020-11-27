@@ -1,3 +1,4 @@
+import 'package:agriglance/Screens/add_jobs.dart';
 import 'package:flutter/material.dart';
 
 class JobsHome extends StatefulWidget {
@@ -10,7 +11,8 @@ class _JobsHomeState extends State<JobsHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => print("Tapped"),
+        onPressed: () => Navigator.push(
+            context, MaterialPageRoute(builder: (context) => AddJobs())),
         child: Icon(Icons.add),
       ),
     );
