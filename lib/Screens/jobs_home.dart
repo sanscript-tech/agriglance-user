@@ -24,17 +24,20 @@ class _JobsHomeState extends State<JobsHome> {
                     itemCount: snapshot.data.documents.length,
                     itemBuilder: (context, index) {
                       DocumentSnapshot jobs = snapshot.data.documents[index];
-                      return JobCard(
-                        jobDesc: jobs['jobSelectionProcedure'],
-                        jobPosts: jobs['noOfPosts'],
-                        jobSkills: jobs['qualificationsRequired'],
-                        jobSubject: jobs['jobSubject'],
-                        jobType: jobs['jobType'],
-                        orgLink: jobs['organizationLink'],
-                        orgName: jobs['organizationName'],
-                        salary: jobs['jobSalary'],
-                        postedByName: jobs['postedByName'],
-                      );
+                      if (jobs['isApprovedByAdmin']) {
+                        return JobCard(
+                          jobDesc: jobs['jobSelectionProcedure'],
+                          jobPosts: jobs['noOfPosts'],
+                          jobSkills: jobs['qualificationsRequired'],
+                          jobSubject: jobs['jobSubject'],
+                          jobType: jobs['jobType'],
+                          orgLink: jobs['organizationLink'],
+                          orgName: jobs['organizationName'],
+                          salary: jobs['jobSalary'],
+                          postedByName: jobs['postedByName'],
+                          index: index,
+                        );
+                      }
                     },
                   );
           },
