@@ -4,7 +4,8 @@ import 'package:flutter/services.dart';
 
 class AddJobs extends StatefulWidget {
   String uid;
-  AddJobs({this.uid});
+  String uName;
+  AddJobs({this.uid, this.uName});
   @override
   _AddJobsState createState() => _AddJobsState();
 }
@@ -42,6 +43,7 @@ class _AddJobsState extends State<AddJobs> {
       'jobType': _jobType,
       'qualificationsRequired': _jobSkills,
       'postedBy': widget.uid,
+      'posetedByName': widget.uName,
       'organizationLink': _orgLink
     });
   }

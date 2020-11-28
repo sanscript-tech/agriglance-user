@@ -14,7 +14,11 @@ class _JobsHomeState extends State<JobsHome> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => AddJobs(uid:auth.currentUser.uid))),
+            context,
+            MaterialPageRoute(
+                builder: (context) => AddJobs(
+                    uid: auth.currentUser.uid,
+                    uName: auth.currentUser.displayName))),
         child: Icon(Icons.add),
       ),
     );
