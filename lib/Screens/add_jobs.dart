@@ -43,7 +43,7 @@ class _AddJobsState extends State<AddJobs> {
       'jobType': _jobType,
       'qualificationsRequired': _jobSkills,
       'postedBy': widget.uid,
-      'posetedByName': widget.uName,
+      'postedByName': widget.uName,
       'organizationLink': _orgLink
     });
   }

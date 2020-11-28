@@ -1,4 +1,6 @@
 import 'package:agriglance/Screens/add_jobs.dart';
+import 'package:agriglance/constants/job_card.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +14,32 @@ class _JobsHomeState extends State<JobsHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: Container(
+        child: StreamBuilder(
+          stream: FirebaseFirestore.instance.collection("jobs").snapshots(),
+          builder: (context, snapshot) {
+            return !snapshot.hasData
+                ? Text("Loading")
+                : ListView.builder(
+                    itemCount: snapshot.data.documents.length,
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot jobs = snapshot.data.documents[index];
+                      return JobCard(
+                        jobDesc: jobs['jobSelectionProcedure'],
+                        jobPosts: jobs['noOfPosts'],
+                        jobSkills: jobs['qualificationsRequired'],
+                        jobSubject: jobs['jobSubject'],
+                        jobType: jobs['jobType'],
+                        orgLink: jobs['organizationLink'],
+                        orgName: jobs['organizationName'],
+                        salary: jobs['jobSalary'],
+                        postedByName: jobs['postedByName'],
+                      );
+                    },
+                  );
+          },
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.push(
             context,
