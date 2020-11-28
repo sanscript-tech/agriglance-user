@@ -12,11 +12,14 @@ class AddJobs extends StatefulWidget {
 class _AddJobsState extends State<AddJobs> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  String _jobTitle = "";
+  String _jobType = "";
+  String _orgName = "";
   String _jobDesc = "";
+  String _jobSubject = "";
   String _jobSkills = "";
-  String _jobResponsibility = "";
+  int _jobPosts = 0;
   String _salary = "";
+  String _orgLink = "";
   void _submitForm() async {
     final FormState form = _formKey.currentState;
     if (!form.validate()) {
@@ -31,12 +34,15 @@ class _AddJobsState extends State<AddJobs> {
   Future<void> _uploadJob() async {
     await FirebaseFirestore.instance.collection("jobs").add({
       'isApprovedByAdmin': false,
-      'jobDescription': _jobDesc,
-      'jobResponsibility': _jobResponsibility,
+      'organizationName': _orgName,
+      'jobSubject': _jobSubject,
+      'jobSelectionProcedure': _jobDesc,
+      'noOfPosts': _jobPosts,
       'jobSalary': _salary,
-      'jobTitle': _jobTitle,
-      'skillsRequired': _jobSkills,
-      'postedBy': widget.uid
+      'jobType': _jobType,
+      'qualificationsRequired': _jobSkills,
+      'postedBy': widget.uid,
+      'organizationLink': _orgLink
     });
   }
 
@@ -64,51 +70,87 @@ class _AddJobsState extends State<AddJobs> {
                 TextFormField(
                   inputFormatters: [LengthLimitingTextInputFormatter(30)],
                   validator: (val) =>
-                      val.isEmpty ? 'Job Title is required' : null,
-                  onSaved: (val) => _jobTitle = val,
+                      val.isEmpty ? 'Job Type is required' : null,
+                  onSaved: (val) => _jobType = val,
                   decoration: InputDecoration(
-                    icon: Icon(Icons.book),
-                    hintText: 'Enter the title of the job',
-                    labelText: 'Job Title',
+                    icon: Icon(Icons.merge_type),
+                    hintText: 'Enter the type of the job',
+                    labelText: 'Job Type',
+                  ),
+                ),
+                TextFormField(
+                  inputFormatters: [LengthLimitingTextInputFormatter(30)],
+                  validator: (val) =>
+                      val.isEmpty ? 'Organization name is required' : null,
+                  onSaved: (val) => _orgName = val,
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.build),
+                    hintText: 'Enter the name of organization',
+                    labelText: 'Organization Name',
+                  ),
+                ),
+                TextFormField(
+                  inputFormatters: [LengthLimitingTextInputFormatter(30)],
+                  validator: (val) =>
+                      val.isEmpty ? 'Job subject is required' : null,
+                  onSaved: (val) => _jobSubject = val,
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.subject),
+                    hintText: 'Enter the subject of job',
+                    labelText: 'Job Subject',
                   ),
                 ),
                 TextFormField(
                   validator: (val) =>
-                      val.isEmpty ? 'Job Description is required' : null,
+                      val.isEmpty ? 'Selection procedure is required' : null,
                   onSaved: (val) => _jobDesc = val,
                   decoration: InputDecoration(
                     icon: Icon(Icons.description),
-                    hintText: 'Enter the description of the job',
-                    labelText: 'Job Description',
-                  ),
-                ),
-                TextFormField(
-                  validator: (val) => val.isEmpty ? 'Skills is required' : null,
-                  onSaved: (val) => _jobSkills = val,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.person),
-                    hintText: 'Enter the skills required for the job',
-                    labelText: 'Skills',
+                    hintText: 'Enter the selection procedure',
+                    labelText: 'Selection Procedure',
                   ),
                 ),
                 TextFormField(
                   validator: (val) =>
-                      val.isEmpty ? 'Job responsibility is required' : null,
-                  onSaved: (val) => _jobResponsibility = val,
+                      val.isEmpty ? 'Qualifications is required' : null,
+                  onSaved: (val) => _jobSkills = val,
                   decoration: InputDecoration(
-                    icon: Icon(Icons.line_weight),
-                    hintText: 'Enter the job responsibilty',
-                    labelText: 'Job Responsibility',
+                    icon: Icon(Icons.person),
+                    hintText: 'Enter the qualifications required for the job',
+                    labelText: 'Qualifications',
                   ),
                 ),
                 TextFormField(
-                  validator: (val) => val.isEmpty ? 'Salary is required' : null,
+                  validator: (val) =>
+                      val.isEmpty ? 'No. of posts is required' : null,
+                  onSaved: (val) => _jobPosts = int.parse(val),
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.confirmation_number),
+                    hintText: 'Enter the number of posts available',
+                    labelText: 'No of posts',
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+                TextFormField(
+                  validator: (val) =>
+                      val.isEmpty ? 'Payscale is required' : null,
                   onSaved: (val) => _salary = val,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     icon: Icon(Icons.attach_money),
-                    hintText: 'Enter the salary offered',
-                    labelText: 'Salary',
+                    hintText: 'Enter the payscale',
+                    labelText: 'Salary/ month',
+                  ),
+                ),
+                TextFormField(
+                  validator: (val) =>
+                      val.isEmpty ? 'Organization link is required' : null,
+                  onSaved: (val) => _orgLink = val,
+                  keyboardType: TextInputType.url,
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.link),
+                    hintText: 'Enter the organization link',
+                    labelText: 'Link',
                   ),
                 ),
                 Container(
