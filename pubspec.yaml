@@ -31,7 +31,11 @@ dependencies:
   flutter_spinkit: ^4.1.2+1
   google_sign_in: ^4.5.6
   fluttertoast: ^7.1.4
-
+  firebase_storage: ^5.1.0
+  file_picker: ^2.1.0
+  flutter_plugin_pdf_viewer: ^1.0.7
+  webview_flutter: ^1.0.7
+  flutter_downloader: ^1.5.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

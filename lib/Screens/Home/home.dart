@@ -1,7 +1,7 @@
-import 'package:agriglance/Screens/jobs_home.dart';
-import 'package:agriglance/Screens/materials_home.dart';
-import 'package:agriglance/Screens/profile.dart';
-import 'package:agriglance/Screens/test_home.dart';
+import 'package:agriglance/Screens/Jobs/jobs_home.dart';
+import 'package:agriglance/Screens/Materials/materials_home.dart';
+import 'package:agriglance/Screens/Profile/profile.dart';
+import 'package:agriglance/Screens/Test/test_home.dart';
 import 'package:agriglance/Services/authentication_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

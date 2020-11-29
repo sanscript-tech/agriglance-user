@@ -1,10 +1,29 @@
+import 'package:agriglance/Screens/ResearchPapers/research_papers_home.dart';
 import 'package:flutter/material.dart';
 
 class MaterialsHome extends StatelessWidget {
   @override
-  Widget categoryButton(String category) {
+  Widget categoryButton(String category, BuildContext context) {
     return RaisedButton(
-      onPressed: () => print(category),
+      onPressed: () {
+        switch (category) {
+          case "Research Papers":
+            {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ResearchPapersHome()));
+            }
+            break;
+          default:
+            {
+              Scaffold.of(context).showSnackBar(SnackBar(
+                content: Text("Not implemented yet"),
+                duration: Duration(seconds: 1),
+              ));
+            }
+        }
+      },
       child: Text(
         category,
         style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
@@ -27,11 +46,11 @@ class MaterialsHome extends StatelessWidget {
               SizedBox(
                 width: deviceWidth / 7,
               ),
-              categoryButton("Videos"),
+              categoryButton("Videos", context),
               SizedBox(
                 width: deviceWidth / 7,
               ),
-              categoryButton("Researc Paper"),
+              categoryButton("Research Papers", context),
             ],
           ),
           SizedBox(
@@ -42,11 +61,11 @@ class MaterialsHome extends StatelessWidget {
               SizedBox(
                 width: deviceWidth / 7,
               ),
-              categoryButton("Current Affairs"),
+              categoryButton("Current Affairs", context),
               SizedBox(
                 width: deviceWidth / 7,
               ),
-              categoryButton("News"),
+              categoryButton("News", context),
             ],
           ),
           SizedBox(
@@ -57,11 +76,11 @@ class MaterialsHome extends StatelessWidget {
               SizedBox(
                 width: deviceWidth / 7,
               ),
-              categoryButton("Notes"),
+              categoryButton("Notes", context),
               SizedBox(
                 width: deviceWidth / 7,
               ),
-              categoryButton("Polls"),
+              categoryButton("Polls", context),
             ],
           )
         ],

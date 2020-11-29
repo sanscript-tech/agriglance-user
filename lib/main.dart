@@ -1,11 +1,9 @@
-import 'package:agriglance/Screens/Test/SingleSubject.dart';
-import 'package:agriglance/Screens/Test/testSubjects.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'Screens/home.dart';
+import 'Screens/Home/home.dart';
 import 'Services/authenticate.dart';
 import 'Services/authentication_service.dart';
 
