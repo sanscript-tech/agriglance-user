@@ -1,12 +1,49 @@
+import 'package:agriglance/Screens/Test/SingleSubject.dart';
 import 'package:flutter/material.dart';
 
 class TestSubject extends StatefulWidget {
+  String uid;
+  String subject;
+  TestSubject({this.uid, this.subject});
   @override
   _TestSubjectState createState() => _TestSubjectState();
 }
 
 class _TestSubjectState extends State<TestSubject> {
   List<String> subjects = [];
+
+  Widget _getSubjects(String subject, int num1) {
+    bool isAvailable = true;
+    // if (num == 0 || num <= 0) {
+    //   isAvailable = false;
+    // }
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+              context, MaterialPageRoute(builder: (context) => SingleSubject(subjectName: subject,numOfTests: num1,)));
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          decoration: BoxDecoration(
+              border: Border(
+                  right: BorderSide(color: Colors.black, width: 2.0),
+                  left: BorderSide(color: Colors.black, width: 2.0),
+                  top: BorderSide(color: Colors.black, width: 2.0),
+                  bottom: BorderSide(color: Colors.black, width: 2.0))),
+          child: (ListTile(
+            title: isAvailable
+                ? Text(
+                    "$subject - $num1 Tests Available",
+                    style: TextStyle(fontSize: 22.0),
+                  )
+                : Text("$subject- Not Available",
+                    style: TextStyle(fontSize: 30.0)),
+          )),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +62,7 @@ class _TestSubjectState extends State<TestSubject> {
           Container(
             child: Column(children: <Widget>[
               Text(
-                "IPS 2020",
+                widget.subject,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontFamily: "Roboto",
@@ -47,50 +84,16 @@ class _TestSubjectState extends State<TestSubject> {
           ),
           Expanded(
               child: ListView(shrinkWrap: true, children: <Widget>[
-            _getSubjects("History", 22),
-            _getSubjects("English", 29),
-            _getSubjects("English", 29),
-            _getSubjects("English", 29),
-            _getSubjects("English", 29),
-            _getSubjects("English", 29),
-            _getSubjects("English", 29),
-            _getSubjects("English", 29),
-            _getSubjects("English", 29),
-            _getSubjects("English", 29),
-            _getSubjects("English", 29),
-            _getSubjects("English", 29),
-            _getSubjects("English", 29),
+            _getSubjects("History", 5),
+            _getSubjects("History", 17),
+            _getSubjects("History", 10),
+            _getSubjects("History", 12),
+            _getSubjects("History", 12),
           ])),
         ],
       )),
     );
   }
-}
-
-Widget _getSubjects(String subject, int num) {
-  bool isAvailable = true;
-  // if (num == 0 || num <= 0) {
-  //   isAvailable = false;
-  // }
-  return Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Container(
-      decoration: BoxDecoration(
-          border: Border(
-              right: BorderSide(color: Colors.black, width: 2.0),
-              left: BorderSide(color: Colors.black, width: 2.0),
-              top: BorderSide(color: Colors.black, width: 2.0),
-              bottom: BorderSide(color: Colors.black, width: 2.0))),
-      child: (ListTile(
-        title: isAvailable
-            ? Text(
-                "$subject - $num Test Available",
-                style: TextStyle(fontSize: 22.0),
-              )
-            : Text("$subject- Not Available", style: TextStyle(fontSize: 30.0)),
-      )),
-    ),
-  );
 }
 
 class Drawhorizontalline extends CustomPainter {
