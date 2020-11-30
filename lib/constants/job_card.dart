@@ -1,3 +1,4 @@
+import 'package:agriglance/Screens/Jobs/job_details.dart';
 import 'package:flutter/material.dart';
 
 class JobCard extends StatefulWidget {
@@ -34,29 +35,45 @@ class _JobCardState extends State<JobCard> {
     return Container(
       height: deviceHeight / 7,
       padding: EdgeInsets.all(10.0),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          side: BorderSide(),
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "${widget.index + 1}. ${widget.orgName}",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              ),
-              Text(
-                "Salary: " + widget.salary,
-                style: TextStyle(fontSize: 18.0),
-              ),
-              Text(
-                "Posted By: " + widget.postedByName,
-                style: TextStyle(fontSize: 18.0),
-              )
-            ],
+      child: GestureDetector(
+        onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => JobDetails(
+                      jobDesc: widget.jobDesc,
+                      jobPosts: widget.jobPosts,
+                      jobSkills: widget.jobSkills,
+                      jobSubject: widget.jobSubject,
+                      jobType: widget.jobType,
+                      orgLink: widget.orgLink,
+                      orgName: widget.orgName,
+                      salary: widget.salary,
+                      postedByName: widget.postedByName,
+                    ))),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            side: BorderSide(),
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${widget.index + 1}. ${widget.orgName}",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+                Text(
+                  "Salary: " + widget.salary,
+                  style: TextStyle(fontSize: 18.0),
+                ),
+                Text(
+                  "Posted By: " + widget.postedByName,
+                  style: TextStyle(fontSize: 18.0),
+                )
+              ],
+            ),
           ),
         ),
       ),
