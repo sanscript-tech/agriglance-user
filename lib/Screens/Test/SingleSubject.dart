@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class SingleSubject extends StatefulWidget {
+  String subjectName;
+  int numOfTests;
+  SingleSubject({this.subjectName,this.numOfTests});
+
   @override
   _SingleSubjectState createState() => _SingleSubjectState();
 }
@@ -23,35 +27,37 @@ class _SingleSubjectState extends State<SingleSubject> {
         centerTitle: true,
       ),
       body: SafeArea(
+          top: true,
+          bottom: true,
           child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(height: screenHeight * 0.03),
-          Container(
-            child: Text(
-              "History Test",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "Roboto",
-                  fontSize: screenHeight * 0.035),
-            ),
-          ),
-          Expanded(
-              child: ListView(shrinkWrap: true, children: <Widget>[
-            _getSubjectDetails(1, 30, "Admin"),
-            _getSubjectDetails(2, 30, "Swarup"),
-            _getSubjectDetails(2, 30, "Swarup"),
-            _getSubjectDetails(2, 30, "Swarup"),
-            _getSubjectDetails(2, 30, "Swarup"),
-            _getSubjectDetails(2, 30, "Swarup"),
-            _getSubjectDetails(2, 30, "Swarup"),
-            _getSubjectDetails(2, 30, "Swarup"),
-            _getSubjectDetails(2, 30, "Swarup"),
-            _getSubjectDetails(2, 30, "Swarup"),
-            _getSubjectDetails(2, 30, "Swarup"),
-          ])),
-        ],
-      )),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: screenHeight * 0.03),
+              Container(
+                child: Text(
+                  "History Test",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "Roboto",
+                      fontSize: screenHeight * 0.035),
+                ),
+              ),
+              Expanded(
+                  child: ListView(shrinkWrap: true, children: <Widget>[
+                _getSubjectDetails(1, 30, "Admin"),
+                _getSubjectDetails(2, 30, "Swarup"),
+                _getSubjectDetails(2, 30, "Swarup"),
+                _getSubjectDetails(2, 30, "Swarup"),
+                _getSubjectDetails(2, 30, "Swarup"),
+                _getSubjectDetails(2, 30, "Swarup"),
+                _getSubjectDetails(2, 30, "Swarup"),
+                _getSubjectDetails(2, 30, "Swarup"),
+                _getSubjectDetails(2, 30, "Swarup"),
+                _getSubjectDetails(2, 30, "Swarup"),
+                _getSubjectDetails(2, 30, "Swarup"),
+              ])),
+            ],
+          )),
     );
   }
 }
