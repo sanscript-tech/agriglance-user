@@ -1,4 +1,4 @@
-import 'package:agriglance/Screens/job_details.dart';
+import 'package:agriglance/Screens/Jobs/job_details.dart';
 import 'package:flutter/material.dart';
 
 class JobCard extends StatefulWidget {
@@ -37,7 +37,19 @@ class _JobCardState extends State<JobCard> {
       padding: EdgeInsets.all(10.0),
       child: GestureDetector(
         onTap: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => JobDetails())),
+            context,
+            MaterialPageRoute(
+                builder: (context) => JobDetails(
+                      jobDesc: widget.jobDesc,
+                      jobPosts: widget.jobPosts,
+                      jobSkills: widget.jobSkills,
+                      jobSubject: widget.jobSubject,
+                      jobType: widget.jobType,
+                      orgLink: widget.orgLink,
+                      orgName: widget.orgName,
+                      salary: widget.salary,
+                      postedByName: widget.postedByName,
+                    ))),
         child: Card(
           shape: RoundedRectangleBorder(
             side: BorderSide(),
