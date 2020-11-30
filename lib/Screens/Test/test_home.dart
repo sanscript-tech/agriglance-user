@@ -1,10 +1,23 @@
 import 'package:flutter/material.dart';
 
+import 'testSubjects.dart';
+
 class TestHome extends StatelessWidget {
   @override
-  Widget categoryButton(String category) {
+  Widget categoryButton(String category, BuildContext context) {
     return RaisedButton(
-      onPressed: () => print(category),
+      onPressed: () {
+        if (category == "IPS")
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => TestSubject()));
+        else {
+          Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text("Not implemented yet"),
+            duration: Duration(seconds: 1),
+          ));
+        }
+      },
+      // onPressed: () => print(category),
       child: Text(
         category,
         style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
@@ -34,11 +47,11 @@ class TestHome extends StatelessWidget {
               SizedBox(
                 width: deviceWidth / 7,
               ),
-              categoryButton("IAS"),
+              categoryButton("IAS", context),
               SizedBox(
                 width: deviceWidth / 4,
               ),
-              categoryButton("IPS"),
+              categoryButton("IPS", context),
             ],
           ),
           SizedBox(
@@ -49,11 +62,11 @@ class TestHome extends StatelessWidget {
               SizedBox(
                 width: deviceWidth / 7,
               ),
-              categoryButton("WBCS"),
+              categoryButton("WBCS", context),
               SizedBox(
                 width: deviceWidth / 4,
               ),
-              categoryButton("WB SI"),
+              categoryButton("WB SI", context),
             ],
           ),
           SizedBox(
@@ -64,11 +77,11 @@ class TestHome extends StatelessWidget {
               SizedBox(
                 width: deviceWidth / 7,
               ),
-              categoryButton("NAVY"),
+              categoryButton("NAVY", context),
               SizedBox(
                 width: deviceWidth / 4,
               ),
-              categoryButton("RAIL"),
+              categoryButton("RAIL", context),
             ],
           )
         ],
