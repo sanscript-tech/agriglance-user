@@ -1,6 +1,7 @@
 import 'package:agriglance/Screens/Jobs/jobs_home.dart';
 import 'package:agriglance/Screens/Materials/materials_home.dart';
 import 'package:agriglance/Screens/Profile/profile.dart';
+import 'package:agriglance/Screens/Qna/qna_home.dart';
 import 'package:agriglance/Screens/Test/test_home.dart';
 import 'package:agriglance/Services/authentication_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -56,7 +57,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       body: TabBarView(controller: _tabController, children: [
         TestHome(),
         MaterialsHome(),
-        Text("This is notification Tab View"),
+        QnaHome(),
         JobsHome(),
       ]),
       drawer: Drawer(
