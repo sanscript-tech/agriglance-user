@@ -37,6 +37,7 @@ class _JobsHomeState extends State<JobsHome> {
                           salary: jobs['jobSalary'],
                           postedByName: jobs['postedByName'],
                           index: index,
+                          jobId : jobs.id,
                         );
                       }
                       return null;

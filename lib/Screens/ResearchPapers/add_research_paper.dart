@@ -171,7 +171,7 @@ class _AddResearchPaperState extends State<AddResearchPaper> {
                   children: [
                     Visibility(
                         visible: visible, child: CircularProgressIndicator()),
-                    Visibility(visible: visible,child: Text("Uploading your file.. Please wait"))
+                    Visibility(visible: visible,child: Text("Uploading your file.. Please wait. Do not navigate back."))
                   ],
                 ),
                 Visibility(
