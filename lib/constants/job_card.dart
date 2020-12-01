@@ -68,10 +68,15 @@ class _JobCardState extends State<JobCard> {
                   "Salary: " + widget.salary,
                   style: TextStyle(fontSize: 18.0),
                 ),
-                Text(
-                  "Posted By: " + widget.postedByName,
-                  style: TextStyle(fontSize: 18.0),
-                )
+                (widget.postedByName != null)
+                    ? Text(
+                        "Posted By: " + widget.postedByName,
+                        style: TextStyle(fontSize: 16.0),
+                      )
+                    : Text(
+                        "Posted By : Anonymous",
+                        style: TextStyle(fontSize: 16.0),
+                      )
               ],
             ),
           ),
