@@ -9,7 +9,7 @@ class TestHome extends StatelessWidget {
       onPressed: () {
         if (category == category)
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => TestSubject(subject: category,)));
+              context, MaterialPageRoute(builder: (context) => TestSubject(category: category,)));
         else {
           Scaffold.of(context).showSnackBar(SnackBar(
             content: Text("Not implemented yet"),

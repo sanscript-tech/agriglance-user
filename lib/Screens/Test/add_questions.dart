@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
 class AddQuestions extends StatefulWidget {
+ final String testName;
+  AddQuestions({this.testName});
   @override
   _AddQuestionsState createState() => _AddQuestionsState();
 }
@@ -26,15 +28,19 @@ class _AddQuestionsState extends State<AddQuestions> {
     if (!form.validate()) {
       showMessage('Form is not valid!  Please review and correct.');
     } else {
+      print(widget.testName);
       form.save();
       _uploadQuestion();
     }
   }
 
   Future<void> _uploadQuestion() async {
-
-    await FirebaseFirestore.instance.collection("subjects").doc().collection("tests").doc().collection("questions").add({
-      'isApprovedByAdmin': false,
+    await FirebaseFirestore.instance
+        .collection("tests")
+        .doc(widget.testName)
+        .collection("questions")
+        .add({
+      'isApprovedByAdmin': true,
       'Question': _question,
       'option1': _option1,
       'option2': _option2,
@@ -127,10 +133,7 @@ class _AddQuestionsState extends State<AddQuestions> {
                       ),
                       color: Colors.blue[300],
                       textColor: Colors.white,
-                      onPressed: () {
-                        _submitForm();
-                        _formKey.currentState.reset();
-                      }),
+                      onPressed:_submitForm,),
                   RaisedButton(
                       padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                       shape: RoundedRectangleBorder(
@@ -149,7 +152,9 @@ class _AddQuestionsState extends State<AddQuestions> {
                       ),
                       color: Colors.blue[300],
                       textColor: Colors.white,
-                      onPressed: () {})
+                      onPressed: () {
+                        _formKey.currentState.reset();
+                      })
                 ],
               ),
             ]),

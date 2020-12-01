@@ -1,9 +1,11 @@
+import 'package:agriglance/Screens/Test/add_test.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SingleSubject extends StatefulWidget {
   String subjectName;
   int numOfTests;
-  SingleSubject({this.subjectName,this.numOfTests});
+  SingleSubject({this.subjectName, this.numOfTests});
 
   @override
   _SingleSubjectState createState() => _SingleSubjectState();
@@ -21,7 +23,14 @@ class _SingleSubjectState extends State<SingleSubject> {
           tooltip: "Add test",
           child: Icon(Icons.add),
           backgroundColor: Colors.amber,
-          onPressed: () {}),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AddTest(
+                          testSubject: widget.subjectName,
+                        )));
+          }),
       appBar: AppBar(
         title: Text("Agriglance"),
         centerTitle: true,
@@ -35,7 +44,7 @@ class _SingleSubjectState extends State<SingleSubject> {
               SizedBox(height: screenHeight * 0.03),
               Container(
                 child: Text(
-                  "History Test",
+                  widget.subjectName,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontFamily: "Roboto",
@@ -43,31 +52,51 @@ class _SingleSubjectState extends State<SingleSubject> {
                 ),
               ),
               Expanded(
-                  child: ListView(shrinkWrap: true, children: <Widget>[
-                _getSubjectDetails(1, 30, "Admin"),
-                _getSubjectDetails(2, 30, "Swarup"),
-                _getSubjectDetails(2, 30, "Swarup"),
-                _getSubjectDetails(2, 30, "Swarup"),
-                _getSubjectDetails(2, 30, "Swarup"),
-                _getSubjectDetails(2, 30, "Swarup"),
-                _getSubjectDetails(2, 30, "Swarup"),
-                _getSubjectDetails(2, 30, "Swarup"),
-                _getSubjectDetails(2, 30, "Swarup"),
-                _getSubjectDetails(2, 30, "Swarup"),
-                _getSubjectDetails(2, 30, "Swarup"),
-              ])),
+                child: StreamBuilder(
+                  stream: FirebaseFirestore.instance.collection("tests").snapshots(),
+                  builder: (context,snapshot){
+                    if(!snapshot.hasData){
+                      return Text("Loading");
+                    }
+
+                    final testNames=snapshot.data;
+                    List<TestCard> testsWidgets=[];
+                    for(var test in testNames ){
+                      final testWidget=TestCard(testName:test);
+
+                      testsWidgets.add(testWidget);
+
+
+                    }
+
+                    return(
+                      ListView(children:testsWidgets)
+                    );
+
+                
+             
+                  },
+                ),
+                  ),
             ],
           )),
     );
   }
 }
 
-Widget _getSubjectDetails(int testNumber, int numQuestions, String creator) {
+class TestCard extends StatelessWidget {
+  TestCard({this.testName});
+  final String testName;
+  final String numQuestions="4";
   bool isAvailable = true;
-  // if (num == 0 || num <= 0) {
-  //   isAvailable = false;
-  // }
-  return Padding(
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+
+      },
+      child: Padding(
     padding: const EdgeInsets.all(8.0),
     child: Container(
       decoration: BoxDecoration(
@@ -79,15 +108,19 @@ Widget _getSubjectDetails(int testNumber, int numQuestions, String creator) {
       child: (ListTile(
         title: isAvailable
             ? Text(
-                "Test-$testNumber. $numQuestions Questions \n by $creator",
+                "Test-$testName - $numQuestions Questions \n by admin",
                 style: TextStyle(fontSize: 22.0),
               )
-            : Text("$testNumber- Not Available",
+            : Text("$testName- Not Available",
                 style: TextStyle(fontSize: 30.0)),
       )),
     ),
-  );
+      )
+    );
+  }
 }
+
+
 
 class Drawhorizontalline extends CustomPainter {
   Paint _paint;
