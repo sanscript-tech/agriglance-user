@@ -1,15 +1,9 @@
-import 'package:agriglance/Screens/Jobs/add_jobs.dart';
-import 'package:agriglance/Screens/Jobs/jobs_home.dart';
-import 'package:agriglance/Screens/Test/add_questions.dart';
-import 'package:agriglance/Screens/Test/add_test.dart';
-import 'package:agriglance/Screens/Test/test_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'Screens/Home/home.dart';
-import 'Screens/Test/testSubjects.dart';
 import 'Services/authenticate.dart';
 import 'Services/authentication_service.dart';
 

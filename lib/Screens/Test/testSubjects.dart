@@ -1,49 +1,18 @@
 import 'package:agriglance/Screens/Test/SingleSubject.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TestSubject extends StatefulWidget {
   String uid;
-  String subject;
-  TestSubject({this.uid, this.subject});
+  String category;
+  TestSubject({this.uid, this.category});
   @override
   _TestSubjectState createState() => _TestSubjectState();
 }
 
 class _TestSubjectState extends State<TestSubject> {
-  List<String> subjects = [];
-
-  Widget _getSubjects(String subject, int num1) {
-    bool isAvailable = true;
-    // if (num == 0 || num <= 0) {
-    //   isAvailable = false;
-    // }
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-              context, MaterialPageRoute(builder: (context) => SingleSubject(subjectName: subject,numOfTests: num1,)));
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          decoration: BoxDecoration(
-              border: Border(
-                  right: BorderSide(color: Colors.black, width: 2.0),
-                  left: BorderSide(color: Colors.black, width: 2.0),
-                  top: BorderSide(color: Colors.black, width: 2.0),
-                  bottom: BorderSide(color: Colors.black, width: 2.0))),
-          child: (ListTile(
-            title: isAvailable
-                ? Text(
-                    "$subject - $num1 Tests Available",
-                    style: TextStyle(fontSize: 22.0),
-                  )
-                : Text("$subject- Not Available",
-                    style: TextStyle(fontSize: 30.0)),
-          )),
-        ),
-      ),
-    );
-  }
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +31,7 @@ class _TestSubjectState extends State<TestSubject> {
           Container(
             child: Column(children: <Widget>[
               Text(
-                widget.subject,
+                widget.category + " " + "2020",
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontFamily: "Roboto",
@@ -83,13 +52,28 @@ class _TestSubjectState extends State<TestSubject> {
             ]),
           ),
           Expanded(
-              child: ListView(shrinkWrap: true, children: <Widget>[
-            _getSubjects("History", 5),
-            _getSubjects("History", 17),
-            _getSubjects("History", 10),
-            _getSubjects("History", 12),
-            _getSubjects("History", 12),
-          ])),
+              child: StreamBuilder(
+            stream: FirebaseFirestore.instance.collection("subjects").snapshots(),
+                
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Text("Loading");
+              }
+              final tests = snapshot.data.docs;
+              List<SubjectCard> testWidgets = [];
+              for (var test in tests) {
+                final testSubject = test.get('subjectName').toString();
+                final numTests = test.get('numofTestAvailable').toString();
+
+                final testWidget = SubjectCard(
+                  subject: testSubject,
+                  num1: numTests,
+                );
+                testWidgets.add(testWidget);
+              }
+              return ListView(children: testWidgets);
+            },
+          )),
         ],
       )),
     );
@@ -125,4 +109,47 @@ Widget getSeparateDivider() {
       CustomPaint(painter: Drawhorizontalline(true)),
     ],
   );
+}
+
+class SubjectCard extends StatelessWidget {
+  SubjectCard({this.subject, this.num1});
+
+  final String subject;
+  final String num1;
+  bool isAvailable = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SingleSubject(
+                      subjectName: subject,
+                      numOfTests: int.parse(num1),
+                    )));
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          decoration: BoxDecoration(
+              border: Border(
+                  right: BorderSide(color: Colors.black, width: 2.0),
+                  left: BorderSide(color: Colors.black, width: 2.0),
+                  top: BorderSide(color: Colors.black, width: 2.0),
+                  bottom: BorderSide(color: Colors.black, width: 2.0))),
+          child: (ListTile(
+            title: isAvailable
+                ? Text(
+                    "$subject - $num1 Tests Available",
+                    style: TextStyle(fontSize: 22.0),
+                  )
+                : Text("$subject- Not Available",
+                    style: TextStyle(fontSize: 30.0)),
+          )),
+        ),
+      ),
+    );
+  }
 }
