@@ -5,7 +5,9 @@ import 'package:flutter/services.dart';
 class AddJobs extends StatefulWidget {
   String uid;
   String uName;
+
   AddJobs({this.uid, this.uName});
+
   @override
   _AddJobsState createState() => _AddJobsState();
 }
@@ -21,6 +23,7 @@ class _AddJobsState extends State<AddJobs> {
   int _jobPosts = 0;
   String _salary = "";
   String _orgLink = "";
+
   void _submitForm() async {
     final FormState form = _formKey.currentState;
     if (!form.validate()) {

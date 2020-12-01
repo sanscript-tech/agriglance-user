@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:core';
-import 'dart:io';
 import 'dart:isolate';
-import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:agriglance/Screens/ResearchPapers/add_research_paper.dart';
@@ -13,7 +11,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:flutter_full_pdf_viewer/flutter_full_pdf_viewer.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -137,7 +134,6 @@ class _ResearchPapersHomeState extends State<ResearchPapersHome> {
         fileName: fileName);
     await FlutterDownloader.open(taskId: taskId);
   }
-
 }
 
 //   Reference only code

@@ -289,7 +289,8 @@ class _JobDetailsState extends State<JobDetails> {
             Visibility(visible: visible, child: CircularProgressIndicator()),
             Visibility(
                 visible: visible,
-                child: Text("Uploading your file.. Please wait. Do not navigate back.")),
+                child: Text(
+                    "Uploading your file.. Please wait. Do not navigate back.")),
             Padding(
               padding: const EdgeInsets.only(top: 20.0),
               child: Visibility(
@@ -308,8 +309,7 @@ class _JobDetailsState extends State<JobDetails> {
               child: Visibility(
                 visible: _pdfUrl != null ? true : false,
                 child: Center(
-                  child: Text("Successfully applied!"
-                  ),
+                  child: Text("Successfully applied!"),
                 ),
               ),
             )
