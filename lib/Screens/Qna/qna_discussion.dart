@@ -48,11 +48,10 @@ class _DiscussionState extends State<Discussion> {
         title: Text("QNA"),
         centerTitle: true,
       ),
-      body: Column(
+      body: Stack(
         children: [
           Container(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   widget.question,
@@ -64,30 +63,30 @@ class _DiscussionState extends State<Discussion> {
                 ),
                 Divider(
                   thickness: 4.0,
-                )
+                ),
               ],
             ),
           ),
-          SingleChildScrollView(
-            child: Container(
-              child: StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection("qna")
-                    .doc(widget.qid)
-                    .collection("comments")
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  return !snapshot.hasData
-                      ? Text("Loading")
-                      : ListView.builder(
-                          itemCount: snapshot.data.documents.length,
-                          itemBuilder: (context, index) {
-                            DocumentSnapshot com = snapshot.data.documents[index];
-                            return CommentCard();
-                          },
-                        );
-                },
-              ),
+          Padding(
+            padding: EdgeInsets.only(top:deviceHeight/15),
+            child: StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection("qna")
+                  .doc(widget.qid)
+                  .collection("comments")
+                  .snapshots(),
+              builder: (context, snapshot) {
+                return !snapshot.hasData
+                    ? Text("Loading")
+                    : ListView.builder(
+                        itemCount: snapshot.data.documents.length,
+                        itemBuilder: (context, index) {
+                          DocumentSnapshot com = snapshot.data.documents[index];
+                          return CommentCard(
+                              comment: com['content'], postedBy: com['postedBy']);
+                        },
+                      );
+              },
             ),
           )
         ],
