@@ -5,6 +5,7 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:provider/provider.dart';
 
 import 'Screens/Home/home.dart';
+import 'Screens/Quiz/create_quiz.dart';
 import 'Services/authenticate.dart';
 import 'Services/authentication_service.dart';
 
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.amber,
           ),
-          home: AuthenticationWrapper(),
+          home: Quiz(),
         ));
   }
 }
