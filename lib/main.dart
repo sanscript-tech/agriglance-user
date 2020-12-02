@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.amber,
           ),
-          home: Quiz(),
+          home: Home(),
         ));
   }
 }

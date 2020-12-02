@@ -49,8 +49,14 @@ class _QnaCardState extends State<QnaCard> {
                     ),
               Center(
                   child: RaisedButton(
-                onPressed: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Discussion())),
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Discussion(
+                              question: widget.question,
+                              postedBy: widget.postedBy,
+                              description: widget.description,
+                            ))),
                 color: Colors.orangeAccent.shade100,
                 child: Text("Reply"),
               ))
