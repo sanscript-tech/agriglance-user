@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ResearchPaperCard extends StatefulWidget {
+class StudyMaterialCard extends StatefulWidget {
+  String type;
   String title;
   String description;
   String pdfUrl;
@@ -9,8 +10,9 @@ class ResearchPaperCard extends StatefulWidget {
   String postedByName;
   int index;
 
-  ResearchPaperCard(
-      {this.title,
+  StudyMaterialCard(
+      {this.type,
+      this.title,
       this.description,
       this.pdfUrl,
       this.fileName,
@@ -18,10 +20,10 @@ class ResearchPaperCard extends StatefulWidget {
       this.index});
 
   @override
-  _ResearchPaperCardState createState() => _ResearchPaperCardState();
+  _StudyMaterialCardState createState() => _StudyMaterialCardState();
 }
 
-class _ResearchPaperCardState extends State<ResearchPaperCard> {
+class _StudyMaterialCardState extends State<StudyMaterialCard> {
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
@@ -39,6 +41,10 @@ class _ResearchPaperCardState extends State<ResearchPaperCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(
+                "Type: " + widget.type,
+                style: TextStyle(fontSize: 18.0),
+              ),
               Text(
                 "${widget.index + 1}. ${widget.title}",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),

@@ -1,4 +1,4 @@
-import 'package:agriglance/Screens/ResearchPapers/research_papers_home.dart';
+import 'package:agriglance/Screens/StudyMaterials/study_materials__home.dart';
 import 'package:flutter/material.dart';
 
 class MaterialsHome extends StatelessWidget {
@@ -7,12 +7,12 @@ class MaterialsHome extends StatelessWidget {
     return RaisedButton(
       onPressed: () {
         switch (category) {
-          case "Research Papers":
+          case "Study Materials":
             {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ResearchPapersHome()));
+                      builder: (context) => StudyMaterialsHome()));
             }
             break;
           default:
@@ -50,7 +50,7 @@ class MaterialsHome extends StatelessWidget {
               SizedBox(
                 width: deviceWidth / 7,
               ),
-              categoryButton("Research Papers", context),
+              categoryButton("Study Materials", context),
             ],
           ),
           SizedBox(

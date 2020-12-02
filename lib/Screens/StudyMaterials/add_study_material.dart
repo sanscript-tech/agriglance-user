@@ -7,18 +7,19 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class AddResearchPaper extends StatefulWidget {
+class AddStudyMaterial extends StatefulWidget {
   String uid;
   String uName;
 
-  AddResearchPaper({this.uid, this.uName});
+  AddStudyMaterial({this.uid, this.uName});
 
   @override
-  _AddResearchPaperState createState() => _AddResearchPaperState();
+  _AddStudyMaterialState createState() => _AddStudyMaterialState();
 }
 
-class _AddResearchPaperState extends State<AddResearchPaper> {
+class _AddStudyMaterialState extends State<AddStudyMaterial> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String _title;
@@ -30,6 +31,7 @@ class _AddResearchPaperState extends State<AddResearchPaper> {
   String fileUrl = "";
   File file;
   bool showUploadButton = true;
+  String dropdownValue = "Choose Type";
 
   void _submitForm() async {
     final FormState form = _formKey.currentState;
@@ -43,8 +45,9 @@ class _AddResearchPaperState extends State<AddResearchPaper> {
   }
 
   Future<void> _uploadResearchPaper() async {
-    await FirebaseFirestore.instance.collection("research_papers").add({
+    await FirebaseFirestore.instance.collection("study_materials").add({
       'isApprovedByAdmin': false,
+      'type' : dropdownValue,
       'title': _title,
       'description': _description,
       'pdfUrl': _pdfUrl,
@@ -89,22 +92,52 @@ class _AddResearchPaperState extends State<AddResearchPaper> {
             child: ListView(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
               children: [
+                DropdownButtonFormField<String>(
+                  value: dropdownValue,
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.category, color: Colors.grey),
+                  ),
+                  validator: (value) => value == "Choose Type"
+                      ? "Choose material Type"
+                      : null,
+                  hint: Text("Choose Type"),
+                  icon: Icon(Icons.arrow_downward),
+                  iconSize: 24,
+                  elevation: 16,
+                  onChanged: (String newValue) {
+                    setState(() {
+                      dropdownValue = newValue;
+                    });
+                  },
+                  items: <String>[
+                    "Choose Type",
+                    'Research Paper',
+                    'Question Paper',
+                    'Book/Article',
+                    'Other'
+                  ].map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
                 TextFormField(
                   inputFormatters: [LengthLimitingTextInputFormatter(100)],
                   validator: (val) => val.isEmpty ? 'Title is Required' : null,
                   onSaved: (val) => _title = val,
                   decoration: InputDecoration(
                     icon: Icon(Icons.edit),
-                    hintText: 'Enter the title of the research paper',
+                    hintText: 'Enter the title',
                     labelText: 'Title',
                   ),
                 ),
                 TextFormField(
-                  inputFormatters: [LengthLimitingTextInputFormatter(100)],
+                  inputFormatters: [LengthLimitingTextInputFormatter(300)],
                   onSaved: (val) => _description = val,
                   decoration: InputDecoration(
                     icon: Icon(Icons.book),
-                    hintText: 'Describe your paper(optional)',
+                    hintText: 'Describe(optional)',
                     labelText: 'Description',
                   ),
                 ),
@@ -114,9 +147,13 @@ class _AddResearchPaperState extends State<AddResearchPaper> {
                     splashColor: Colors.yellow,
                     color: Colors.blue,
                     onPressed: () {
-                      setState(() {
-                        getPDF();
-                      });
+                      if (dropdownValue != "Choose Type") {
+                        setState(() {
+                          getPDF();
+                        });
+                      } else {
+                        Fluttertoast.showToast(msg: "Choose a valid type", gravity: ToastGravity.BOTTOM);
+                      }
                     },
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
@@ -239,7 +276,7 @@ class _AddResearchPaperState extends State<AddResearchPaper> {
   Future uploadStarted() async {
     if (_filePickerResult != null) {
       Reference storageReference =
-          FirebaseStorage.instance.ref().child("researchPapers/" + fileName);
+          FirebaseStorage.instance.ref().child("studyMaterials/" + fileName);
       UploadTask uploadTask = storageReference.putFile(file);
       uploadTask.whenComplete(() async {
         try {

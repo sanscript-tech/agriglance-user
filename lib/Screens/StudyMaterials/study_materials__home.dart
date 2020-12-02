@@ -3,8 +3,8 @@ import 'dart:core';
 import 'dart:isolate';
 import 'dart:ui';
 
-import 'package:agriglance/Screens/ResearchPapers/add_research_paper.dart';
-import 'package:agriglance/constants/research_paper_card.dart';
+import 'package:agriglance/Screens/StudyMaterials/add_study_material.dart';
+import 'package:agriglance/constants/study_material_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,15 +15,15 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class ResearchPapersHome extends StatefulWidget {
+class StudyMaterialsHome extends StatefulWidget {
   @override
-  _ResearchPapersHomeState createState() => _ResearchPapersHomeState();
+  _StudyMaterialsHomeState createState() => _StudyMaterialsHomeState();
 }
 
-class _ResearchPapersHomeState extends State<ResearchPapersHome> {
+class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final papersCollectionReference =
-      FirebaseStorage.instance.ref().child("researchPapers");
+      FirebaseStorage.instance.ref().child("studyMaterials");
   var _permissionStatus;
 
   void _listenForPermissionStatus() async {
@@ -67,13 +67,13 @@ class _ResearchPapersHomeState extends State<ResearchPapersHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Research Papers"),
+        title: Text("Study Materials"),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => AddResearchPaper(
+                builder: (context) => AddStudyMaterial(
                     uid: auth.currentUser.uid,
                     uName: auth.currentUser.displayName))),
         child: Icon(Icons.add),
@@ -81,7 +81,7 @@ class _ResearchPapersHomeState extends State<ResearchPapersHome> {
       body: Container(
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
-              .collection("research_papers")
+              .collection("study_materials")
               .snapshots(),
           builder: (context, snapshot) {
             return !snapshot.hasData
@@ -105,7 +105,8 @@ class _ResearchPapersHomeState extends State<ResearchPapersHome> {
                                   gravity: ToastGravity.BOTTOM);
                             }
                           },
-                          child: ResearchPaperCard(
+                          child: StudyMaterialCard(
+                            type : papers['type'],
                             title: papers['title'],
                             description: papers['description'],
                             pdfUrl: papers['pdfUrl'],
