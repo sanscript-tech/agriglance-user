@@ -48,7 +48,7 @@ class _DiscussionState extends State<Discussion> {
         title: Text("QNA"),
         centerTitle: true,
       ),
-      body: Stack(
+      body: Column(
         children: [
           Container(
             child: Column(
@@ -67,8 +67,7 @@ class _DiscussionState extends State<Discussion> {
               ],
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(top:deviceHeight/15),
+          Flexible(
             child: StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection("qna")
@@ -83,7 +82,8 @@ class _DiscussionState extends State<Discussion> {
                         itemBuilder: (context, index) {
                           DocumentSnapshot com = snapshot.data.documents[index];
                           return CommentCard(
-                              comment: com['content'], postedBy: com['postedBy']);
+                              comment: com['content'],
+                              postedBy: com['postedBy']);
                         },
                       );
               },
