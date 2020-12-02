@@ -1,15 +1,42 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Discussion extends StatefulWidget {
   String question;
   String description;
   String postedBy;
-  Discussion({this.description, this.postedBy, this.question});
+  String qid;
+  Discussion({this.description, this.postedBy, this.question, this.qid});
   @override
   _DiscussionState createState() => _DiscussionState();
 }
 
 class _DiscussionState extends State<Discussion> {
+  String comment = "";
+  final myController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    myController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _uploadComment() async {
+    if (myController.text != null && myController.text != "") {
+      await FirebaseFirestore.instance
+          .collection("qna")
+          .doc(widget.qid)
+          .collection("comments")
+          .add({
+        "content": myController.text,
+        "postedBy": FirebaseAuth.instance.currentUser.displayName,
+      });
+      myController.text = "";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
@@ -52,6 +79,7 @@ class _DiscussionState extends State<Discussion> {
             Container(
               width: deviceWidth / 1.5,
               child: TextField(
+                controller: myController,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
@@ -68,7 +96,7 @@ class _DiscussionState extends State<Discussion> {
               width: 3.0,
             ),
             RawMaterialButton(
-              onPressed: () => print("comment"),
+              onPressed: () => _uploadComment(),
               elevation: 2.0,
               fillColor: Colors.amber,
               child: Icon(

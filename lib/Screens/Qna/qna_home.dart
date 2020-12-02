@@ -30,6 +30,7 @@ class _QnaHomeState extends State<QnaHome> {
                         description: q['questionDesc'],
                         postedBy: q['postedByName'],
                         index: index,
+                        qid:q.id,
                       );
                     },
                   );

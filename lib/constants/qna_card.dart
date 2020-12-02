@@ -7,12 +7,14 @@ class QnaCard extends StatefulWidget {
   String description;
   String postedBy;
   int index;
+  String qid;
   QnaCard(
       {this.category,
       this.description,
       this.question,
       this.postedBy,
-      this.index});
+      this.index,
+      this.qid});
   @override
   _QnaCardState createState() => _QnaCardState();
 }
@@ -56,6 +58,7 @@ class _QnaCardState extends State<QnaCard> {
                               question: widget.question,
                               postedBy: widget.postedBy,
                               description: widget.description,
+                              qid:widget.qid,
                             ))),
                 color: Colors.orangeAccent.shade100,
                 child: Text("Reply"),
