@@ -1,3 +1,4 @@
+import 'package:agriglance/constants/comment_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -65,6 +66,28 @@ class _DiscussionState extends State<Discussion> {
                   thickness: 4.0,
                 )
               ],
+            ),
+          ),
+          SingleChildScrollView(
+            child: Container(
+              child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection("qna")
+                    .doc(widget.qid)
+                    .collection("comments")
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  return !snapshot.hasData
+                      ? Text("Loading")
+                      : ListView.builder(
+                          itemCount: snapshot.data.documents.length,
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot com = snapshot.data.documents[index];
+                            return CommentCard();
+                          },
+                        );
+                },
+              ),
             ),
           )
         ],
