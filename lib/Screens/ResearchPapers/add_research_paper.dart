@@ -50,7 +50,7 @@ class _AddResearchPaperState extends State<AddResearchPaper> {
       'pdfUrl': _pdfUrl,
       'fileName': fileName,
       'postedBy': widget.uid,
-      'postedByName' : widget.uName
+      'postedByName': widget.uName
     });
   }
 
@@ -91,8 +91,7 @@ class _AddResearchPaperState extends State<AddResearchPaper> {
               children: [
                 TextFormField(
                   inputFormatters: [LengthLimitingTextInputFormatter(100)],
-                  validator: (val) =>
-                      val.isEmpty ? 'Title is Required' : null,
+                  validator: (val) => val.isEmpty ? 'Title is Required' : null,
                   onSaved: (val) => _title = val,
                   decoration: InputDecoration(
                     icon: Icon(Icons.edit),
@@ -171,7 +170,10 @@ class _AddResearchPaperState extends State<AddResearchPaper> {
                   children: [
                     Visibility(
                         visible: visible, child: CircularProgressIndicator()),
-                    Visibility(visible: visible,child: Text("Uploading your file.. Please wait"))
+                    Visibility(
+                        visible: visible,
+                        child: Text(
+                            "Uploading your file.. Please wait. Do not navigate back."))
                   ],
                 ),
                 Visibility(
@@ -229,8 +231,7 @@ class _AddResearchPaperState extends State<AddResearchPaper> {
         absolutePath = file.path.split("/")[p.length - 1];
         fileName += '$absolutePath';
       });
-    }
-    else{
+    } else {
       showMessage("No file Selected!");
     }
   }

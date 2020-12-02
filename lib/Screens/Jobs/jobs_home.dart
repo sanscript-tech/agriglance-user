@@ -1,4 +1,3 @@
-
 import 'package:agriglance/Screens/Jobs/add_jobs.dart';
 import 'package:agriglance/constants/job_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,6 +11,7 @@ class JobsHome extends StatefulWidget {
 
 class _JobsHomeState extends State<JobsHome> {
   final FirebaseAuth auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +37,7 @@ class _JobsHomeState extends State<JobsHome> {
                           salary: jobs['jobSalary'],
                           postedByName: jobs['postedByName'],
                           index: index,
+                          jobId: jobs.id,
                         );
                       }
                       return null;

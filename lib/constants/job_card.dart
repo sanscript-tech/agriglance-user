@@ -12,6 +12,8 @@ class JobCard extends StatefulWidget {
   String orgLink;
   String postedByName;
   int index;
+  String jobId;
+
   JobCard(
       {this.jobDesc,
       this.jobPosts,
@@ -22,7 +24,9 @@ class JobCard extends StatefulWidget {
       this.orgName,
       this.salary,
       this.postedByName,
-      this.index});
+      this.index,
+      this.jobId});
+
   @override
   _JobCardState createState() => _JobCardState();
 }
@@ -48,6 +52,7 @@ class _JobCardState extends State<JobCard> {
                       orgName: widget.orgName,
                       salary: widget.salary,
                       postedByName: widget.postedByName,
+                      jobId: widget.jobId,
                     ))),
         child: Card(
           shape: RoundedRectangleBorder(
