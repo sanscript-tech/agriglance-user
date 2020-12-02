@@ -33,7 +33,6 @@ class _JobCardState extends State<JobCard> {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     return Container(
-      height: deviceHeight / 7,
       padding: EdgeInsets.all(10.0),
       child: GestureDetector(
         onTap: () => Navigator.push(
