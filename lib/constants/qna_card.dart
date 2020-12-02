@@ -1,3 +1,4 @@
+import 'package:agriglance/Screens/Qna/qna_discussion.dart';
 import 'package:flutter/material.dart';
 
 class QnaCard extends StatefulWidget {
@@ -48,7 +49,8 @@ class _QnaCardState extends State<QnaCard> {
                     ),
               Center(
                   child: RaisedButton(
-                onPressed: () => print(widget.postedBy),
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Discussion())),
                 color: Colors.orangeAccent.shade100,
                 child: Text("Reply"),
               ))
