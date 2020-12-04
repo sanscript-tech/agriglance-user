@@ -5,7 +5,7 @@ class FirestoreService {
   final CollectionReference _userCollectionReference =
       FirebaseFirestore.instance.collection('users');
 
-  Future createUser(UserModel user) async {
+  Future createOrUpdateUser(UserModel user) async {
     try {
       await _userCollectionReference.doc(user.id).set(user.toJson());
     } catch (e) {

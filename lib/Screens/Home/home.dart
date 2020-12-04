@@ -1,6 +1,6 @@
+import 'package:agriglance/Screens/Home/drawer.dart';
 import 'package:agriglance/Screens/Jobs/jobs_home.dart';
 import 'package:agriglance/Screens/Materials/materials_home.dart';
-import 'package:agriglance/Screens/Profile/profile.dart';
 import 'package:agriglance/Screens/Qna/qna_home.dart';
 import 'package:agriglance/Screens/Test/test_home.dart';
 import 'package:agriglance/Services/authentication_service.dart';
@@ -60,20 +60,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         QnaHome(),
         JobsHome(),
       ]),
-      drawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            ListTile(
-              trailing: Icon(Icons.account_circle),
-              title: Text("Profile"),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Profile()));
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: DrawerWindow(),
     );
   }
 }

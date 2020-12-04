@@ -83,6 +83,22 @@ class _ProfileState extends State<Profile> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
+                  "DOB : ",
+                  style: defaultStyle,
+                ),
+                Text(
+                  "${userData.dob}",
+                  style: valueStyle,
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
                   "Educational Qualification : ",
                   style: defaultStyle,
                 ),

@@ -28,116 +28,118 @@ class _SignInState extends State<SignIn> {
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 25.0),
-              child: TextField(
-                controller: emailController,
-                decoration: InputDecoration(labelText: 'Email'),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 25.0),
-              child: TextField(
-                controller: passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
-                obscureText: true,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 25.0),
-              child: RaisedButton(
-                color: Colors.yellow,
-                onPressed: () {
-                  setState(() {
-                    opacity = 1.0;
-                  });
-                  context
-                      .read<AuthenticationService>()
-                      .signIn(emailController.text, passwordController.text);
-                },
-                child: Text(
-                  "Sign In",
-                  style: TextStyle(color: Colors.black),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Opacity(
+                opacity: opacity,
+                child: CircularProgressIndicator(
+                  backgroundColor: Colors.yellow,
+                  strokeWidth: 8,
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 25.0),
-              child: OutlineButton(
-                splashColor: Colors.grey,
-                onPressed: () {
-                  setState(() {
-                    opacity = 1.0;
-                  });
-                  context.read<AuthenticationService>().signInWithGoogle();
-                },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40)),
-                highlightElevation: 0,
-                borderSide: BorderSide(color: Colors.grey),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Image(
-                          image: AssetImage("Images/google_logo.png"),
-                          height: 35.0),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Text(
-                          'Sign in with Google',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      )
-                    ],
+              Padding(
+                padding: const EdgeInsets.only(bottom: 25.0),
+                child: TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(labelText: 'Email'),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 25.0),
+                child: TextField(
+                  controller: passwordController,
+                  decoration: InputDecoration(labelText: 'Password'),
+                  obscureText: true,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 25.0),
+                child: RaisedButton(
+                  color: Colors.yellow,
+                  onPressed: () {
+                    setState(() {
+                      opacity = 1.0;
+                    });
+                    context
+                        .read<AuthenticationService>()
+                        .signIn(emailController.text, passwordController.text);
+                  },
+                  child: Text(
+                    "Sign In",
+                    style: TextStyle(color: Colors.black),
                   ),
                 ),
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Not Registered Yet?  ', style: defaultStyle),
-                GestureDetector(
+              Padding(
+                padding: const EdgeInsets.only(bottom: 25.0),
+                child: OutlineButton(
+                  splashColor: Colors.grey,
+                  onPressed: () {
+                    setState(() {
+                      opacity = 1.0;
+                    });
+                    context.read<AuthenticationService>().signInWithGoogle();
+                  },
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40)),
+                  highlightElevation: 0,
+                  borderSide: BorderSide(color: Colors.grey),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Image(
+                            image: AssetImage("Images/google_logo.png"),
+                            height: 35.0),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            'Sign in with Google',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Not Registered Yet?  ', style: defaultStyle),
+                  GestureDetector(
+                    onTap: () {
+                      widget.toogleView();
+                    },
+                    child: Container(
+                      child: Text('Sign Up', style: linkStyle),
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: GestureDetector(
                   onTap: () {
-                    widget.toogleView();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ForgotPassword()));
                   },
                   child: Container(
-                    child: Text('Sign Up', style: linkStyle),
+                    child: Text('Forgot Password', style: linkStyle),
                   ),
                 ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ForgotPassword()));
-                },
-                child: Container(
-                  child: Text('Forgot Password', style: linkStyle),
-                ),
               ),
-            ),
-            Opacity(
-              opacity: opacity,
-              child: CircularProgressIndicator(
-                backgroundColor: Colors.yellow,
-                strokeWidth: 8,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
