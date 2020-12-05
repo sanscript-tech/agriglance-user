@@ -1,10 +1,16 @@
+import 'package:agriglance/Screens/Home/Drawer/my_jobs.dart';
+import 'package:agriglance/Screens/Home/Drawer/my_poll.dart';
+import 'package:agriglance/Screens/Home/Drawer/my_questions.dart';
+import 'package:agriglance/Screens/Home/Drawer/my_quiz.dart';
+import 'package:agriglance/Screens/Home/Drawer/my_study_materials.dart';
+import 'package:agriglance/Screens/Home/Drawer/my_videos.dart';
 import 'package:agriglance/Services/firestore_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'Profile/profile.dart';
-import 'Profile/update_profile.dart';
+import '../Profile/profile.dart';
+import '../Profile/update_profile.dart';
 
 class DrawerWindow extends StatefulWidget {
   @override
@@ -65,32 +71,50 @@ class _DrawerWindowState extends State<DrawerWindow> {
           ListTile(
             trailing: Icon(Icons.book),
             title: Text("My Study Materials"),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => MyStudyMaterials()));
+            },
           ),
           ListTile(
             trailing: Icon(Icons.work),
             title: Text("My Jobs"),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MyJobs()));
+            },
           ),
           ListTile(
             trailing: Icon(Icons.question_answer),
             title: Text("My Questions"),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => MyQuestions()));
+            },
           ),
           ListTile(
             trailing: Icon(Icons.lightbulb),
             title: Text("My Quiz"),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MyQuiz()));
+            },
           ),
           ListTile(
             trailing: Icon(Icons.how_to_vote),
             title: Text("My Poll"),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MyPoll()));
+            },
           ),
           ListTile(
             trailing: Icon(Icons.videocam),
             title: Text("My Videos"),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MyVideos()));
+            },
           ),
           ListTile(
             trailing: Icon(Icons.contact_mail),

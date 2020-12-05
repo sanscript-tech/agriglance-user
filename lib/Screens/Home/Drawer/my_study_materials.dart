@@ -1,26 +1,23 @@
-import 'dart:async';
-import 'dart:core';
 import 'dart:isolate';
 import 'dart:ui';
 
-import 'package:agriglance/Screens/StudyMaterials/add_study_material.dart';
 import 'package:agriglance/constants/study_material_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class StudyMaterialsHome extends StatefulWidget {
+class MyStudyMaterials extends StatefulWidget {
   @override
-  _StudyMaterialsHomeState createState() => _StudyMaterialsHomeState();
+  _MyStudyMaterialsState createState() => _MyStudyMaterialsState();
 }
 
-class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
+class _MyStudyMaterialsState extends State<MyStudyMaterials> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final papersCollectionReference =
       FirebaseStorage.instance.ref().child("studyMaterials");
@@ -68,15 +65,6 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
       appBar: AppBar(
         title: Text("Study Materials"),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => AddStudyMaterial(
-                    uid: auth.currentUser.uid,
-                    uName: auth.currentUser.displayName))),
-        child: Icon(Icons.add),
-      ),
       body: Container(
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
@@ -89,7 +77,7 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
                     itemCount: snapshot.data.documents.length,
                     itemBuilder: (context, index) {
                       DocumentSnapshot papers = snapshot.data.documents[index];
-                      if (papers['isApprovedByAdmin']) {
+                      if (papers['postedBy'] == auth.currentUser.uid.toString()) {
                         return GestureDetector(
                           onTap: () {
                             if (_permissionStatus) {
@@ -97,7 +85,7 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
                                   msg: "PDF Download started...",
                                   gravity: ToastGravity.BOTTOM);
                               // downloadPDF(papers['title'], papers['fileName']);
-                              download(papers['pdfUrl'], papers['fileName']);
+                              // download(papers['pdfUrl'], papers['fileName']);
                             } else {
                               Fluttertoast.showToast(
                                   msg: "PDF Download Failed...",
@@ -105,7 +93,7 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
                             }
                           },
                           child: StudyMaterialCard(
-                            type : papers['type'],
+                            type: papers['type'],
                             title: papers['title'],
                             description: papers['description'],
                             pdfUrl: papers['pdfUrl'],
@@ -135,52 +123,3 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
     await FlutterDownloader.open(taskId: taskId);
   }
 }
-
-//   Reference only code
-//
-// Future<String> prepareTestPdf(String _documentPath) async {
-//   final ByteData bytes =
-//   await DefaultAssetBundle.of(context).load(_documentPath);
-//   final Uint8List list = bytes.buffer.asUint8List();
-//
-//   final tempDir = await getTemporaryDirectory();
-//   final tempDocumentPath = '${tempDir.path}/$_documentPath';
-//
-//   final file = await File(tempDocumentPath).create(recursive: true);
-//   file.writeAsBytesSync(list);
-//   return tempDocumentPath;
-// }
-// Future<void> downloadPDF(String paperTitle, String fileName) async {
-//   Directory appDocDir = await getExternalStorageDirectory();
-//   String appDocPath = appDocDir.path;
-//   File _file = File('$appDocPath/$fileName');
-//   print("FILE PATH: ***************** ${_file.path}");
-//   Reference _fileRef = papersCollectionReference.child('$fileName');
-//   var _downloadTask = _fileRef.writeToFile(_file);
-//   TaskSnapshot snap = await _downloadTask;
-//   print(snap.state);
-//   prepareTestPdf(_file.path).then((path) {
-//     Navigator.push(
-//       context,
-//       MaterialPageRoute(
-//           builder: (context) => FullPdfViewerScreen(path, paperTitle)),
-//     );
-//   });
-// }
-//
-// class FullPdfViewerScreen extends StatelessWidget {
-//   String path;
-//   String paperTitle;
-//
-//   FullPdfViewerScreen(this.path, this.paperTitle);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return PDFViewerScaffold(
-//       appBar: AppBar(
-//         title: Text("$paperTitle"),
-//       ),
-//       path: path,
-//     );
-//   }
-// }

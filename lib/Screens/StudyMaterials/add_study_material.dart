@@ -47,13 +47,13 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
   Future<void> _uploadResearchPaper() async {
     await FirebaseFirestore.instance.collection("study_materials").add({
       'isApprovedByAdmin': false,
-      'type' : dropdownValue,
+      'type': dropdownValue,
       'title': _title,
       'description': _description,
       'pdfUrl': _pdfUrl,
       'fileName': fileName,
       'postedBy': widget.uid,
-      'postedByName': widget.uName
+      'postedByName': widget.uName == null ? "" : widget.uName
     });
   }
 
@@ -97,9 +97,8 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
                   decoration: InputDecoration(
                     icon: Icon(Icons.category, color: Colors.grey),
                   ),
-                  validator: (value) => value == "Choose Type"
-                      ? "Choose material Type"
-                      : null,
+                  validator: (value) =>
+                      value == "Choose Type" ? "Choose material Type" : null,
                   hint: Text("Choose Type"),
                   icon: Icon(Icons.arrow_downward),
                   iconSize: 24,
@@ -152,7 +151,9 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
                           getPDF();
                         });
                       } else {
-                        Fluttertoast.showToast(msg: "Choose a valid type", gravity: ToastGravity.BOTTOM);
+                        Fluttertoast.showToast(
+                            msg: "Choose a valid type",
+                            gravity: ToastGravity.BOTTOM);
                       }
                     },
                     shape: RoundedRectangleBorder(

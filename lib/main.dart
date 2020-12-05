@@ -5,13 +5,12 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:provider/provider.dart';
 
 import 'Screens/Home/home.dart';
-import 'Screens/Quiz/create_quiz.dart';
 import 'Services/authenticate.dart';
 import 'Services/authentication_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await FlutterDownloader.initialize();
+  await FlutterDownloader.initialize(debug: true);
   await Firebase.initializeApp();
   runApp(MyApp());
 }
