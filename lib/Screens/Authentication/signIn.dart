@@ -2,6 +2,7 @@ import 'package:agriglance/Screens/Authentication/forgotPassword.dart';
 import 'package:agriglance/Services/authentication_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class SignIn extends StatefulWidget {
@@ -19,6 +20,7 @@ class _SignInState extends State<SignIn> {
   final TextStyle defaultStyle = TextStyle(color: Colors.grey, fontSize: 20.0);
   final TextStyle linkStyle = TextStyle(color: Colors.blue, fontSize: 20.0);
   var opacity = 0.0;
+  var response;
 
   @override
   Widget build(BuildContext context) {
@@ -58,13 +60,22 @@ class _SignInState extends State<SignIn> {
                 padding: const EdgeInsets.only(bottom: 25.0),
                 child: RaisedButton(
                   color: Colors.yellow,
-                  onPressed: () {
+                  onPressed: () async {
                     setState(() {
                       opacity = 1.0;
                     });
-                    context
+                    response = await context
                         .read<AuthenticationService>()
                         .signIn(emailController.text, passwordController.text);
+                    if (response != "Signed In") {
+                      setState(() {
+                        opacity = 0.0;
+                      });
+                      Fluttertoast.showToast(
+                          msg: response,
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.BOTTOM);
+                    }
                   },
                   child: Text(
                     "Sign In",
