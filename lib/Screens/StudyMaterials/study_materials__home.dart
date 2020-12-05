@@ -80,7 +80,7 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
       body: Container(
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
-              .collection("study_materials")
+              .collection("study_materials").orderBy("isApprovedByAdmin",descending: true)
               .snapshots(),
           builder: (context, snapshot) {
             return !snapshot.hasData

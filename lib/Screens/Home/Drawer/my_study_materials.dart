@@ -63,12 +63,14 @@ class _MyStudyMaterialsState extends State<MyStudyMaterials> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Study Materials"),
+        title: Text("My Study Materials"),
       ),
       body: Container(
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection("study_materials")
+              .where("postedBy", isEqualTo: auth.currentUser.uid.toString())
+              .orderBy("isApprovedByAdmin", descending: true)
               .snapshots(),
           builder: (context, snapshot) {
             return !snapshot.hasData
@@ -77,7 +79,7 @@ class _MyStudyMaterialsState extends State<MyStudyMaterials> {
                     itemCount: snapshot.data.documents.length,
                     itemBuilder: (context, index) {
                       DocumentSnapshot papers = snapshot.data.documents[index];
-                      if (papers['postedBy'] == auth.currentUser.uid.toString()) {
+                      if (true) {
                         return GestureDetector(
                           onTap: () {
                             if (_permissionStatus) {
@@ -85,7 +87,7 @@ class _MyStudyMaterialsState extends State<MyStudyMaterials> {
                                   msg: "PDF Download started...",
                                   gravity: ToastGravity.BOTTOM);
                               // downloadPDF(papers['title'], papers['fileName']);
-                              // download(papers['pdfUrl'], papers['fileName']);
+                              download(papers['pdfUrl'], papers['fileName']);
                             } else {
                               Fluttertoast.showToast(
                                   msg: "PDF Download Failed...",

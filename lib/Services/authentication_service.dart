@@ -66,7 +66,7 @@ class AuthenticationService {
       assert(user.uid == currentUser.uid);
 
       print('signInWithGoogle succeeded: $user');
-      if (_firestoreService.isUserRegistered(user.uid) != null) {
+      if (_firestoreService.isUserRegistered(user.uid) == null) {
         _currentUser = UserModel(user.uid, "", user.email,"", "", "");
         await _firestoreService.createOrUpdateUser(_currentUser);
       } else {

@@ -47,14 +47,14 @@ class _DrawerWindowState extends State<DrawerWindow> {
             },
             child: UserAccountsDrawerHeader(
               accountName: Text(
-                userData.fullName,
+                userData.fullName == "" ? "Anonymous": userData.fullName,
                 style: TextStyle(fontSize: 20.0),
               ),
               accountEmail: Text(userData.email),
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Colors.blue,
                 child: Text(
-                  userData.fullName[0],
+                  userData.fullName == "" ? "A": userData.fullName[0],
                   style: TextStyle(fontSize: 40.0, color: Colors.black),
                 ),
               ),
