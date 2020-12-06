@@ -5,7 +5,6 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:provider/provider.dart';
 
 import 'Screens/Home/home.dart';
-import 'Screens/Quiz/create_quiz.dart';
 import 'Services/authenticate.dart';
 import 'Services/authentication_service.dart';
 
@@ -16,7 +15,7 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatelessWidget { 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -34,7 +33,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.amber,
           ),
-          home: Home(),
+          home:AuthenticationWrapper(),
         ));
   }
 }

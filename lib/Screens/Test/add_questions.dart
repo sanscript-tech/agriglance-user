@@ -3,8 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
 class AddQuestions extends StatefulWidget {
- final String testName;
-  AddQuestions({this.testName});
+  final String testName;
+  final String testSubject;
+  AddQuestions({this.testName, this.testSubject});
   @override
   _AddQuestionsState createState() => _AddQuestionsState();
 }
@@ -36,7 +37,7 @@ class _AddQuestionsState extends State<AddQuestions> {
 
   Future<void> _uploadQuestion() async {
     await FirebaseFirestore.instance
-        .collection("tests")
+        .collection("testQuestions")
         .doc(widget.testName)
         .collection("questions")
         .add({
@@ -62,7 +63,7 @@ class _AddQuestionsState extends State<AddQuestions> {
             child: ListView(children: <Widget>[
               Text("Question: "),
               TextFormField(
-                inputFormatters: [LengthLimitingTextInputFormatter(30)],
+                inputFormatters: [LengthLimitingTextInputFormatter(100)],
                 validator: (val) => val.isEmpty ? 'Question is required' : null,
                 onSaved: (val) => _question = val,
                 decoration: InputDecoration(
@@ -116,24 +117,28 @@ class _AddQuestionsState extends State<AddQuestions> {
               Row(
                 children: <Widget>[
                   RaisedButton(
-                      padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        side: BorderSide(color: Colors.black87),
+                    padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                      side: BorderSide(color: Colors.black87),
+                    ),
+                    splashColor: Colors.purple,
+                    elevation: 10.0,
+                    highlightElevation: 30.0,
+                    child: const Text(
+                      'Submit for Approval',
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 20.0,
                       ),
-                      splashColor: Colors.purple,
-                      elevation: 10.0,
-                      highlightElevation: 30.0,
-                      child: const Text(
-                        'Submit for Approval',
-                        style: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 20.0,
-                        ),
-                      ),
-                      color: Colors.blue[300],
-                      textColor: Colors.white,
-                      onPressed:_submitForm,),
+                    ),
+                    color: Colors.blue[300],
+                    textColor: Colors.white,
+                    onPressed: () {
+                      _submitForm();
+                      _formKey.currentState.reset();
+                    },
+                  ),
                   RaisedButton(
                       padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                       shape: RoundedRectangleBorder(

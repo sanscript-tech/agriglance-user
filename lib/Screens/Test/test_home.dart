@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'testSubjects.dart';
 
 class TestHome extends StatelessWidget {
@@ -9,7 +9,11 @@ class TestHome extends StatelessWidget {
       onPressed: () {
         if (category == category)
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => TestSubject(category: category,)));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => TestSubject(
+                        category: category,
+                      )));
         else {
           Scaffold.of(context).showSnackBar(SnackBar(
             content: Text("Not implemented yet"),
@@ -82,10 +86,12 @@ class TestHome extends StatelessWidget {
                 width: deviceWidth / 4,
               ),
               categoryButton("RAIL", context),
+             
             ],
-          )
+          ),
         ],
       ),
     );
   }
 }
+

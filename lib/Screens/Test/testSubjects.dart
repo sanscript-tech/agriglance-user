@@ -1,12 +1,13 @@
 import 'package:agriglance/Screens/Test/SingleSubject.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../constants/subject_card.dart';
 
 class TestSubject extends StatefulWidget {
-  String uid;
   String category;
-  TestSubject({this.uid, this.category});
+  TestSubject({this.category});
   @override
   _TestSubjectState createState() => _TestSubjectState();
 }
@@ -53,8 +54,11 @@ class _TestSubjectState extends State<TestSubject> {
           ),
           Expanded(
               child: StreamBuilder(
-            stream: FirebaseFirestore.instance.collection("subjects").snapshots(),
-                
+            stream: FirebaseFirestore.instance
+                .collection("testCategories")
+                .doc(widget.category)
+                .collection("subjects")
+                .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Text("Loading");
@@ -62,13 +66,12 @@ class _TestSubjectState extends State<TestSubject> {
               final tests = snapshot.data.docs;
               List<SubjectCard> testWidgets = [];
               for (var test in tests) {
-                final testSubject = test.get('subjectName').toString();
-                final numTests = test.get('numofTestAvailable').toString();
+                final testSubject = test.get('subject').toString();
+                //final numOfTests = test.get('numOfTests').toString();
 
                 final testWidget = SubjectCard(
-                  subject: testSubject,
-                  num1: numTests,
-                );
+                   category: widget.category, subject: testSubject, num1: "0"
+                    );
                 testWidgets.add(testWidget);
               }
               return ListView(children: testWidgets);
@@ -79,6 +82,28 @@ class _TestSubjectState extends State<TestSubject> {
     );
   }
 }
+
+// int getNumTests(testSubject) {
+//   int numTests = 0;
+//   if (testSubject != "") {
+//     numTests = getNumOfTest(testSubject) as int;
+//   }
+//   return numTests;
+// }
+
+// Future<int> getNumOfTest(testSubject) async {
+//   int numTests = 0;
+//   await FirebaseFirestore.instance
+//       .collection("testSubjects")
+//       .doc(testSubject)
+//       .get()
+//       .then((DocumentSnapshot documentSnapshot) => {
+//             if (documentSnapshot.exists)
+//               numTests = documentSnapshot.get(FieldPath(["numOfTests"]))
+//           });
+
+//   return numTests;
+// }
 
 class Drawhorizontalline extends CustomPainter {
   Paint _paint;
@@ -109,47 +134,4 @@ Widget getSeparateDivider() {
       CustomPaint(painter: Drawhorizontalline(true)),
     ],
   );
-}
-
-class SubjectCard extends StatelessWidget {
-  SubjectCard({this.subject, this.num1});
-
-  final String subject;
-  final String num1;
-  bool isAvailable = true;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => SingleSubject(
-                      subjectName: subject,
-                      numOfTests: int.parse(num1),
-                    )));
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          decoration: BoxDecoration(
-              border: Border(
-                  right: BorderSide(color: Colors.black, width: 2.0),
-                  left: BorderSide(color: Colors.black, width: 2.0),
-                  top: BorderSide(color: Colors.black, width: 2.0),
-                  bottom: BorderSide(color: Colors.black, width: 2.0))),
-          child: (ListTile(
-            title: isAvailable
-                ? Text(
-                    "$subject - $num1 Tests Available",
-                    style: TextStyle(fontSize: 22.0),
-                  )
-                : Text("$subject- Not Available",
-                    style: TextStyle(fontSize: 30.0)),
-          )),
-        ),
-      ),
-    );
-  }
 }
