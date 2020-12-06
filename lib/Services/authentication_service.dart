@@ -1,7 +1,6 @@
 import 'package:agriglance/Models/usermodel.dart';
 import 'package:agriglance/Services/firestore_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthenticationService {
@@ -27,14 +26,14 @@ class AuthenticationService {
     }
   }
 
-  Future<String> signUp(String email, String password, String fullName,
+  Future<String> signUp(String email, String password, String fullName, String dob,
       String qualification, String university) async {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
-      _currentUser = UserModel(_firebaseAuth.currentUser.uid, fullName, email,
+      _currentUser = UserModel(_firebaseAuth.currentUser.uid, fullName, email, dob,
           qualification, university);
-      await _firestoreService.createUser(_currentUser);
+      await _firestoreService.createOrUpdateUser(_currentUser);
       return "Signed Up";
     } on FirebaseAuthException catch (e) {
       return e.message;
@@ -67,9 +66,9 @@ class AuthenticationService {
       assert(user.uid == currentUser.uid);
 
       print('signInWithGoogle succeeded: $user');
-      if (_firestoreService.isUserRegistered(user.uid) != null) {
-        _currentUser = UserModel(user.uid, "", user.email, "", "");
-        await _firestoreService.createUser(_currentUser);
+      if (_firestoreService.isUserRegistered(user.uid) == null) {
+        _currentUser = UserModel(user.uid, "", user.email,"", "", "");
+        await _firestoreService.createOrUpdateUser(_currentUser);
       } else {
         await _populateCurrentUser(user);
       }
@@ -77,6 +76,19 @@ class AuthenticationService {
     }
 
     return null;
+  }
+
+  Future editProfile(String email, String fullName, String dob,
+      String qualification, String university) async {
+    try {
+      _firebaseAuth.currentUser.updateEmail(email);
+      _currentUser = UserModel(_firebaseAuth.currentUser.uid, fullName, email, dob,
+          qualification, university);
+      await _firestoreService.createOrUpdateUser(_currentUser);
+      return "Signed Up";
+    } on FirebaseAuthException catch (e) {
+      return e.message;
+    }
   }
 
   Future resetPassword(String email) async {
