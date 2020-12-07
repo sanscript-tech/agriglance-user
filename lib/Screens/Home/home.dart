@@ -6,7 +6,6 @@ import 'package:agriglance/Screens/Test/test_home.dart';
 import 'package:agriglance/Services/authentication_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {

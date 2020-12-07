@@ -10,7 +10,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -41,12 +40,12 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
         _port.sendPort, 'downloader_send_port');
     _port.listen((dynamic data) {
       String id = data[0];
-      DownloadTaskStatus status = data[1];
+      //  DownloadTaskStatus status = data[1];
       int progress = data[2];
       setState(() {});
     });
 
-    FlutterDownloader.registerCallback(downloadCallback);
+    // FlutterDownloader.registerCallback(downloadCallback);
   }
 
   @override
@@ -55,12 +54,12 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
     super.dispose();
   }
 
-  static void downloadCallback(
-      String id, DownloadTaskStatus status, int progress) {
-    final SendPort send =
-        IsolateNameServer.lookupPortByName('downloader_send_port');
-    send.send([id, status, progress]);
-  }
+  // static void downloadCallback(
+  //     String id, DownloadTaskStatus status, int progress) {
+  //   final SendPort send =
+  //       IsolateNameServer.lookupPortByName('downloader_send_port');
+  //   send.send([id, status, progress]);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +79,8 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
       body: Container(
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
-              .collection("study_materials").orderBy("isApprovedByAdmin",descending: true)
+              .collection("study_materials")
+              .orderBy("isApprovedByAdmin", descending: true)
               .snapshots(),
           builder: (context, snapshot) {
             return !snapshot.hasData
@@ -97,7 +97,7 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
                                   msg: "PDF Download started...",
                                   gravity: ToastGravity.BOTTOM);
                               // downloadPDF(papers['title'], papers['fileName']);
-                              download(papers['pdfUrl'], papers['fileName']);
+                              //download(papers['pdfUrl'], papers['fileName']);
                             } else {
                               Fluttertoast.showToast(
                                   msg: "PDF Download Failed...",
@@ -105,7 +105,7 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
                             }
                           },
                           child: StudyMaterialCard(
-                            type : papers['type'],
+                            type: papers['type'],
                             title: papers['title'],
                             description: papers['description'],
                             pdfUrl: papers['pdfUrl'],
@@ -124,17 +124,17 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
     );
   }
 
-  Future<void> download(String url, String fileName) async {
-    final taskId = await FlutterDownloader.enqueue(
-        url: url,
-        savedDir:
-            await getExternalStorageDirectory().then((value) => value.path),
-        showNotification: true,
-        openFileFromNotification: true,
-        fileName: fileName);
-    await FlutterDownloader.open(taskId: taskId);
-  }
-}
+//   Future<void> download(String url, String fileName) async {
+//     final taskId = await FlutterDownloader.enqueue(
+//         url: url,
+//         savedDir:
+//             await getExternalStorageDirectory().then((value) => value.path),
+//         showNotification: true,
+//         openFileFromNotification: true,
+//         fileName: fileName);
+//     await FlutterDownloader.open(taskId: taskId);
+//   }
+// }
 
 //   Reference only code
 //
@@ -184,3 +184,4 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
 //     );
 //   }
 // }
+}
