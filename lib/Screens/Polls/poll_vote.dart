@@ -13,6 +13,7 @@ class _PollVoteState extends State<PollVote> {
         title: Text("Vote"),
         centerTitle: true,
       ),
+      
     );
   }
 }

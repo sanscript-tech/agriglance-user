@@ -1,3 +1,4 @@
+import 'package:agriglance/Screens/Polls/poll_vote.dart';
 import 'package:flutter/material.dart';
 
 class PollCard extends StatefulWidget {
@@ -33,36 +34,39 @@ class _PollCardState extends State<PollCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10.0),
-      child: GestureDetector(
-          onTap: () => print("Tapped"),
+        padding: EdgeInsets.all(10.0),
+        child: GestureDetector(
+          onTap: () => Navigator.push(
+              context, MaterialPageRoute(builder: (context) => PollVote())),
           child: Card(
-            shape: RoundedRectangleBorder(
-              side: BorderSide(),
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "${widget.index + 1}. ${widget.question}",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
-                  (widget.postedByName != null && widget.postedByName!="")
-                      ? Text(
-                          "Created By: " + widget.postedByName,
-                          style: TextStyle(fontSize: 16.0),
-                        )
-                      : Text(
-                          "Created By : Anonymous",
-                          style: TextStyle(fontSize: 16.0),
-                        ),
-                  Text("Total Votes: ${widget.totalVotesOnOption1+widget.totalVotesOnOption2+widget.totalVotesOnOption3+widget.totalVotesOnOption4}")
-                ],
+              shape: RoundedRectangleBorder(
+                side: BorderSide(),
+                borderRadius: BorderRadius.circular(15.0),
               ),
-            )),
-    ));
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${widget.index + 1}. ${widget.question}",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                    (widget.postedByName != null && widget.postedByName != "")
+                        ? Text(
+                            "Created By: " + widget.postedByName,
+                            style: TextStyle(fontSize: 16.0),
+                          )
+                        : Text(
+                            "Created By : Anonymous",
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                    Text(
+                        "Total Votes: ${widget.totalVotesOnOption1 + widget.totalVotesOnOption2 + widget.totalVotesOnOption3 + widget.totalVotesOnOption4}")
+                  ],
+                ),
+              )),
+        ));
   }
 }
