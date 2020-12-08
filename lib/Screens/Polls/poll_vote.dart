@@ -132,6 +132,54 @@ class _PollVoteState extends State<PollVote> {
                       .update({
                     'voters': v,
                   });
+                  if (radioItem == 1) {
+                    await FirebaseFirestore.instance
+                        .collection("polls")
+                        .doc(widget.pollID)
+                        .update({
+                      'totalVotesOnOption1': widget.totalVotesOnOption1 + 1,
+                    });
+                  } else if (radioItem == 2) {
+                    await FirebaseFirestore.instance
+                        .collection("polls")
+                        .doc(widget.pollID)
+                        .update({
+                      'totalVotesOnOption2': widget.totalVotesOnOption2 + 1,
+                    });
+                  } else if (radioItem == 3) {
+                    await FirebaseFirestore.instance
+                        .collection("polls")
+                        .doc(widget.pollID)
+                        .update({
+                      'totalVotesOnOption3': widget.totalVotesOnOption3 + 1,
+                    });
+                  } else if (radioItem == 4) {
+                    await FirebaseFirestore.instance
+                        .collection("polls")
+                        .doc(widget.pollID)
+                        .update({
+                      'totalVotesOnOption4': widget.totalVotesOnOption4 + 1,
+                    });
+                  } else {
+                    Widget okButton = FlatButton(
+                      child: Text("Try again"),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      },
+                    );
+                    AlertDialog alert = AlertDialog(
+                      title: Text("Sorry"),
+                      content: Text("We ran into a problem"),
+                      actions: [okButton],
+                    );
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return alert;
+                      },
+                    );
+                  }
                 }
               },
               child: Text("Vote"),
