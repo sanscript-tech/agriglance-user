@@ -1,6 +1,7 @@
 import 'package:agriglance/Screens/Polls/add_polls.dart';
 import 'package:agriglance/constants/poll_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class PollHome extends StatefulWidget {
@@ -9,6 +10,7 @@ class PollHome extends StatefulWidget {
 }
 
 class _PollHomeState extends State<PollHome> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +29,11 @@ class _PollHomeState extends State<PollHome> {
                     itemBuilder: (context, index) {
                       DocumentSnapshot p = snapshot.data.documents[index];
                       if (p['isApprovedByAdmin']) {
-                        return PollCard();
+                        return PollCard(
+                          
+                          postedByName: p['postedByName'],
+                          index: index,
+                        );
                       }
                     },
                   );

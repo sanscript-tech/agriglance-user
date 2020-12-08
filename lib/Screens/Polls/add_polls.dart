@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -11,6 +12,7 @@ class _AddPollState extends State<AddPoll> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   String _question = "";
 
@@ -51,6 +53,7 @@ class _AddPollState extends State<AddPoll> {
       'totalVotesOnOption3': 0,
       'option4': _option4,
       'totalVotesOnOption4': 0,
+      'postedByName':auth.currentUser.displayName
     });
   }
 
