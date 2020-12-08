@@ -194,8 +194,19 @@ class _PollVoteState extends State<PollVote> {
                     .get();
 
                 if (doc["voters"].contains(auth.currentUser.uid)) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => PollResults()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PollResults(
+                                option1: widget.option1,
+                                option2: widget.option2,
+                                option3: widget.option3,
+                                option4: widget.option4,
+                                totalVotesOnOption1: doc["totalVotesOnOption1"],
+                                totalVotesOnOption2: doc["totalVotesOnOption2"],
+                                totalVotesOnOption3: doc["totalVotesOnOption3"],
+                                totalVotesOnOption4: doc["totalVotesOnOption4"],
+                              )));
                 } else {
                   Widget okButton = FlatButton(
                     child: Text("Ok"),
