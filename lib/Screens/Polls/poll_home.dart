@@ -1,3 +1,4 @@
+import 'package:agriglance/Screens/Polls/add_polls.dart';
 import 'package:flutter/material.dart';
 
 class PollHome extends StatefulWidget {
@@ -14,7 +15,9 @@ class _PollHomeState extends State<PollHome> {
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: ()=>print("Tapped"),
+        onPressed: () => Navigator.push(
+            context, MaterialPageRoute(builder: (context) => AddPoll())),
+        child: Icon(Icons.add),
       ),
     );
   }
