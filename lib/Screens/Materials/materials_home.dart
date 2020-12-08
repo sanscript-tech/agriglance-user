@@ -69,11 +69,7 @@ class MaterialsHome extends StatelessWidget {
               SizedBox(
                 width: deviceWidth / 7,
               ),
-              categoryButton("Current Affairs", context),
-              SizedBox(
-                width: deviceWidth / 7,
-              ),
-              categoryButton("News", context),
+              categoryButton("News and Current Affairs", context),
             ],
           ),
           SizedBox(
@@ -81,10 +77,6 @@ class MaterialsHome extends StatelessWidget {
           ),
           Row(
             children: [
-              SizedBox(
-                width: deviceWidth / 7,
-              ),
-              categoryButton("Notes", context),
               SizedBox(
                 width: deviceWidth / 7,
               ),

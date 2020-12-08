@@ -78,35 +78,31 @@ class _MyStudyMaterialsState extends State<MyStudyMaterials> {
                     itemCount: snapshot.data.documents.length,
                     itemBuilder: (context, index) {
                       DocumentSnapshot papers = snapshot.data.documents[index];
-                      if (true) {
-                        return GestureDetector(
-                          onTap: () {
-                            if (_permissionStatus) {
-                              Fluttertoast.showToast(
-                                  msg: "PDF Download started...",
-                                  gravity: ToastGravity.BOTTOM);
-                              // downloadPDF(papers['title'], papers['fileName']);
-                            //  download(papers['pdfUrl'], papers['fileName']);
-                            } else {
-                              Fluttertoast.showToast(
-                                  msg: "PDF Download Failed...",
-                                  gravity: ToastGravity.BOTTOM);
-                            }
-                          },
-                          child: StudyMaterialCard(
-                            type: papers['type'],
-                            title: papers['title'],
-                            description: papers['description'],
-                            pdfUrl: papers['pdfUrl'],
-                            postedByName: papers['postedByName'],
-                            fileName: papers['fileName'],
-                            index: index,
-                          ),
-                        );
-                      }
-                      return null;
-                    },
-                  );
+                      return GestureDetector(
+                        onTap: () {
+                          if (_permissionStatus) {
+                            Fluttertoast.showToast(
+                                msg: "PDF Download started...",
+                                gravity: ToastGravity.BOTTOM);
+                            // downloadPDF(papers['title'], papers['fileName']);
+                            download(papers['pdfUrl'], papers['fileName']);
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: "PDF Download Failed...",
+                                gravity: ToastGravity.BOTTOM);
+                          }
+                        },
+                        child: StudyMaterialCard(
+                          type: papers['type'],
+                          title: papers['title'],
+                          description: papers['description'],
+                          pdfUrl: papers['pdfUrl'],
+                          postedByName: papers['postedByName'],
+                          fileName: papers['fileName'],
+                          index: index,
+                        ),
+                      );
+                    });
           },
         ),
       ),
