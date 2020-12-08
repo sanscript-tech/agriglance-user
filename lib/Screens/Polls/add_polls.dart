@@ -1,14 +1,59 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class AddPoll extends StatelessWidget {
+class AddPoll extends StatefulWidget {
+  @override
+  _AddPollState createState() => _AddPollState();
+}
+
+class _AddPollState extends State<AddPoll> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   String _question = "";
+
   String _option1 = "";
+
   String _option2 = "";
+
   String _option3 = "";
+
   String _option4 = "";
+
+  void _submitForm() async {
+    final FormState form = _formKey.currentState;
+    if (!form.validate()) {
+      showMessage('Form is not valid!  Please review and correct.');
+    } else {
+      form.save();
+    }
+    _createPoll();
+    Navigator.pop(context);
+  }
+
+  void showMessage(String message, [MaterialColor color = Colors.red]) {
+    _scaffoldKey.currentState.showSnackBar(
+        new SnackBar(backgroundColor: color, content: new Text(message)));
+  }
+
+  Future<void> _createPoll() async {
+    await FirebaseFirestore.instance.collection("polls").add({
+      'isApprovedByAdmin': false,
+      'voters': [],
+      'question': _question,
+      'option1': _option1,
+      'totalVotesOnOption1': 0,
+      'option2': _option2,
+      'totalVotesOnOption2': 0,
+      'option3': _option3,
+      'totalVotesOnOption3': 0,
+      'option4': _option4,
+      'totalVotesOnOption4': 0,
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,6 +125,12 @@ class AddPoll extends StatelessWidget {
                     labelText: 'Option 4',
                   ),
                 ),
+                Container(
+                    padding: EdgeInsets.only(left: 40.0, top: 20.0),
+                    child: RaisedButton(
+                      child: Text('Create Poll'),
+                      onPressed: _submitForm,
+                    )),
               ],
             ),
           ),
