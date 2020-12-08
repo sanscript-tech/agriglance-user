@@ -80,7 +80,8 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
       body: Container(
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
-              .collection("study_materials").orderBy("isApprovedByAdmin",descending: true)
+              .collection("study_materials")
+              .orderBy("isApprovedByAdmin", descending: true)
               .snapshots(),
           builder: (context, snapshot) {
             return !snapshot.hasData
@@ -105,12 +106,13 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
                             }
                           },
                           child: StudyMaterialCard(
-                            type : papers['type'],
+                            type: papers['type'],
                             title: papers['title'],
                             description: papers['description'],
                             pdfUrl: papers['pdfUrl'],
                             postedByName: papers['postedByName'],
                             fileName: papers['fileName'],
+                            approved: papers['isApprovedByAdmin'],
                             index: index,
                           ),
                         );
