@@ -8,8 +8,11 @@ class PollResults extends StatefulWidget {
 class _PollResultsState extends State<PollResults> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Results"),
+        centerTitle: true,
+      ),
     );
   }
 }
