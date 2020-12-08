@@ -1,3 +1,4 @@
+import 'package:agriglance/Screens/Polls/poll_results.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -97,8 +98,6 @@ class _PollVoteState extends State<PollVote> {
           Center(
             child: RaisedButton(
               onPressed: () async {
-                print(radioItem);
-                print(auth.currentUser.uid);
                 DocumentSnapshot doc = await FirebaseFirestore.instance
                     .collection("polls")
                     .doc(widget.pollID)
@@ -183,6 +182,40 @@ class _PollVoteState extends State<PollVote> {
                 }
               },
               child: Text("Vote"),
+            ),
+          ),
+          Center(
+            child: RaisedButton(
+              child: Text("Check Results"),
+              onPressed: () async {
+                DocumentSnapshot doc = await FirebaseFirestore.instance
+                    .collection("polls")
+                    .doc(widget.pollID)
+                    .get();
+
+                if (doc["voters"].contains(auth.currentUser.uid)) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => PollResults()));
+                } else {
+                  Widget okButton = FlatButton(
+                    child: Text("Ok"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  );
+                  AlertDialog alert = AlertDialog(
+                    title: Text("Results Locked"),
+                    content: Text("Vote first to unlock results"),
+                    actions: [okButton],
+                  );
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return alert;
+                    },
+                  );
+                }
+              },
             ),
           )
         ],
