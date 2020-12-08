@@ -25,7 +25,10 @@ class _PollHomeState extends State<PollHome> {
                 : ListView.builder(
                     itemCount: snapshot.data.documents.length,
                     itemBuilder: (context, index) {
-                      return PollCard();
+                      DocumentSnapshot p = snapshot.data.documents[index];
+                      if (p['isApprovedByAdmin']) {
+                        return PollCard();
+                      }
                     },
                   );
           },
