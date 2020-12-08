@@ -25,6 +25,7 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
   String _title;
   String _description;
   String _pdfUrl;
+  String _subject = "Choose Subject";
   FilePickerResult _filePickerResult;
   String absolutePath = "";
   String fileName = "";
@@ -32,6 +33,17 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
   File file;
   bool showUploadButton = true;
   String dropdownValue = "Choose Type";
+  List<String> subjectList;
+
+  @override
+  void initState() {
+    super.initState();
+    subjectList = List<String>();
+    setState(() {
+      subjectList.add("Choose Subject");
+    });
+    fetchSubjectList();
+  }
 
   void _submitForm() async {
     final FormState form = _formKey.currentState;
@@ -52,6 +64,7 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
       'description': _description,
       'pdfUrl': _pdfUrl,
       'fileName': fileName,
+      'subject': _subject,
       'postedBy': widget.uid,
       'postedByName': widget.uName == null ? "" : widget.uName
     });
@@ -115,6 +128,29 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
                     'Book/Article',
                     'Other'
                   ].map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+                DropdownButtonFormField<String>(
+                  value: _subject,
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.science, color: Colors.grey),
+                  ),
+                  validator: (value) =>
+                      value == "Choose Subject" ? "Choose Valid Subject" : null,
+                  hint: Text("Choose Subject"),
+                  icon: Icon(Icons.arrow_downward),
+                  iconSize: 24,
+                  elevation: 16,
+                  onChanged: (String newValue) {
+                    setState(() {
+                      _subject = newValue;
+                    });
+                  },
+                  items: subjectList.map<DropdownMenuItem<String>>((value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
@@ -294,5 +330,17 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
       });
     }
     showMessage("No file Selected!");
+  }
+
+  void fetchSubjectList() async {
+    QuerySnapshot _myDoc =
+        await FirebaseFirestore.instance.collection("testSubjects").get();
+    List<DocumentSnapshot> _myDocCount = _myDoc.docs;
+    for (int j = 0; j < _myDocCount.length; j++) {
+      DocumentSnapshot i = _myDocCount[j];
+      setState(() {
+        subjectList.add(i.id.trim());
+      });
+    }
   }
 }
