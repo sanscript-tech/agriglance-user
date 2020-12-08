@@ -1,3 +1,5 @@
+import 'package:agriglance/Screens/Quiz/create_quiz.dart';
+import 'package:agriglance/Screens/Videos/video_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.amber,
           ),
-          home: AuthenticationWrapper(),
+          home:AuthenticationWrapper(),
         ));
   }
 }

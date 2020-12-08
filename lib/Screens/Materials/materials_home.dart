@@ -1,4 +1,5 @@
 import 'package:agriglance/Screens/StudyMaterials/study_materials__home.dart';
+import 'package:agriglance/Screens/Videos/video_home.dart';
 import 'package:flutter/material.dart';
 
 class MaterialsHome extends StatelessWidget {
@@ -13,8 +14,15 @@ class MaterialsHome extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => StudyMaterialsHome()));
+              break;
             }
-            break;
+          case "Videos":
+            {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => VideoHome()));
+              break;
+            }
+
           default:
             {
               Scaffold.of(context).showSnackBar(SnackBar(

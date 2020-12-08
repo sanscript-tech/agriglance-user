@@ -51,9 +51,15 @@ class _QuizState extends State<Quiz> {
             ),
             Text("Number of questions"),
             TextField(
+              keyboardType:TextInputType.number,
               controller: eCtrl,
               onSubmitted: (val) {
                 numOfQues = int.parse(val);
+              },
+              onChanged: (value) {
+                setState(() {
+                  numOfQues = int.parse(value);
+                });
               },
             ),
             Expanded(
