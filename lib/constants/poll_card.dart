@@ -50,13 +50,13 @@ class _PollCardState extends State<PollCard> {
                     "${widget.index + 1}. ${widget.question}",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
-                  (widget.postedByName != null)
+                  (widget.postedByName != null && widget.postedByName!="")
                       ? Text(
-                          "Posted By: " + widget.postedByName,
+                          "Created By: " + widget.postedByName,
                           style: TextStyle(fontSize: 16.0),
                         )
                       : Text(
-                          "Posted By : Anonymous",
+                          "Created By : Anonymous",
                           style: TextStyle(fontSize: 16.0),
                         ),
                   Text("Total Votes: ${widget.totalVotesOnOption1+widget.totalVotesOnOption2+widget.totalVotesOnOption3+widget.totalVotesOnOption4}")
