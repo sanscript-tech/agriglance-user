@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +13,8 @@ class PollVote extends StatefulWidget {
   final int totalVotesOnOption3;
   final int totalVotesOnOption4;
   final int index;
+  final List voters;
+  final String pollID;
   PollVote(
       {this.option1,
       this.option2,
@@ -22,13 +25,16 @@ class PollVote extends StatefulWidget {
       this.totalVotesOnOption2,
       this.totalVotesOnOption3,
       this.totalVotesOnOption4,
-      this.index});
+      this.index,
+      this.voters,
+      this.pollID});
   @override
   _PollVoteState createState() => _PollVoteState();
 }
 
 class _PollVoteState extends State<PollVote> {
   final FirebaseAuth auth = FirebaseAuth.instance;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   int radioItem;
   @override
   Widget build(BuildContext context) {
@@ -88,6 +94,49 @@ class _PollVoteState extends State<PollVote> {
               });
             },
           ),
+          Center(
+            child: RaisedButton(
+              onPressed: () async {
+                print(radioItem);
+                print(auth.currentUser.uid);
+                DocumentSnapshot doc = await FirebaseFirestore.instance
+                    .collection("polls")
+                    .doc(widget.pollID)
+                    .get();
+
+                if (doc["voters"].contains(auth.currentUser.uid)) {
+                  Widget okButton = FlatButton(
+                    child: Text("OK"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+                  );
+                  AlertDialog alert = AlertDialog(
+                    title: Text("Error"),
+                    content: Text("You have already voted"),
+                    actions: [okButton],
+                  );
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return alert;
+                    },
+                  );
+                } else {
+                  List v = widget.voters;
+                  v.add(auth.currentUser.uid);
+                  await FirebaseFirestore.instance
+                      .collection("polls")
+                      .doc(widget.pollID)
+                      .update({
+                    'voters': v,
+                  });
+                }
+              },
+              child: Text("Vote"),
+            ),
+          )
         ],
       ),
     );

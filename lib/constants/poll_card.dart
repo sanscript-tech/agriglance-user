@@ -13,6 +13,8 @@ class PollCard extends StatefulWidget {
   final int totalVotesOnOption4;
   final int index;
   final String postedByName;
+  final List voters;
+  final String pollID;
   PollCard(
       {this.option1,
       this.option2,
@@ -24,7 +26,9 @@ class PollCard extends StatefulWidget {
       this.totalVotesOnOption3,
       this.totalVotesOnOption4,
       this.index,
-      this.postedByName});
+      this.postedByName,
+      this.voters,
+      this.pollID});
 
   @override
   _PollCardState createState() => _PollCardState();
@@ -49,6 +53,8 @@ class _PollCardState extends State<PollCard> {
                         totalVotesOnOption2: widget.totalVotesOnOption2,
                         totalVotesOnOption3: widget.totalVotesOnOption3,
                         totalVotesOnOption4: widget.totalVotesOnOption4,
+                        voters: widget.voters,
+                        pollID:widget.pollID,
                       ))),
           child: Card(
               shape: RoundedRectangleBorder(

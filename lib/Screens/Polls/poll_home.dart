@@ -30,6 +30,7 @@ class _PollHomeState extends State<PollHome> {
                       DocumentSnapshot p = snapshot.data.documents[index];
                       if (p['isApprovedByAdmin']) {
                         return PollCard(
+                          voters:p['voters'],
                           question: p['question'],
                           option1: p['option1'],
                           option2: p['option2'],
@@ -41,6 +42,7 @@ class _PollHomeState extends State<PollHome> {
                           totalVotesOnOption4: p['totalVotesOnOption4'],
                           postedByName: p['postedByName'],
                           index: index,
+                          pollID: p.id,
                         );
                       }
                       return null;
