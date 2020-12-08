@@ -1,9 +1,10 @@
+import 'package:agriglance/Screens/Home/Drawer/myJobShowApplications.dart';
 import 'package:agriglance/Screens/Jobs/job_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class JobCard extends StatefulWidget {
+class MyJobCard extends StatefulWidget {
   String jobType;
   String orgName;
   String jobDesc;
@@ -16,7 +17,7 @@ class JobCard extends StatefulWidget {
   int index;
   String jobId;
 
-  JobCard(
+  MyJobCard(
       {this.jobDesc,
       this.jobPosts,
       this.jobSkills,
@@ -30,10 +31,10 @@ class JobCard extends StatefulWidget {
       this.jobId});
 
   @override
-  _JobCardState createState() => _JobCardState();
+  _MyJobCardState createState() => _MyJobCardState();
 }
 
-class _JobCardState extends State<JobCard> {
+class _MyJobCardState extends State<MyJobCard> {
   int count = 0;
   @override
   void initState() {
@@ -50,18 +51,7 @@ class _JobCardState extends State<JobCard> {
         onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => JobDetails(
-                      jobDesc: widget.jobDesc,
-                      jobPosts: widget.jobPosts,
-                      jobSkills: widget.jobSkills,
-                      jobSubject: widget.jobSubject,
-                      jobType: widget.jobType,
-                      orgLink: widget.orgLink,
-                      orgName: widget.orgName,
-                      salary: widget.salary,
-                      postedByName: widget.postedByName,
-                      jobId: widget.jobId,
-                    ))),
+                builder: (context) => MyJobShowApplications(jobId: widget.jobId,))),
         child: Card(
           shape: RoundedRectangleBorder(
             side: BorderSide(),
@@ -97,7 +87,6 @@ class _JobCardState extends State<JobCard> {
       ),
     );
   }
-
   void countDocuments() async {
     QuerySnapshot _myDoc = await FirebaseFirestore.instance
         .collection("jobs")

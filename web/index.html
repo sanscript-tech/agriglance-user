@@ -28,6 +28,15 @@
 
   <title>agriglance</title>
   <link rel="manifest" href="manifest.json">
+  <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-auth.js"></script>
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+
+  <!--  <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-analytics.js"></script>-->
+  <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-firestore.js"></script>
 </head>
 <body>
   <!-- This script installs service_worker.js to provide PWA functionality to
@@ -39,6 +48,22 @@
         navigator.serviceWorker.register('flutter_service_worker.js');
       });
     }
+  </script>
+
+
+  <script>
+  var firebaseConfig = {
+  apiKey: "AIzaSyAl8BKXAJkM__041UdLL9R78SobvmduzUs",
+  authDomain: "agriglance-ccfbf.firebaseapp.com",
+  databaseURL: "https://agriglance-ccfbf.firebaseio.com",
+  projectId: "agriglance-ccfbf",
+  storageBucket: "agriglance-ccfbf.appspot.com",
+  messagingSenderId: "434324639436",
+  appId: "1:434324639436:web:917dbf1a679b4980c7fc69",
+  measurementId: "G-R3TKKHDYY2"
+  };
+  firebase.initializeApp(firebaseConfig);
+
   </script>
   <script src="main.dart.js" type="application/javascript"></script>
 </body>

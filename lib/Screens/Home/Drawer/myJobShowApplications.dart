@@ -1,7 +1,8 @@
+
 import 'dart:isolate';
 import 'dart:ui';
 
-import 'package:agriglance/constants/study_material_card.dart';
+import 'package:agriglance/constants/applicant_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -12,15 +13,18 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class MyStudyMaterials extends StatefulWidget {
+class MyJobShowApplications extends StatefulWidget {
+  String jobId;
+
+  MyJobShowApplications({this.jobId});
+
   @override
-  _MyStudyMaterialsState createState() => _MyStudyMaterialsState();
+  _MyJobShowApplicationsState createState() => _MyJobShowApplicationsState();
 }
 
-class _MyStudyMaterialsState extends State<MyStudyMaterials> {
+class _MyJobShowApplicationsState extends State<MyJobShowApplications> {
+
   final FirebaseAuth auth = FirebaseAuth.instance;
-  final papersCollectionReference =
-      FirebaseStorage.instance.ref().child("studyMaterials");
   var _permissionStatus;
 
   void _listenForPermissionStatus() async {
@@ -55,22 +59,23 @@ class _MyStudyMaterialsState extends State<MyStudyMaterials> {
   static void downloadCallback(
       String id, DownloadTaskStatus status, int progress) {
     final SendPort send =
-        IsolateNameServer.lookupPortByName('downloader_send_port');
+    IsolateNameServer.lookupPortByName('downloader_send_port');
     send.send([id, status, progress]);
   }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Study Materials"),
+        title: Text("Applications"),
       ),
       body: Container(
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
-              .collection("study_materials")
-              .where("postedBy", isEqualTo: auth.currentUser.uid.toString())
-              .orderBy("isApprovedByAdmin", descending: true)
+              .collection("jobs")
+              .doc(widget.jobId)
+              .collection("applicants")
               .snapshots(),
           builder: (context, snapshot) {
             return !snapshot.hasData
@@ -78,29 +83,25 @@ class _MyStudyMaterialsState extends State<MyStudyMaterials> {
                 : ListView.builder(
                     itemCount: snapshot.data.documents.length,
                     itemBuilder: (context, index) {
-                      DocumentSnapshot papers = snapshot.data.documents[index];
+                      DocumentSnapshot applicant = snapshot.data.documents[index];
                       return GestureDetector(
-                        onTap: () {
+                        onTap: (){
                           if (_permissionStatus) {
                             Fluttertoast.showToast(
-                                msg: "PDF Download started...",
-                                gravity: ToastGravity.BOTTOM);
+                                msg: "PDF Download started...", gravity: ToastGravity.BOTTOM);
                             // downloadPDF(papers['title'], papers['fileName']);
-                            download(papers['pdfUrl'], papers['fileName']);
+                            download(applicant['cvUrl'], applicant['cvFileName']);
                           } else {
                             Fluttertoast.showToast(
-                                msg: "PDF Download Failed...",
-                                gravity: ToastGravity.BOTTOM);
+                                msg: "PDF Download Failed...", gravity: ToastGravity.BOTTOM);
                           }
                         },
-                        child: StudyMaterialCard(
-                          type: papers['type'],
-                          title: papers['title'],
-                          description: papers['description'],
-                          pdfUrl: papers['pdfUrl'],
-                          postedByName: papers['postedByName'],
-                          fileName: papers['fileName'],
-                          index: index,
+                        child: ApplicantCard(
+                            appliedBy : applicant['appliedBy'],
+                            cvFileName : applicant['cvFileName'],
+                            cvUrl : applicant['cvUrl'],
+                            appliedByName : applicant['appliedByName'],
+                            index : index
                         ),
                       );
                     });
@@ -114,7 +115,7 @@ class _MyStudyMaterialsState extends State<MyStudyMaterials> {
     final taskId = await FlutterDownloader.enqueue(
         url: url,
         savedDir:
-            await getExternalStorageDirectory().then((value) => value.path),
+        await getExternalStorageDirectory().then((value) => value.path),
         showNotification: true,
         openFileFromNotification: true,
         fileName: fileName);

@@ -1,5 +1,8 @@
 pubspec.lock
-
+public
+.firebaserc
+.firebase
+firebase.json
 # Miscellaneous
 *.class
 *.log
