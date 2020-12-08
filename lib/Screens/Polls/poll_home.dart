@@ -20,7 +20,7 @@ class _PollHomeState extends State<PollHome> {
       ),
       body: Container(
         child: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection("polls").snapshots(),
+          stream: FirebaseFirestore.instance.collection("polls").orderBy('createdOn').snapshots(),
           builder: (context, snapshot) {
             return !snapshot.hasData
                 ? Text("Loading")

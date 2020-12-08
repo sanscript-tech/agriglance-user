@@ -53,7 +53,8 @@ class _AddPollState extends State<AddPoll> {
       'totalVotesOnOption3': 0,
       'option4': _option4,
       'totalVotesOnOption4': 0,
-      'postedByName':auth.currentUser.displayName
+      'postedByName':auth.currentUser.displayName,
+      'createdOn':DateTime.now()
     });
   }
 
