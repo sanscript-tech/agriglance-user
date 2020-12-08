@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class PollVote extends StatefulWidget {
@@ -27,15 +28,67 @@ class PollVote extends StatefulWidget {
 }
 
 class _PollVoteState extends State<PollVote> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  int radioItem;
   @override
   Widget build(BuildContext context) {
+    final double deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: Text("Vote"),
         centerTitle: true,
       ),
       body: Column(
-        children: [],
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: deviceHeight / 20,
+          ),
+          Text(
+            "Q. ${widget.question}",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0),
+          ),
+          RadioListTile(
+            groupValue: radioItem,
+            title: Text(widget.option1),
+            value: 1,
+            onChanged: (val) {
+              setState(() {
+                radioItem = val;
+              });
+            },
+          ),
+          RadioListTile(
+            groupValue: radioItem,
+            title: Text(widget.option2),
+            value: 2,
+            onChanged: (val) {
+              setState(() {
+                radioItem = val;
+              });
+            },
+          ),
+          RadioListTile(
+            groupValue: radioItem,
+            title: Text(widget.option3),
+            value: 3,
+            onChanged: (val) {
+              setState(() {
+                radioItem = val;
+              });
+            },
+          ),
+          RadioListTile(
+            groupValue: radioItem,
+            title: Text(widget.option4),
+            value: 4,
+            onChanged: (val) {
+              setState(() {
+                radioItem = val;
+              });
+            },
+          ),
+        ],
       ),
     );
   }

@@ -37,7 +37,19 @@ class _PollCardState extends State<PollCard> {
         padding: EdgeInsets.all(10.0),
         child: GestureDetector(
           onTap: () => Navigator.push(
-              context, MaterialPageRoute(builder: (context) => PollVote())),
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PollVote(
+                        question: widget.question,
+                        option1: widget.option1,
+                        option2: widget.option2,
+                        option3: widget.option3,
+                        option4: widget.option4,
+                        totalVotesOnOption1: widget.totalVotesOnOption1,
+                        totalVotesOnOption2: widget.totalVotesOnOption2,
+                        totalVotesOnOption3: widget.totalVotesOnOption3,
+                        totalVotesOnOption4: widget.totalVotesOnOption4,
+                      ))),
           child: Card(
               shape: RoundedRectangleBorder(
                 side: BorderSide(),
