@@ -35,6 +35,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
       'questionDesc': _questionDesc,
       'postedBy': widget.uid,
       'postedByName': widget.uName,
+      'askedOn': DateTime.now(),
     });
   }
 
