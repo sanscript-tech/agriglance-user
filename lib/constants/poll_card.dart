@@ -13,8 +13,11 @@ class PollCard extends StatefulWidget {
   final int totalVotesOnOption4;
   final int index;
   final String postedByName;
+  final String postedBy;
+  final bool approved;
   final List voters;
   final String pollID;
+
   PollCard(
       {this.option1,
       this.option2,
@@ -27,6 +30,8 @@ class PollCard extends StatefulWidget {
       this.totalVotesOnOption4,
       this.index,
       this.postedByName,
+      this.postedBy,
+      this.approved,
       this.voters,
       this.pollID});
 
@@ -54,7 +59,7 @@ class _PollCardState extends State<PollCard> {
                         totalVotesOnOption3: widget.totalVotesOnOption3,
                         totalVotesOnOption4: widget.totalVotesOnOption4,
                         voters: widget.voters,
-                        pollID:widget.pollID,
+                        pollID: widget.pollID,
                       ))),
           child: Card(
               shape: RoundedRectangleBorder(
@@ -80,8 +85,19 @@ class _PollCardState extends State<PollCard> {
                             "Created By : Anonymous",
                             style: TextStyle(fontSize: 16.0),
                           ),
-                    Text(
-                        "Total Votes: ${widget.totalVotesOnOption1 + widget.totalVotesOnOption2 + widget.totalVotesOnOption3 + widget.totalVotesOnOption4}")
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                            "Total Votes: ${widget.totalVotesOnOption1 + widget.totalVotesOnOption2 + widget.totalVotesOnOption3 + widget.totalVotesOnOption4}"),
+                        Text(
+                          ((widget.approved == true)
+                              ? "Approved by Admin"
+                              : "Waiting for approval"),
+                          style: TextStyle(fontSize: 8.0),
+                        )
+                      ],
+                    )
                   ],
                 ),
               )),

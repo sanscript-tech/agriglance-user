@@ -41,6 +41,8 @@ class _PollHomeState extends State<PollHome> {
                           totalVotesOnOption3: p['totalVotesOnOption3'],
                           totalVotesOnOption4: p['totalVotesOnOption4'],
                           postedByName: p['postedByName'],
+                          postedBy : p['postedBy'],
+                          approved : p['isApprovedByAdmin'],
                           index: index,
                           pollID: p.id,
                         );

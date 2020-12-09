@@ -2,6 +2,7 @@ import 'package:agriglance/Screens/Polls/poll_results.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class PollVote extends StatefulWidget {
   final String question;
@@ -16,19 +17,20 @@ class PollVote extends StatefulWidget {
   final int index;
   final List voters;
   final String pollID;
-  PollVote(
-      {this.option1,
-      this.option2,
-      this.option3,
-      this.option4,
-      this.question,
-      this.totalVotesOnOption1,
-      this.totalVotesOnOption2,
-      this.totalVotesOnOption3,
-      this.totalVotesOnOption4,
-      this.index,
-      this.voters,
-      this.pollID});
+
+  PollVote({this.option1,
+    this.option2,
+    this.option3,
+    this.option4,
+    this.question,
+    this.totalVotesOnOption1,
+    this.totalVotesOnOption2,
+    this.totalVotesOnOption3,
+    this.totalVotesOnOption4,
+    this.index,
+    this.voters,
+    this.pollID});
+
   @override
   _PollVoteState createState() => _PollVoteState();
 }
@@ -37,9 +39,13 @@ class _PollVoteState extends State<PollVote> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   int radioItem;
+
   @override
   Widget build(BuildContext context) {
-    final double deviceHeight = MediaQuery.of(context).size.height;
+    final double deviceHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
     return Scaffold(
       appBar: AppBar(
         title: Text("Vote"),
@@ -179,6 +185,8 @@ class _PollVoteState extends State<PollVote> {
                       },
                     );
                   }
+                  Fluttertoast.showToast(
+                      msg: "Voted!", gravity: ToastGravity.BOTTOM);
                 }
               },
               child: Text("Vote"),
@@ -197,7 +205,8 @@ class _PollVoteState extends State<PollVote> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => PollResults(
+                          builder: (context) =>
+                              PollResults(
                                 option1: widget.option1,
                                 option2: widget.option2,
                                 option3: widget.option3,
