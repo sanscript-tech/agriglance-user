@@ -1,3 +1,4 @@
+import 'package:agriglance/Screens/Home/Drawer/contactAdmin.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_jobs.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_poll.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_questions.dart';
@@ -119,7 +120,10 @@ class _DrawerWindowState extends State<DrawerWindow> {
           ListTile(
             trailing: Icon(Icons.contact_mail),
             title: Text("Contact Admin"),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => ContactAdmin()));
+            },
           ),
         ],
       ),
