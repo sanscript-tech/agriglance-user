@@ -5,7 +5,7 @@ import 'testSubjects.dart';
 class TestHome extends StatelessWidget {
   @override
   Widget categoryButton(String category, BuildContext context) {
-    return RaisedButton(
+    return OutlineButton(
       onPressed: () {
         if (category == category)
           Navigator.push(
@@ -24,9 +24,10 @@ class TestHome extends StatelessWidget {
       // onPressed: () => print(category),
       child: Text(
         category,
-        style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
       ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+      borderSide: BorderSide(color: Color(0xFF3EC3C1), width: 2.0),
     );
   }
 
@@ -40,7 +41,7 @@ class TestHome extends StatelessWidget {
             padding: EdgeInsets.only(top: 8.0),
             child: Text(
               "Category",
-              style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
             ),
           ),
           SizedBox(
@@ -51,11 +52,11 @@ class TestHome extends StatelessWidget {
               SizedBox(
                 width: deviceWidth / 7,
               ),
-              categoryButton("IAS", context),
+              categoryButton("ICAR UG", context),
               SizedBox(
                 width: deviceWidth / 4,
               ),
-              categoryButton("IPS", context),
+              categoryButton("ICAR JRF", context),
             ],
           ),
           SizedBox(
@@ -66,11 +67,11 @@ class TestHome extends StatelessWidget {
               SizedBox(
                 width: deviceWidth / 7,
               ),
-              categoryButton("WBCS", context),
+              categoryButton("ICAR SRF", context),
               SizedBox(
                 width: deviceWidth / 4,
               ),
-              categoryButton("WB SI", context),
+              categoryButton("NET", context),
             ],
           ),
           SizedBox(
@@ -81,12 +82,11 @@ class TestHome extends StatelessWidget {
               SizedBox(
                 width: deviceWidth / 7,
               ),
-              categoryButton("NAVY", context),
+              categoryButton("BHU", context),
               SizedBox(
                 width: deviceWidth / 4,
               ),
-              categoryButton("RAIL", context),
-             
+              categoryButton("AFO", context),
             ],
           ),
         ],
@@ -94,4 +94,3 @@ class TestHome extends StatelessWidget {
     );
   }
 }
-
