@@ -16,22 +16,14 @@ class _VideoHomeState extends State<VideoHome> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        child: Column(
-          children: <Widget>[
-            Icon(
-              Icons.add,
-              size: 40.0,
-            ),
-            Text(
-              "Add video",
-              style: TextStyle(fontSize: 10.0),
-            ),
-          ],
+        child: Icon(
+          Icons.add,
+          size: 30.0,
         ),
         onPressed: () => Navigator.push(
             context, MaterialPageRoute(builder: (context) => SubmitVideo())),
       ),
-      appBar: AppBar(title: Text("Learning videos"), centerTitle: true),
+      appBar: AppBar(title: Text("Learning Videos"), centerTitle: true),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection("Videos").snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -85,7 +77,7 @@ class _VideoHomeState extends State<VideoHome> {
                             children: [
                               Text(
                                 videos['lectureTitle'],
-                                style: GoogleFonts.ranchers(
+                                style: GoogleFonts.notoSans(
                                     fontStyle: FontStyle.normal,
                                     fontSize: 20.0),
                               ),
