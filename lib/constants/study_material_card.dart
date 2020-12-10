@@ -35,48 +35,51 @@ class _StudyMaterialCardState extends State<StudyMaterialCard> {
     return Container(
       padding: EdgeInsets.all(10.0),
       child: Card(
-        color: Colors.yellow[200],
-        elevation: 5,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
+          side: BorderSide(color: Color(0xFF3E83C3), width: 2.0),
+          borderRadius: BorderRadius.circular(15.0),
         ),
         child: Padding(
           padding: EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(
+                "${widget.index + 1}. ${widget.title}".toUpperCase(),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18.0),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: deviceWidth / 20),
+                child: Text(
+                  "Type: " + widget.type,
+                  style: TextStyle(fontSize: 12.0),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: deviceWidth / 20),
+                child: Text(
+                  "Description: " + widget.description,
+                  style: TextStyle(fontSize: 12.0),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: deviceWidth / 20),
+                child: Text(
+                  (widget.postedByName != null && widget.postedByName != "")
+                      ? "Posted By: " + widget.postedByName
+                      : "Posted By: FAnonymous",
+                  style: TextStyle(fontSize: 12.0),
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "Type: " + widget.type,
-                    style: TextStyle(fontSize: 10.0),
-                  ),
-                  Text(
-                    "Subject: " +
-                        (widget.subject == null ? "None" : widget.subject),
-                    style: TextStyle(fontSize: 10.0),
-                  ),
-                ],
-              ),
-              Text(
-                "${widget.index + 1}. ${widget.title}",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
-              ),
-              Text(
-                "Description: " + widget.description,
-                style: TextStyle(fontSize: 10.0),
-              ),
-              Text(
-                "Posted By: " + widget.postedByName,
-                style: TextStyle(fontSize: 10.0),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Click to download and view the papers",
-                    style: TextStyle(fontSize: 7.0),
+                  Padding(
+                    padding: EdgeInsets.only(left: deviceWidth / 20),
+                    child: Text(
+                      "Click to download and view the papers",
+                      style: TextStyle(fontSize: 8.0),
+                    ),
                   ),
                   Text(
                     ((widget.approved == true)
