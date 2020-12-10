@@ -53,9 +53,9 @@ class _AddPollState extends State<AddPoll> {
       'totalVotesOnOption3': 0,
       'option4': _option4,
       'totalVotesOnOption4': 0,
-      'postedByName':auth.currentUser.displayName,
-      'postedBy':auth.currentUser.uid,
-      'createdOn':DateTime.now()
+      'postedByName': auth.currentUser.displayName,
+      'postedBy': auth.currentUser.uid,
+      'createdOn': DateTime.now()
     });
   }
 
@@ -132,8 +132,16 @@ class _AddPollState extends State<AddPoll> {
                 ),
                 Container(
                     padding: EdgeInsets.only(left: 40.0, top: 20.0),
-                    child: RaisedButton(
-                      child: Text('Create Poll'),
+                    child: OutlineButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)),
+                      borderSide:
+                          BorderSide(color: Color(0xFF3EC3C1), width: 2.0),
+                      child: Text(
+                        'Create Poll',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400, fontSize: 16.0),
+                      ),
                       onPressed: _submitForm,
                     )),
               ],
