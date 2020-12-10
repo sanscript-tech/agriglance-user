@@ -85,7 +85,7 @@ class _MyStudyMaterialsState extends State<MyStudyMaterials> {
                                 msg: "PDF Download started...",
                                 gravity: ToastGravity.BOTTOM);
                             // downloadPDF(papers['title'], papers['fileName']);
-                            download(papers['pdfUrl'], papers['fileName']);
+                            //download(papers['pdfUrl'], papers['fileName']);
                           } else {
                             Fluttertoast.showToast(
                                 msg: "PDF Download Failed...",

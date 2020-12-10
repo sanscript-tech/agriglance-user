@@ -31,11 +31,7 @@ class _VideoHomeState extends State<VideoHome> {
         onPressed: () => Navigator.push(
             context, MaterialPageRoute(builder: (context) => SubmitVideo())),
       ),
-      // appBar: AppBar(
-      //   title: Text("Learning Home"),
-          // centerTitle:true
-
-      // ),
+      appBar: AppBar(title: Text("Learning videos"), centerTitle: true),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection("Videos").snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
