@@ -8,7 +8,7 @@ class MaterialsHome extends StatelessWidget {
   @override
   Widget categoryButton(
       String category, BuildContext context, Widget newScreen) {
-    return RaisedButton(
+    return OutlineButton(
       onPressed: () {
         switch (category) {
           case "Study Materials":
@@ -41,9 +41,10 @@ class MaterialsHome extends StatelessWidget {
       },
       child: Text(
         category,
-        style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
       ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+      borderSide: BorderSide(color: Color(0xFF3EC3C1), width: 2.0),
     );
   }
 
@@ -87,15 +88,16 @@ class MaterialsHome extends StatelessWidget {
               SizedBox(
                 width: deviceWidth / 7,
               ),
-              RaisedButton(
+              OutlineButton(
                 onPressed: () => Navigator.push(context,
                     MaterialPageRoute(builder: (context) => PollHome())),
                 child: Text(
                   "Polls",
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
                 ),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50)),
+                borderSide: BorderSide(color: Color(0xFF3EC3C1), width: 2.0),
               )
             ],
           )
