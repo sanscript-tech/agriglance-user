@@ -9,22 +9,14 @@ class NewsHome extends StatefulWidget {
 }
 
 class _NewsHomeState extends State<NewsHome> {
-  String _newsPostedBy="";
+  String _newsPostedBy = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       floatingActionButton: FloatingActionButton(
-        child: Column(
-          children: <Widget>[
-            Icon(
-              Icons.add,
-              size: 40.0,
-            ),
-            Text(
-              "Add News",
-              style: TextStyle(fontSize: 10.0),
-            ),
-          ],
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.add,
+          size: 30.0,
         ),
         onPressed: () => Navigator.push(
             context, MaterialPageRoute(builder: (context) => CreateNews())),
@@ -44,19 +36,16 @@ class _NewsHomeState extends State<NewsHome> {
             itemCount: snapshot.data.docs.length,
             itemBuilder: (context, index) {
               DocumentSnapshot news = snapshot.data.docs[index];
-              _newsPostedBy=news['uname']!=""?news['uname']:"Anonymous";
-
+              _newsPostedBy = news['uname'] != "" ? news['uname'] : "Anonymous";
 
               if (news['isApprovedByAdmin']) {
                 return NewsCard(
-                  newsTitle:news['title'],
-                  newsDescription:news['description'],
-                  newsImage:news['imageUrl'],
-                  newsFile:news['fileUrl'],
-                  newsDate:news['postedAt'],
-                  newsPostedBy:_newsPostedBy
-
-                );
+                    newsTitle: news['title'],
+                    newsDescription: news['description'],
+                    newsImage: news['imageUrl'],
+                    newsFile: news['fileUrl'],
+                    newsDate: news['postedAt'],
+                    newsPostedBy: _newsPostedBy);
               }
 
               return null;
