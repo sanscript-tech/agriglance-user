@@ -47,7 +47,8 @@ class _AddJobsState extends State<AddJobs> {
       'qualificationsRequired': _jobSkills,
       'postedBy': widget.uid,
       'postedByName': widget.uName,
-      'organizationLink': _orgLink
+      'organizationLink': _orgLink,
+      'postedAt': DateTime.now()
     });
   }
 

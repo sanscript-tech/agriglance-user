@@ -17,7 +17,10 @@ class _JobsHomeState extends State<JobsHome> {
     return Scaffold(
       body: Container(
         child: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection("jobs").snapshots(),
+          stream: FirebaseFirestore.instance
+              .collection("jobs")
+              .orderBy('postedAt')
+              .snapshots(),
           builder: (context, snapshot) {
             return !snapshot.hasData
                 ? Text("Loading")

@@ -1,6 +1,7 @@
 import 'package:agriglance/Services/authentication_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class SignUp extends StatefulWidget {
@@ -23,6 +24,7 @@ class _SignUpState extends State<SignUp> {
   final TextStyle linkStyle = TextStyle(color: Colors.blue, fontSize: 20.0);
   var opacity = 0.0;
   String dob = "";
+  var response;
 
   @override
   Widget build(BuildContext context) {
@@ -77,17 +79,26 @@ class _SignUpState extends State<SignUp> {
                 padding: const EdgeInsets.only(top: 16.0),
                 child: RaisedButton(
                   color: Colors.yellow,
-                  onPressed: () {
+                  onPressed: () async {
                     setState(() {
                       opacity = 1.0;
                     });
-                    context.read<AuthenticationService>().signUp(
+                    response = await context.read<AuthenticationService>().signUp(
                         emailController.text,
                         passwordController.text,
                         nameController.text,
                         dobController.text,
                         qualificationController.text,
                         universityController.text);
+                    if (response != "Signed Up") {
+                      setState(() {
+                        opacity = 0.0;
+                      });
+                      Fluttertoast.showToast(
+                          msg: response,
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.BOTTOM);
+                    }
                   },
                   child: Text(
                     "Sign Up",

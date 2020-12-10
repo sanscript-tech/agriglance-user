@@ -99,6 +99,7 @@ class _MyStudyMaterialsState extends State<MyStudyMaterials> {
                           pdfUrl: papers['pdfUrl'],
                           postedByName: papers['postedByName'],
                           fileName: papers['fileName'],
+                          approved: papers['isApprovedByAdmin'],
                           index: index,
                         ),
                       );

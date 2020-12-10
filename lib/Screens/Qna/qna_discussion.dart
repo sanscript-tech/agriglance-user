@@ -33,6 +33,7 @@ class _DiscussionState extends State<Discussion> {
           .add({
         "content": myController.text,
         "postedBy": FirebaseAuth.instance.currentUser.displayName,
+        "timeOfComment": DateTime.now(),
       });
       myController.text = "";
     }
@@ -73,6 +74,7 @@ class _DiscussionState extends State<Discussion> {
                   .collection("qna")
                   .doc(widget.qid)
                   .collection("comments")
+                  .orderBy('timeOfComment')
                   .snapshots(),
               builder: (context, snapshot) {
                 return !snapshot.hasData

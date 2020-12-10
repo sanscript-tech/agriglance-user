@@ -111,6 +111,7 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
                             pdfUrl: papers['pdfUrl'],
                             postedByName: papers['postedByName'],
                             fileName: papers['fileName'],
+                            approved: papers['isApprovedByAdmin'],
                             index: index,
                           ),
                         );

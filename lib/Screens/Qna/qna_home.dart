@@ -16,7 +16,10 @@ class _QnaHomeState extends State<QnaHome> {
     return Scaffold(
       body: Container(
         child: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection("qna").snapshots(),
+          stream: FirebaseFirestore.instance
+              .collection("qna")
+              .orderBy('askedOn')
+              .snapshots(),
           builder: (context, snapshot) {
             return !snapshot.hasData
                 ? Text("Loading")
@@ -30,7 +33,7 @@ class _QnaHomeState extends State<QnaHome> {
                         description: q['questionDesc'],
                         postedBy: q['postedByName'],
                         index: index,
-                        qid:q.id,
+                        qid: q.id,
                       );
                     },
                   );

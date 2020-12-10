@@ -1,6 +1,8 @@
+import 'package:agriglance/Screens/Home/Drawer/contactAdmin.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_jobs.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_poll.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_questions.dart';
+import 'package:agriglance/Screens/Home/Drawer/my_quiz.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_study_materials.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_videos.dart';
 import 'package:agriglance/Services/firestore_service.dart';
@@ -92,6 +94,14 @@ class _DrawerWindowState extends State<DrawerWindow> {
             },
           ),
           ListTile(
+            trailing: Icon(Icons.lightbulb),
+            title: Text("My Quiz"),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MyQuiz()));
+            },
+          ),
+          ListTile(
             trailing: Icon(Icons.how_to_vote),
             title: Text("My Poll"),
             onTap: () {
@@ -110,7 +120,10 @@ class _DrawerWindowState extends State<DrawerWindow> {
           ListTile(
             trailing: Icon(Icons.contact_mail),
             title: Text("Contact Admin"),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => ContactAdmin()));
+            },
           ),
         ],
       ),

@@ -1,21 +1,19 @@
 import 'package:agriglance/Screens/Home/Drawer/myJobShowApplications.dart';
-import 'package:agriglance/Screens/Jobs/job_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class MyJobCard extends StatefulWidget {
-  String jobType;
-  String orgName;
-  String jobDesc;
-  String jobSubject;
-  String jobSkills;
-  int jobPosts;
-  String salary;
-  String orgLink;
-  String postedByName;
-  int index;
-  String jobId;
+  final String jobType;
+  final String orgName;
+  final String jobDesc;
+  final String jobSubject;
+  final String jobSkills;
+  final int jobPosts;
+  final String salary;
+  final String orgLink;
+  final String postedByName;
+  final int index;
+  final String jobId;
 
   MyJobCard(
       {this.jobDesc,
@@ -43,8 +41,6 @@ class _MyJobCardState extends State<MyJobCard> {
   }
   @override
   Widget build(BuildContext context) {
-    double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
     return Container(
       padding: EdgeInsets.all(10.0),
       child: GestureDetector(
