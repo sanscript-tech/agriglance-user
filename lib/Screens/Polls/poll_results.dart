@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class PollResults extends StatefulWidget {
   final String option1;
@@ -34,27 +35,100 @@ class _PollResultsState extends State<PollResults> {
         title: Text("Results"),
         centerTitle: true,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text(
-            "${widget.option1}: ${((widget.totalVotesOnOption1 / totalVotes) * 100).toStringAsPrecision(4)}%",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0),
-          ),
-          Text(
-            "${widget.option2}: ${((widget.totalVotesOnOption2 / totalVotes) * 100).toStringAsPrecision(4)}%",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0),
-          ),
-          Text(
-            "${widget.option3}: ${((widget.totalVotesOnOption3 / totalVotes) * 100).toStringAsPrecision(4)}%",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0),
-          ),
-          Text(
-            "${widget.option4}: ${((widget.totalVotesOnOption4 / totalVotes) * 100).toStringAsPrecision(4)}%",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0),
-          )
-        ],
+      body: Container(
+        padding: EdgeInsets.all(MediaQuery.of(context).size.height / 30),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text(
+                  "${widget.option1}: ",
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25.0),
+                ),
+                CircularPercentIndicator(
+                  animationDuration: 200,
+                  animateFromLastPercent: true,
+                  arcType: ArcType.FULL,
+                  arcBackgroundColor: Colors.black12,
+                  backgroundColor: Colors.white,
+                  percent: widget.totalVotesOnOption1 / totalVotes,
+                  animation: true,
+                  lineWidth: 12.0,
+                  center: Text(
+                      "${((widget.totalVotesOnOption1 / totalVotes) * 100).toStringAsPrecision(3)}%"),
+                  circularStrokeCap: CircularStrokeCap.butt,
+                  radius: 100,
+                )
+              ],
+            ),
+            Row(
+              children: [
+                Text(
+                  "${widget.option2}: ",
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25.0),
+                ),
+                CircularPercentIndicator(
+                  animationDuration: 200,
+                  animateFromLastPercent: true,
+                  arcType: ArcType.FULL,
+                  arcBackgroundColor: Colors.black12,
+                  backgroundColor: Colors.white,
+                  percent: widget.totalVotesOnOption2 / totalVotes,
+                  animation: true,
+                  lineWidth: 12.0,
+                  circularStrokeCap: CircularStrokeCap.butt,
+                  radius: 100,
+                  center: Text(
+                      "${((widget.totalVotesOnOption2 / totalVotes) * 100).toStringAsPrecision(3)}%"),
+                )
+              ],
+            ),
+            Row(
+              children: [
+                Text(
+                  "${widget.option3}: ",
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25.0),
+                ),
+                CircularPercentIndicator(
+                  animationDuration: 200,
+                  animateFromLastPercent: true,
+                  arcType: ArcType.FULL,
+                  arcBackgroundColor: Colors.black12,
+                  backgroundColor: Colors.white,
+                  percent: widget.totalVotesOnOption3 / totalVotes,
+                  animation: true,
+                  lineWidth: 12.0,
+                  circularStrokeCap: CircularStrokeCap.butt,
+                  radius: 100,
+                  center: Text(
+                      "${((widget.totalVotesOnOption3 / totalVotes) * 100).toStringAsPrecision(3)}%"),
+                )
+              ],
+            ),
+            Row(
+              children: [
+                Text(
+                  "${widget.option4}: ",
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25.0),
+                ),
+                CircularPercentIndicator(
+                  animationDuration: 200,
+                  animateFromLastPercent: true,
+                  arcType: ArcType.FULL,
+                  arcBackgroundColor: Colors.black12,
+                  backgroundColor: Colors.white,
+                  percent: widget.totalVotesOnOption4 / totalVotes,
+                  animation: true,
+                  lineWidth: 12.0,
+                  circularStrokeCap: CircularStrokeCap.butt,
+                  radius: 100,
+                  center: Text(
+                      "${((widget.totalVotesOnOption4 / totalVotes) * 100).toStringAsPrecision(3)}%"),
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
