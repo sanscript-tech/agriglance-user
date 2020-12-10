@@ -39,19 +39,19 @@ class _PollResultsState extends State<PollResults> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text(
-            "${widget.option1}: ${(widget.totalVotesOnOption1 / totalVotes) * 100}%",
+            "${widget.option1}: ${((widget.totalVotesOnOption1 / totalVotes) * 100).toStringAsPrecision(4)}%",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0),
           ),
           Text(
-            "${widget.option2}: ${(widget.totalVotesOnOption2 / totalVotes) * 100}%",
+            "${widget.option2}: ${((widget.totalVotesOnOption2 / totalVotes) * 100).toStringAsPrecision(4)}%",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0),
           ),
           Text(
-            "${widget.option3}: ${(widget.totalVotesOnOption3 / totalVotes) * 100}%",
+            "${widget.option3}: ${((widget.totalVotesOnOption3 / totalVotes) * 100).toStringAsPrecision(4)}%",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0),
           ),
           Text(
-            "${widget.option4}: ${(widget.totalVotesOnOption4 / totalVotes) * 100}%",
+            "${widget.option4}: ${((widget.totalVotesOnOption4 / totalVotes) * 100).toStringAsPrecision(4)}%",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0),
           )
         ],
