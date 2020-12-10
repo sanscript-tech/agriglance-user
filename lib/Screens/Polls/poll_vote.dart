@@ -18,18 +18,19 @@ class PollVote extends StatefulWidget {
   final List voters;
   final String pollID;
 
-  PollVote({this.option1,
-    this.option2,
-    this.option3,
-    this.option4,
-    this.question,
-    this.totalVotesOnOption1,
-    this.totalVotesOnOption2,
-    this.totalVotesOnOption3,
-    this.totalVotesOnOption4,
-    this.index,
-    this.voters,
-    this.pollID});
+  PollVote(
+      {this.option1,
+      this.option2,
+      this.option3,
+      this.option4,
+      this.question,
+      this.totalVotesOnOption1,
+      this.totalVotesOnOption2,
+      this.totalVotesOnOption3,
+      this.totalVotesOnOption4,
+      this.index,
+      this.voters,
+      this.pollID});
 
   @override
   _PollVoteState createState() => _PollVoteState();
@@ -42,10 +43,7 @@ class _PollVoteState extends State<PollVote> {
 
   @override
   Widget build(BuildContext context) {
-    final double deviceHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
+    final double deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: Text("Vote"),
@@ -57,9 +55,12 @@ class _PollVoteState extends State<PollVote> {
           SizedBox(
             height: deviceHeight / 20,
           ),
-          Text(
-            "Q. ${widget.question}",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              "Q. ${widget.question}".toUpperCase(),
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20.0),
+            ),
           ),
           RadioListTile(
             groupValue: radioItem,
@@ -102,7 +103,10 @@ class _PollVoteState extends State<PollVote> {
             },
           ),
           Center(
-            child: RaisedButton(
+            child: OutlineButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50)),
+              borderSide: BorderSide(color: Color(0xFF3EC3C1), width: 2.0),
               onPressed: () async {
                 DocumentSnapshot doc = await FirebaseFirestore.instance
                     .collection("polls")
@@ -189,12 +193,21 @@ class _PollVoteState extends State<PollVote> {
                       msg: "Voted!", gravity: ToastGravity.BOTTOM);
                 }
               },
-              child: Text("Vote"),
+              child: Text(
+                "Vote",
+                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.0),
+              ),
             ),
           ),
           Center(
-            child: RaisedButton(
-              child: Text("Check Results"),
+            child: OutlineButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50)),
+              borderSide: BorderSide(color: Color(0xFF3EC3C1), width: 2.0),
+              child: Text(
+                "Check Results",
+                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.0),
+              ),
               onPressed: () async {
                 DocumentSnapshot doc = await FirebaseFirestore.instance
                     .collection("polls")
@@ -205,8 +218,7 @@ class _PollVoteState extends State<PollVote> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              PollResults(
+                          builder: (context) => PollResults(
                                 option1: widget.option1,
                                 option2: widget.option2,
                                 option3: widget.option3,
