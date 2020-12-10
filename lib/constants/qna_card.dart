@@ -28,7 +28,7 @@ class _QnaCardState extends State<QnaCard> {
       padding: EdgeInsets.all(10.0),
       child: Card(
         shape: RoundedRectangleBorder(
-          side: BorderSide(color: Colors.brown, width: 3.0),
+          side: BorderSide(color: Colors.orange, width: 3.0),
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: Padding(

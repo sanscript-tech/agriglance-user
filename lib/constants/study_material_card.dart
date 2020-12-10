@@ -33,7 +33,7 @@ class _StudyMaterialCardState extends State<StudyMaterialCard> {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     return Container(
-      padding: EdgeInsets.all(10.0),
+      padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
       child: Card(
         shape: RoundedRectangleBorder(
           side: BorderSide(color: Color(0xFF3E83C3), width: 2.0),

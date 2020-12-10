@@ -3,38 +3,34 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'testSubjects.dart';
 
 class TestHome extends StatelessWidget {
-  @override
   Widget categoryButton(String category, BuildContext context) {
-    return OutlineButton(
-      onPressed: () {
-        if (category == category)
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => TestSubject(
-                        category: category,
-                      )));
-        else {
-          Scaffold.of(context).showSnackBar(SnackBar(
-            content: Text("Not implemented yet"),
-            duration: Duration(seconds: 1),
-          ));
-        }
-      },
-      // onPressed: () => print(category),
-      child: Text(
-        category,
-        style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
-      ),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-      borderSide: BorderSide(color: Color(0xFF3EC3C1), width: 2.0),
+    return ButtonTheme(
+      minWidth: MediaQuery.of(context).size.width * 0.4,
+      height: MediaQuery.of(context).size.width * 0.2,
+      child: OutlineButton(
+          splashColor: Colors.grey,
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => TestSubject(
+                          category: category,
+                        )));
+          },
+          child: Text(
+            category,
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
+          ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          borderSide: BorderSide(color: Color(0xFF3EC3C1), width: 10.0)),
     );
   }
 
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    return Container(
+    return SingleChildScrollView(
       child: Column(
         children: [
           Padding(
@@ -48,14 +44,9 @@ class TestHome extends StatelessWidget {
             height: deviceHeight / 15,
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SizedBox(
-                width: deviceWidth / 7,
-              ),
               categoryButton("ICAR UG", context),
-              SizedBox(
-                width: deviceWidth / 4,
-              ),
               categoryButton("ICAR JRF", context),
             ],
           ),
@@ -63,14 +54,9 @@ class TestHome extends StatelessWidget {
             height: deviceHeight / 15,
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SizedBox(
-                width: deviceWidth / 7,
-              ),
               categoryButton("ICAR SRF", context),
-              SizedBox(
-                width: deviceWidth / 4,
-              ),
               categoryButton("NET", context),
             ],
           ),
@@ -78,14 +64,9 @@ class TestHome extends StatelessWidget {
             height: deviceHeight / 15,
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SizedBox(
-                width: deviceWidth / 7,
-              ),
               categoryButton("BHU", context),
-              SizedBox(
-                width: deviceWidth / 4,
-              ),
               categoryButton("AFO", context),
             ],
           ),

@@ -25,7 +25,10 @@ class _VideoHomeState extends State<VideoHome> {
       ),
       appBar: AppBar(title: Text("Learning Videos"), centerTitle: true),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection("Videos").snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection("Videos")
+            .orderBy('isApprovedByAdmin', descending: true)
+            .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
             return Center(
