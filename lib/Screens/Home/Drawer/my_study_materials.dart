@@ -7,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -38,12 +37,12 @@ class _MyStudyMaterialsState extends State<MyStudyMaterials> {
         _port.sendPort, 'downloader_send_port');
     _port.listen((dynamic data) {
       String id = data[0];
-      DownloadTaskStatus status = data[1];
+     // DownloadTaskStatus status = data[1];
       int progress = data[2];
       setState(() {});
     });
 
-    FlutterDownloader.registerCallback(downloadCallback);
+   // FlutterDownloader.registerCallback(downloadCallback);
   }
 
   @override
@@ -52,12 +51,12 @@ class _MyStudyMaterialsState extends State<MyStudyMaterials> {
     super.dispose();
   }
 
-  static void downloadCallback(
-      String id, DownloadTaskStatus status, int progress) {
-    final SendPort send =
-        IsolateNameServer.lookupPortByName('downloader_send_port');
-    send.send([id, status, progress]);
-  }
+  // static void downloadCallback(
+  //     String id, DownloadTaskStatus status, int progress) {
+  //   final SendPort send =
+  //       IsolateNameServer.lookupPortByName('downloader_send_port');
+  //   send.send([id, status, progress]);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +85,7 @@ class _MyStudyMaterialsState extends State<MyStudyMaterials> {
                                 msg: "PDF Download started...",
                                 gravity: ToastGravity.BOTTOM);
                             // downloadPDF(papers['title'], papers['fileName']);
-                            download(papers['pdfUrl'], papers['fileName']);
+                            //download(papers['pdfUrl'], papers['fileName']);
                           } else {
                             Fluttertoast.showToast(
                                 msg: "PDF Download Failed...",
@@ -111,14 +110,14 @@ class _MyStudyMaterialsState extends State<MyStudyMaterials> {
     );
   }
 
-  Future<void> download(String url, String fileName) async {
-    final taskId = await FlutterDownloader.enqueue(
-        url: url,
-        savedDir:
-            await getExternalStorageDirectory().then((value) => value.path),
-        showNotification: true,
-        openFileFromNotification: true,
-        fileName: fileName);
-    await FlutterDownloader.open(taskId: taskId);
-  }
+  // Future<void> download(String url, String fileName) async {
+  //   final taskId = await FlutterDownloader.enqueue(
+  //       url: url,
+  //       savedDir:
+  //           await getExternalStorageDirectory().then((value) => value.path),
+  //       showNotification: true,
+  //       openFileFromNotification: true,
+  //       fileName: fileName);
+  //  // await FlutterDownloader.open(taskId: taskId);
+  // }
 }

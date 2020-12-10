@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Quiz extends StatefulWidget {
   @override
@@ -15,6 +16,14 @@ class _QuizState extends State<Quiz> {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+    var _questions = new List<String>(numOfQues);
+    var _options1 = new List<String>(numOfQues);
+    var _options2 = new List<String>(numOfQues);
+    var _options3 = new List<String>(numOfQues);
+    var _options4 = new List<String>(numOfQues);
+    var _rightOption=new List<String>(numOfQues);
+
     return Scaffold(
         appBar: AppBar(
           title: Text("Create Quiz"),
@@ -24,7 +33,7 @@ class _QuizState extends State<Quiz> {
             child: Form(
           key: _formKey,
           child: Column(children: <Widget>[
-            Text("Subject type"),
+            Text("Subject type and quiz name"),
             TextFormField(
               inputFormatters: [LengthLimitingTextInputFormatter(30)],
               validator: (val) =>
@@ -48,28 +57,94 @@ class _QuizState extends State<Quiz> {
               ),
             ),
             Text("Number of questions"),
-            TextField(
+            TextFormField(
+              // ignore: deprecated_member_use
+              inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+
+              keyboardType: TextInputType.number,
               controller: eCtrl,
-              onSubmitted: (val) {
-                numOfQues = int.parse(val);
+
+              onChanged: (value) {
+                setState(() {
+                  numOfQues = int.parse(value);
+                });
               },
             ),
             Expanded(
                 child: ListView.builder(
                     itemCount: numOfQues,
                     itemBuilder: (BuildContext context, int index) {
-                      return Text("dv");
+                      return Container(
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: <Widget>[
+                              TextFormField(
+                                decoration:
+                                    InputDecoration(hintText: "Enter Question"),
+                                validator: (val) =>
+                                    val.isEmpty ? "question is required" : null,
+                                onSaved: (val) => _questions[index] = val,
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  TextFormField(
+                                    decoration: InputDecoration(
+                                        hintText: "Enter option a"),
+                                    validator: (val) => val.isEmpty
+                                        ? "option is required"
+                                        : null,
+                                    onSaved: (val) => _options1[index] = val,
+                                  ),
+                                  TextFormField(
+                                    decoration: InputDecoration(
+                                        hintText: "Enter option b"),
+                                    validator: (val) => val.isEmpty
+                                        ? "option is required"
+                                        : null,
+                                    onSaved: (val) => _options2[index] = val,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  TextFormField(
+                                    decoration: InputDecoration(
+                                        hintText: "Enter option c"),
+                                    validator: (val) => val.isEmpty
+                                        ? "option is required"
+                                        : null,
+                                    onSaved: (val) => _options3[index] = val,
+                                  ),
+                                  TextFormField(
+                                    decoration: InputDecoration(
+                                        hintText: "Enter option d"),
+                                    validator: (val) => val.isEmpty
+                                        ? "option is required"
+                                        : null,
+                                    onSaved: (val) => _options4[index] = val,
+                                  ),
+                                ],
+                              ),
+
+                              Center(
+                                child: TextFormField(
+                                   decoration: InputDecoration(
+                                        hintText: "Enter correct answer"),
+                                    validator: (val) => val.isEmpty
+                                        ? "option is required"
+                                        : null,
+                                    onSaved: (val) => _rightOption[index] = val,
+
+                                ),
+
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
                     }))
           ]),
         )));
   }
-}
-
-class QuizData extends ChangeNotifier {
-  String _ques = "";
-  String _option1 = "";
-  String _option2 = "";
-  String _option3 = "";
-  String _option4 = "";
-  String _rightAns = "";
 }

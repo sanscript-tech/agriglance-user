@@ -1,11 +1,14 @@
 import 'package:agriglance/Screens/Test/add_test.dart';
+import 'package:agriglance/Screens/Test/questions_list.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../constants/test_card.dart';
 
 class SingleSubject extends StatefulWidget {
   String subjectName;
   int numOfTests;
-  SingleSubject({this.subjectName, this.numOfTests});
+  String category;
+  SingleSubject({this.category,this.subjectName, this.numOfTests});
 
   @override
   _SingleSubjectState createState() => _SingleSubjectState();
@@ -21,13 +24,25 @@ class _SingleSubjectState extends State<SingleSubject> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           tooltip: "Add test",
-          child: Icon(Icons.add),
+          child: Column(
+            children: <Widget>[
+              Icon(
+                Icons.add,
+                size: 40.0,
+              ),
+              Text(
+                "Add Test",
+                style: TextStyle(fontSize: 10.0),
+              ),
+            ],
+          ),
           backgroundColor: Colors.amber,
           onPressed: () {
             Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => AddTest(
+                      category: widget.category,
                           testSubject: widget.subjectName,
                         )));
           }),
@@ -53,74 +68,39 @@ class _SingleSubjectState extends State<SingleSubject> {
               ),
               Expanded(
                 child: StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection("tests").snapshots(),
-                  builder: (context,snapshot){
-                    if(!snapshot.hasData){
+                  stream: FirebaseFirestore.instance
+                      .collection("testSubjects")
+                      .doc(widget.subjectName)
+                      .collection("testNames")
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
                       return Text("Loading");
                     }
 
-                    final testNames=snapshot.data;
-                    List<TestCard> testsWidgets=[];
-                    for(var test in testNames ){
-                      final testWidget=TestCard(testName:test);
+                    final testNames = snapshot.data.docs;
+                    List<TestCard> testsWidgets = [];
+                    for (var test in testNames) {
+                      final testName = test.get('testName').toString();
+                      // final numQuestions =
+                      //     test.get('numOfQuestions').toString();
+                      final testWidget = TestCard(
+                        testName: testName,
+                        subjectName: widget.subjectName,
+                      );
 
                       testsWidgets.add(testWidget);
-
-
                     }
 
-                    return(
-                      ListView(children:testsWidgets)
-                    );
-
-                
-             
+                    return (ListView(children: testsWidgets));
                   },
                 ),
-                  ),
+              ),
             ],
           )),
     );
   }
 }
-
-class TestCard extends StatelessWidget {
-  TestCard({this.testName});
-  final String testName;
-  final String numQuestions="4";
-  bool isAvailable = true;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-
-      },
-      child: Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Container(
-      decoration: BoxDecoration(
-          border: Border(
-              right: BorderSide(color: Colors.black, width: 2.0),
-              left: BorderSide(color: Colors.black, width: 2.0),
-              top: BorderSide(color: Colors.black, width: 2.0),
-              bottom: BorderSide(color: Colors.black, width: 2.0))),
-      child: (ListTile(
-        title: isAvailable
-            ? Text(
-                "Test-$testName - $numQuestions Questions \n by admin",
-                style: TextStyle(fontSize: 22.0),
-              )
-            : Text("$testName- Not Available",
-                style: TextStyle(fontSize: 30.0)),
-      )),
-    ),
-      )
-    );
-  }
-}
-
-
 
 class Drawhorizontalline extends CustomPainter {
   Paint _paint;

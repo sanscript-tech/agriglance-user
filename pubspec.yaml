@@ -23,18 +23,22 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: ^0.5.2
-  firebase_analytics: ^6.2.0
-  firebase_auth: ^0.18.3
+  firebase_core: ^0.5.3
+  firebase_analytics: ^6.3.0
+  firebase_auth: ^0.18.4+1
   provider: ^4.3.2+2
-  cloud_firestore: ^0.14.3
+  cloud_firestore: ^0.14.4
   flutter_spinkit: ^4.1.2+1
   google_sign_in: ^4.5.6
   fluttertoast: ^7.1.4
-  firebase_storage: ^5.1.0
+  firebase_storage: ^5.2.0
   file_picker: ^2.1.0
   path_provider: ^1.6.24
   permission_handler: ^5.0.1+1
+  http: ^0.12.2
+  youtube_player_flutter: ^7.0.0+7
+  cached_network_image: ^2.4.1
+  google_fonts: ^1.1.1
   flutter_downloader: ^1.5.2
   firebase_auth_web: ^0.3.2+3
   mailto: ^1.0.0

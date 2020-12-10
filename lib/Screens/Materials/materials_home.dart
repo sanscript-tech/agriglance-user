@@ -1,6 +1,8 @@
 import 'package:agriglance/Screens/Polls/poll_home.dart';
 import 'package:agriglance/Screens/StudyMaterials/study_materials__home.dart';
+import 'package:agriglance/Screens/Videos/video_home.dart';
 import 'package:flutter/material.dart';
+import '../News/news_home.dart';
 
 class MaterialsHome extends StatelessWidget {
   @override
@@ -13,8 +15,21 @@ class MaterialsHome extends StatelessWidget {
             {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => newScreen));
+              break;
             }
-            break;
+          case "Videos":
+            {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => VideoHome()));
+              break;
+            }
+          case "News and Current Affairs":
+            {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => NewsHome()));
+              break;
+            }
+
           default:
             {
               Scaffold.of(context).showSnackBar(SnackBar(
