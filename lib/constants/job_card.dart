@@ -64,7 +64,7 @@ class _JobCardState extends State<JobCard> {
                     ))),
         child: Card(
           shape: RoundedRectangleBorder(
-            side: BorderSide(),
+            side: BorderSide(color: Colors.indigo, width: 3.0),
             borderRadius: BorderRadius.circular(15.0),
           ),
           child: Padding(

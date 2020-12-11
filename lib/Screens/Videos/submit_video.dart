@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,6 +15,7 @@ class _SubmitVideoState extends State<SubmitVideo> {
   String _youtubeChannelKey = "";
   String _embedVideo = "";
   bool _isApproved = false;
+  String _postedBy = "";
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +94,11 @@ class _SubmitVideoState extends State<SubmitVideo> {
                         "isApprovedByAdmin": _isApproved,
                         "lectureTitle": _lectureTitle,
                         "videoUrl": _embedVideo,
-                        "youtubeChannelName": _youtubeChannelKey
+                        "youtubeChannelName": _youtubeChannelKey,
+                        "postedBy":
+                            FirebaseAuth.instance.currentUser.uid != null
+                                ? FirebaseAuth.instance.currentUser.uid
+                                : "Anonymous"
                       });
 
                       _formKey.currentState.reset();

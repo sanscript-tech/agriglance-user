@@ -93,14 +93,14 @@ class _DrawerWindowState extends State<DrawerWindow> {
                   MaterialPageRoute(builder: (context) => MyQuestions()));
             },
           ),
-          ListTile(
-            trailing: Icon(Icons.lightbulb),
-            title: Text("My Quiz"),
-            onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => MyQuiz()));
-            },
-          ),
+          // ListTile(
+          //   trailing: Icon(Icons.lightbulb),
+          //   title: Text("My Quiz"),
+          //   onTap: () {
+          //     Navigator.push(
+          //         context, MaterialPageRoute(builder: (context) => MyQuiz()));
+          //   },
+          // ),
           ListTile(
             trailing: Icon(Icons.how_to_vote),
             title: Text("My Poll"),
