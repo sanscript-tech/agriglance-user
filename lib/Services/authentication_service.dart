@@ -26,13 +26,13 @@ class AuthenticationService {
     }
   }
 
-  Future<String> signUp(String email, String password, String fullName, String dob,
-      String qualification, String university) async {
+  Future<String> signUp(String email, String password, String fullName,
+      String dob, String qualification, String university) async {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
-      _currentUser = UserModel(_firebaseAuth.currentUser.uid, fullName, email, dob,
-          qualification, university);
+      _currentUser = UserModel(_firebaseAuth.currentUser.uid, fullName, email,
+          dob, qualification, university, 0);
       await _firestoreService.createOrUpdateUser(_currentUser);
       return "Signed Up";
     } on FirebaseAuthException catch (e) {
@@ -67,10 +67,10 @@ class AuthenticationService {
 
       print('signInWithGoogle succeeded: $user');
       if (_firestoreService.isUserRegistered(user.uid) == null) {
-        _currentUser = UserModel(user.uid, "", user.email,"", "", "");
+        _currentUser = UserModel(user.uid, "", user.email, "", "", "", 0);
         await _firestoreService.createOrUpdateUser(_currentUser);
       } else {
-        await _populateCurrentUser(user);
+        await _populateCurrentUser(currentUser);
       }
       return '$user';
     }
@@ -82,11 +82,28 @@ class AuthenticationService {
       String qualification, String university) async {
     try {
       _firebaseAuth.currentUser.updateEmail(email);
-      _currentUser = UserModel(_firebaseAuth.currentUser.uid, fullName, email, dob,
-          qualification, university);
+      _currentUser = UserModel(_firebaseAuth.currentUser.uid, fullName, email,
+          dob, qualification, university, 0);
       await _firestoreService.createOrUpdateUser(_currentUser);
       return "Signed Up";
     } on FirebaseAuthException catch (e) {
+      return e.message;
+    }
+  }
+
+  Future<String> addPoints(String uid, int addPoints) async {
+    try {
+      _currentUser = UserModel(
+          uid,
+          _currentUser.fullName,
+          currentUser.email,
+          currentUser.dob,
+          currentUser.qualification,
+          currentUser.university,
+          (currentUser.points==null ? 0:currentUser.points) + addPoints);
+      await _firestoreService.createOrUpdateUser(_currentUser);
+      return "true";
+    } on FirebaseException catch (e) {
       return e.message;
     }
   }

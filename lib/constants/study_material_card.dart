@@ -77,7 +77,7 @@ class _StudyMaterialCardState extends State<StudyMaterialCard> {
                   Padding(
                     padding: EdgeInsets.only(left: deviceWidth / 20),
                     child: Text(
-                      "Click to download and view the papers",
+                      "Click to view Options",
                       style: TextStyle(fontSize: 8.0),
                     ),
                   ),

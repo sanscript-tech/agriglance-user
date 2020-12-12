@@ -1,7 +1,9 @@
+import 'package:agriglance/Services/authentication_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 class AddJobs extends StatefulWidget {
   String uid;
@@ -32,13 +34,14 @@ class _AddJobsState extends State<AddJobs> {
     } else {
       form.save();
     }
+    context.read<AuthenticationService>().addPoints(widget.uid, 5).then((value) => print("**********************$value****************"));
     _uploadJob();
     Fluttertoast.showToast(
         msg: "Submitted Successfully", gravity: ToastGravity.BOTTOM);
     Navigator.pop(context);
   }
 
-   Future<void> _uploadJob() async {
+  Future<void> _uploadJob() async {
     await FirebaseFirestore.instance.collection("jobs").add({
       'isApprovedByAdmin': false,
       'organizationName': _orgName,

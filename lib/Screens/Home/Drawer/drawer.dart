@@ -1,5 +1,6 @@
 import 'package:agriglance/Screens/Home/Drawer/contactAdmin.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_jobs.dart';
+import 'package:agriglance/Screens/Home/Drawer/my_points.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_poll.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_questions.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_quiz.dart';
@@ -71,6 +72,14 @@ class _DrawerWindowState extends State<DrawerWindow> {
             },
           ),
           ListTile(
+            trailing: Icon(Icons.monetization_on),
+            title: Text("My Points"),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => MyPoints()));
+            },
+          ),
+          ListTile(
             trailing: Icon(Icons.book),
             title: Text("My Study Materials"),
             onTap: () {
@@ -95,7 +104,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
             },
           ),
           ListTile(
-            trailing: Icon(Icons.lightbulb),
+            trailing: Icon(Icons.trending_up),
             title: Text("My News and CurrentAffairs"),
             onTap: () {
               Navigator.push(
