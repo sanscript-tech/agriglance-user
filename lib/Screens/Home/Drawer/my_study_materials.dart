@@ -18,6 +18,8 @@ class MyStudyMaterials extends StatefulWidget {
   _MyStudyMaterialsState createState() => _MyStudyMaterialsState();
 }
 
+enum options { View, Download, Share }
+
 class _MyStudyMaterialsState extends State<MyStudyMaterials> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final papersCollectionReference =
@@ -81,42 +83,27 @@ class _MyStudyMaterialsState extends State<MyStudyMaterials> {
                     itemBuilder: (context, index) {
                       DocumentSnapshot papers = snapshot.data.documents[index];
                       return GestureDetector(
-                        onTap: () {
+                        onTap: () async {
                           if (_permissionStatus) {
-                            Fluttertoast.showToast(
-                                msg: "PDF Download started...",
-                                gravity: ToastGravity.BOTTOM);
                             // downloadPDF(papers['title'], papers['fileName']);
-                            download(papers['pdfUrl'], papers['fileName']);
+                            // download(papers['pdfUrl'], papers['fileName']);
+                            await _asyncSimpleDialog(
+                                context, papers['pdfUrl'], papers['fileName']);
                           } else {
                             Fluttertoast.showToast(
                                 msg: "PDF Download Failed...",
                                 gravity: ToastGravity.BOTTOM);
                           }
                         },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            StudyMaterialCard(
-                              type: papers['type'],
-                              title: papers['title'],
-                              description: papers['description'],
-                              pdfUrl: papers['pdfUrl'],
-                              postedByName: papers['postedByName'],
-                              fileName: papers['fileName'],
-                              approved: papers['isApprovedByAdmin'],
-                              index: index,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                _share(papers['pdfUrl']);
-                              },
-                              child: Icon(
-                                Icons.share,
-                                size: 30.0,
-                              ),
-                            )
-                          ],
+                        child: StudyMaterialCard(
+                          type: papers['type'],
+                          title: papers['title'],
+                          description: papers['description'],
+                          pdfUrl: papers['pdfUrl'],
+                          postedByName: papers['postedByName'],
+                          fileName: papers['fileName'],
+                          approved: papers['isApprovedByAdmin'],
+                          index: index,
                         ),
                       );
                     });
@@ -148,5 +135,34 @@ class _MyStudyMaterialsState extends State<MyStudyMaterials> {
     } catch (e) {
       print(e);
     }
+  }
+
+  Future<options> _asyncSimpleDialog(
+      BuildContext context, String url, String filename) async {
+    return await showDialog<options>(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: const Text('Choose'),
+            children: <Widget>[
+              SimpleDialogOption(
+                onPressed: () {
+                  Fluttertoast.showToast(
+                      msg: "PDF Download started...",
+                      gravity: ToastGravity.BOTTOM);
+                  download(url, filename);
+                },
+                child: const Text('Download'),
+              ),
+              SimpleDialogOption(
+                onPressed: () {
+                  _share(url);
+                },
+                child: const Text('Share'),
+              ),
+            ],
+          );
+        });
   }
 }

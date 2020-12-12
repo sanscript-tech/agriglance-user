@@ -15,11 +15,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:wc_flutter_share/wc_flutter_share.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class StudyMaterialsHome extends StatefulWidget {
   @override
   _StudyMaterialsHomeState createState() => _StudyMaterialsHomeState();
 }
+
+enum options { View, Download, Share }
 
 class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -93,42 +96,27 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
                       DocumentSnapshot papers = snapshot.data.documents[index];
                       if (papers['isApprovedByAdmin']) {
                         return GestureDetector(
-                          onTap: () {
+                          onTap: () async {
                             if (_permissionStatus) {
-                              Fluttertoast.showToast(
-                                  msg: "PDF Download started...",
-                                  gravity: ToastGravity.BOTTOM);
                               // downloadPDF(papers['title'], papers['fileName']);
-                              download(papers['pdfUrl'], papers['fileName']);
+                              // download(papers['pdfUrl'], papers['fileName']);
+                              await _asyncSimpleDialog(context,
+                                  papers['pdfUrl'], papers['fileName']);
                             } else {
                               Fluttertoast.showToast(
                                   msg: "PDF Download Failed...",
                                   gravity: ToastGravity.BOTTOM);
                             }
                           },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              StudyMaterialCard(
-                                type: papers['type'],
-                                title: papers['title'],
-                                description: papers['description'],
-                                pdfUrl: papers['pdfUrl'],
-                                postedByName: papers['postedByName'],
-                                fileName: papers['fileName'],
-                                approved: papers['isApprovedByAdmin'],
-                                index: index,
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  _share(papers['pdfUrl']);
-                                },
-                                child: Icon(
-                                  Icons.share,
-                                  size: 30.0,
-                                ),
-                              )
-                            ],
+                          child: StudyMaterialCard(
+                            type: papers['type'],
+                            title: papers['title'],
+                            description: papers['description'],
+                            pdfUrl: papers['pdfUrl'],
+                            postedByName: papers['postedByName'],
+                            fileName: papers['fileName'],
+                            approved: papers['isApprovedByAdmin'],
+                            index: index,
                           ),
                         );
                       }
@@ -163,6 +151,35 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
     } catch (e) {
       print(e);
     }
+  }
+
+  Future<options> _asyncSimpleDialog(
+      BuildContext context, String url, String filename) async {
+    return await showDialog<options>(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: const Text('Choose'),
+            children: <Widget>[
+              SimpleDialogOption(
+                onPressed: () {
+                  Fluttertoast.showToast(
+                      msg: "PDF Download started...",
+                      gravity: ToastGravity.BOTTOM);
+                  download(url, filename);
+                },
+                child: const Text('Download'),
+              ),
+              SimpleDialogOption(
+                onPressed: () {
+                  _share(url);
+                },
+                child: const Text('Share'),
+              ),
+            ],
+          );
+        });
   }
 }
 

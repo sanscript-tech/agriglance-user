@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 
 import '../Profile/profile.dart';
 import '../Profile/update_profile.dart';
+import 'my_news_and_currentAffairs.dart';
 
 class DrawerWindow extends StatefulWidget {
   @override
@@ -93,14 +94,14 @@ class _DrawerWindowState extends State<DrawerWindow> {
                   MaterialPageRoute(builder: (context) => MyQuestions()));
             },
           ),
-          // ListTile(
-          //   trailing: Icon(Icons.lightbulb),
-          //   title: Text("My Quiz"),
-          //   onTap: () {
-          //     Navigator.push(
-          //         context, MaterialPageRoute(builder: (context) => MyQuiz()));
-          //   },
-          // ),
+          ListTile(
+            trailing: Icon(Icons.lightbulb),
+            title: Text("My News and CurrentAffairs"),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MyNewsAndCurrentAffairs()));
+            },
+          ),
           ListTile(
             trailing: Icon(Icons.how_to_vote),
             title: Text("My Poll"),

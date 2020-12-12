@@ -10,8 +10,8 @@ import 'Services/authentication_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   await FlutterDownloader.initialize(debug: true);
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
                   context.read<AuthenticationService>().authStateChanges)
         ],
         child: MaterialApp(
-          title: 'Flutter Authentication App',
+          title: 'Agriglance',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primarySwatch: Colors.amber,

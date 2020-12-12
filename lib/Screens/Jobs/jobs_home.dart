@@ -19,11 +19,11 @@ class _JobsHomeState extends State<JobsHome> {
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection("jobs")
-              .orderBy('postedAt')
+              .orderBy("isApprovedByAdmin", descending: true)
               .snapshots(),
           builder: (context, snapshot) {
             return !snapshot.hasData
-                ? Text("Loading")
+                ? Center(child: CircularProgressIndicator())
                 : ListView.builder(
                     itemCount: snapshot.data.documents.length,
                     itemBuilder: (context, index) {

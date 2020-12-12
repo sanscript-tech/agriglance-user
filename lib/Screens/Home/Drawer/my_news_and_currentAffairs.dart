@@ -1,31 +1,26 @@
-import 'package:agriglance/Screens/News/create_news.dart';
-import 'package:flutter/material.dart';
+import 'package:agriglance/constants/news_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../constants/news_card.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-class NewsHome extends StatefulWidget {
+class MyNewsAndCurrentAffairs extends StatefulWidget {
   @override
-  _NewsHomeState createState() => _NewsHomeState();
+  _MyNewsAndCurrentAffairsState createState() =>
+      _MyNewsAndCurrentAffairsState();
 }
 
-class _NewsHomeState extends State<NewsHome> {
+class _MyNewsAndCurrentAffairsState extends State<MyNewsAndCurrentAffairs> {
   String _newsPostedBy = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
-          size: 30.0,
-        ),
-        onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => CreateNews())),
-      ),
       appBar: AppBar(title: Text("News"), centerTitle: true),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection("News")
+            .where("uid", isEqualTo: FirebaseAuth.instance.currentUser.uid)
             .orderBy("isApprovedByAdmin", descending: true)
             .snapshots(),
         builder: (context, snapshot) {
@@ -41,17 +36,13 @@ class _NewsHomeState extends State<NewsHome> {
             itemBuilder: (context, index) {
               DocumentSnapshot news = snapshot.data.docs[index];
               _newsPostedBy = news['uname'] != "" ? news['uname'] : "Anonymous";
-
-              if (news['isApprovedByAdmin']) {
-                return NewsCard(
-                    newsTitle: news['title'],
-                    newsDescription: news['description'],
-                    newsImage: news['imageUrl'],
-                    newsFile: news['fileUrl'],
-                    newsDate: news['postedAt'],
-                    newsPostedBy: _newsPostedBy);
-              }
-              return null;
+              return NewsCard(
+                  newsTitle: news['title'],
+                  newsDescription: news['description'],
+                  newsImage: news['imageUrl'],
+                  newsFile: news['fileUrl'],
+                  newsDate: news['postedAt'],
+                  newsPostedBy: _newsPostedBy);
             },
           );
         },

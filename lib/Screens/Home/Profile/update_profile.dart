@@ -86,8 +86,9 @@ class _UpdateProfileState extends State<UpdateProfile> {
                   onSaved: (val) => _fullName = val,
                   initialValue: userData.fullName,
                   decoration: InputDecoration(
-                    hintText: 'Full Name',
-                  ),
+                      hintText: 'Full Name',
+                      icon: Icon(Icons.person),
+                      labelText: "Full Name"),
                 ),
               ),
               Padding(
@@ -98,6 +99,8 @@ class _UpdateProfileState extends State<UpdateProfile> {
                   initialValue: userData.email,
                   decoration: InputDecoration(
                     hintText: 'Email Id',
+                    icon: Icon(Icons.email),
+                    labelText: "Email Id"
                   ),
                 ),
               ),
@@ -109,6 +112,8 @@ class _UpdateProfileState extends State<UpdateProfile> {
                   initialValue: userData.dob,
                   decoration: InputDecoration(
                     hintText: 'DOB',
+                    icon: Icon(Icons.date_range),
+                    labelText: "Date of Birth"
                   ),
                 ),
               ),
@@ -121,6 +126,8 @@ class _UpdateProfileState extends State<UpdateProfile> {
                   initialValue: userData.qualification,
                   decoration: InputDecoration(
                     hintText: 'Qualification',
+                    icon: Icon(Icons.grade),
+                    labelText: "Educational Qualification"
                   ),
                 ),
               ),
@@ -133,6 +140,8 @@ class _UpdateProfileState extends State<UpdateProfile> {
                   initialValue: userData.university,
                   decoration: InputDecoration(
                     hintText: 'University',
+                    icon: Icon(Icons.account_balance),
+                    labelText: "University"
                   ),
                 ),
               ),

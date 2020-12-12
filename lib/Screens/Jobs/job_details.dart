@@ -64,8 +64,6 @@ class _JobDetailsState extends State<JobDetails> {
                   .collection("applicants")
                   .doc(FirebaseAuth.instance.currentUser.uid)
                   .set({
-                // .collection("applicationDetails")
-                // .add({
                 'cvUrl': _pdfUrl,
                 'cvFileName': fileName,
                 'appliedBy': FirebaseAuth.instance.currentUser.uid,
@@ -112,8 +110,8 @@ class _JobDetailsState extends State<JobDetails> {
         ),
         body: Column(
           children: [
-            SizedBox(
-              height: deviceHeight / 20,
+            Padding(
+              padding: EdgeInsets.only(top: 50.0),
             ),
             Row(
               children: [
@@ -121,43 +119,50 @@ class _JobDetailsState extends State<JobDetails> {
                   width: deviceWidth,
                   child: Column(
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            "Org Name :",
-                            style: TextStyle(
-                                fontSize: 20.0, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "${widget.orgName}",
-                            style: TextStyle(fontSize: 20.0),
-                          ),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Org Name: ",
+                              style: TextStyle(
+                                  fontSize: 20.0, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              "${widget.orgName}",
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                          ],
+                        ),
                       ),
-                      Row(
-                        children: [
-                          Text(
-                            "Job Type :",
-                            style: TextStyle(
-                                fontSize: 20.0, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "${widget.jobType}",
-                            style: TextStyle(fontSize: 20.0),
-                          ),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Job Type :",
+                              style: TextStyle(
+                                  fontSize: 20.0, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              "${widget.jobType}",
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                          ],
+                        ),
                       ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Job Desc :",
-                            style: TextStyle(
-                                fontSize: 20.0, fontWeight: FontWeight.bold),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 8.0),
-                            child: Container(
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 8.0, bottom: 8.0, top: 8.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Job Desc: ",
+                              style: TextStyle(
+                                  fontSize: 20.0, fontWeight: FontWeight.bold),
+                            ),
+                            Container(
                               width: deviceWidth / 1.4,
                               child: Text(
                                 "${widget.jobDesc}",
@@ -166,64 +171,70 @@ class _JobDetailsState extends State<JobDetails> {
                                 textAlign: TextAlign.justify,
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Skills :",
-                            style: TextStyle(
-                                fontSize: 20.0, fontWeight: FontWeight.bold),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 8.0),
-                            child: Container(
-                              width: deviceWidth / 1.4,
-                              child: Text(
-                                "${widget.jobSkills}",
-                                style: TextStyle(fontSize: 20.0),
-                                maxLines: 10,
-                                textAlign: TextAlign.justify,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Skills :",
+                              style: TextStyle(
+                                  fontSize: 20.0, fontWeight: FontWeight.bold),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Container(
+                                width: deviceWidth / 1.4,
+                                child: Text(
+                                  "${widget.jobSkills}",
+                                  style: TextStyle(fontSize: 20.0),
+                                  maxLines: 10,
+                                  textAlign: TextAlign.justify,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                      Row(
-                        children: [
-                          Text(
-                            "No. of posts :",
-                            style: TextStyle(
-                                fontSize: 20.0, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "${widget.jobPosts}",
-                            style: TextStyle(fontSize: 20.0),
-                          ),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Text(
+                              "No. of posts :",
+                              style: TextStyle(
+                                  fontSize: 20.0, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              "${widget.jobPosts}",
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                          ],
+                        ),
                       ),
-                      Row(
-                        children: [
-                          Text(
-                            "Salary :",
-                            style: TextStyle(
-                                fontSize: 20.0, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "Rs.${widget.salary}/month",
-                            style: TextStyle(fontSize: 20.0),
-                          ),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Salary :",
+                              style: TextStyle(
+                                  fontSize: 20.0, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              "Rs.${widget.salary}/month",
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                          ],
+                        ),
                       )
                     ],
                   ),
                 ),
               ],
-            ),
-            SizedBox(
-              height: deviceHeight / 10,
             ),
             Container(
               padding: EdgeInsets.all(20.0),
@@ -326,7 +337,7 @@ class _JobDetailsState extends State<JobDetails> {
     _filePickerResult = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowMultiple: false,
-        allowedExtensions: ['pdf'],
+        allowedExtensions: ['pdf', 'doc'],
         allowCompression: true);
     if (_filePickerResult != null) {
       setState(() {

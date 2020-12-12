@@ -52,11 +52,11 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
     } else {
       form.save();
     }
-    _uploadResearchPaper();
+    _uploadStudyMaterial();
     Navigator.pop(context);
   }
 
-  Future<void> _uploadResearchPaper() async {
+  Future<void> _uploadStudyMaterial() async {
     await FirebaseFirestore.instance.collection("study_materials").add({
       'isApprovedByAdmin': false,
       'type': dropdownValue,
@@ -122,6 +122,7 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
                   "Choose Type",
                   'Research Paper',
                   'Question Paper',
+                  'PPT',
                   'Book/Article',
                   'Other'
                 ].map<DropdownMenuItem<String>>((String value) {
@@ -290,7 +291,7 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
     _filePickerResult = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowMultiple: false,
-        allowedExtensions: ['pdf'],
+        allowedExtensions: ['pdf', 'doc', 'xls', 'csv'],
         allowCompression: true);
     if (_filePickerResult != null) {
       setState(() {

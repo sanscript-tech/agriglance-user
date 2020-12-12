@@ -14,6 +14,7 @@ class MyJobCard extends StatefulWidget {
   final String postedByName;
   final int index;
   final String jobId;
+  final bool approved;
 
   MyJobCard(
       {this.jobDesc,
@@ -26,7 +27,8 @@ class MyJobCard extends StatefulWidget {
       this.salary,
       this.postedByName,
       this.index,
-      this.jobId});
+      this.jobId,
+      this.approved});
 
   @override
   _MyJobCardState createState() => _MyJobCardState();
@@ -34,11 +36,13 @@ class MyJobCard extends StatefulWidget {
 
 class _MyJobCardState extends State<MyJobCard> {
   int count = 0;
+
   @override
   void initState() {
     super.initState();
     countDocuments();
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,10 +51,12 @@ class _MyJobCardState extends State<MyJobCard> {
         onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => MyJobShowApplications(jobId: widget.jobId,))),
+                builder: (context) => MyJobShowApplications(
+                      jobId: widget.jobId,
+                    ))),
         child: Card(
           shape: RoundedRectangleBorder(
-            side: BorderSide(),
+            side: BorderSide(color: Colors.indigo, width: 3.0),
             borderRadius: BorderRadius.circular(15.0),
           ),
           child: Padding(
@@ -75,7 +81,18 @@ class _MyJobCardState extends State<MyJobCard> {
                         "Posted By : Anonymous",
                         style: TextStyle(fontSize: 16.0),
                       ),
-                Text("${count.toString()} applicants")
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("${count.toString()} applicants"),
+                    Text(
+                      ((widget.approved == true)
+                          ? "Approved by Admin"
+                          : "Waiting for approval"),
+                      style: TextStyle(fontSize: 8.0),
+                    )
+                  ],
+                )
               ],
             ),
           ),
@@ -83,6 +100,7 @@ class _MyJobCardState extends State<MyJobCard> {
       ),
     );
   }
+
   void countDocuments() async {
     QuerySnapshot _myDoc = await FirebaseFirestore.instance
         .collection("jobs")

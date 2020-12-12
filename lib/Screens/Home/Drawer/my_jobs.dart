@@ -43,6 +43,7 @@ class _MyJobsState extends State<MyJobs> {
                         orgName: jobs['organizationName'],
                         salary: jobs['jobSalary'],
                         postedByName: jobs['postedByName'],
+                        approved: jobs['isApprovedByAdmin'],
                         index: index,
                         jobId: jobs.id,
                       );
