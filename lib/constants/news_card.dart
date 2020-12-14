@@ -25,9 +25,8 @@ class NewsCard extends StatelessWidget {
     double deviceWidth = MediaQuery.of(context).size.width;
     bool isImageAvailable = newsImage != null || newsImage != "" ? true : false;
     return Container(
-      padding: EdgeInsets.all(deviceWidth / 15),
+      padding: EdgeInsets.all(deviceWidth / 25),
       child: Card(
-        elevation: 0.0,
         shape: RoundedRectangleBorder(
           side: BorderSide(color: Color(0xFF50E096), width: 2.0),
           borderRadius: BorderRadius.circular(15.0),
@@ -44,7 +43,8 @@ class NewsCard extends StatelessWidget {
                   visible: isImageAvailable,
                   child: Image.network(
                     newsImage,
-                    height: deviceHeight / 4,
+                    height: deviceHeight / 2,
+                    width: deviceWidth,
                   )),
               Text(
                 'Description: $newsDescription',
@@ -53,9 +53,6 @@ class NewsCard extends StatelessWidget {
               (newsPostedBy != null && newsPostedBy != "")
                   ? Text("Posted By: $newsPostedBy")
                   : Text("Posted By: Anonymous"),
-              SizedBox(
-                height: deviceHeight / 40,
-              )
             ]),
       ),
     );

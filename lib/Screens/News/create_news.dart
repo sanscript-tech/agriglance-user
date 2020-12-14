@@ -22,19 +22,6 @@ class _CreateNewsState extends State<CreateNews> {
   String _description = "";
   String _imageUrl = "";
   String _fileUrl = "";
-  _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: _selectedDate, // Refer step 1
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2050),
-        initialDatePickerMode: DatePickerMode.day,
-        helpText: "Select News Date");
-    if (picked != null && picked != _selectedDate)
-      setState(() {
-        _selectedDate = picked;
-      });
-  }
 
   Future _fileImagePicker(BuildContext context) async {
     File file;
@@ -199,6 +186,9 @@ class _CreateNewsState extends State<CreateNews> {
     }
   }
 
+  final TextEditingController dobController = TextEditingController();
+  String dob = "";
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -208,98 +198,106 @@ class _CreateNewsState extends State<CreateNews> {
         title: Text("Add News"),
         centerTitle: true,
       ),
-      body: SafeArea(
-          child: Form(
+      body: Form(
         key: _formKey,
-        child: ListView(children: <Widget>[
-          Text("New Title"),
-          SizedBox(
-            height: height * 0.01,
-          ),
-          TextFormField(
-            inputFormatters: [LengthLimitingTextInputFormatter(30)],
-            keyboardType: TextInputType.text,
-            validator: (val) => val.isEmpty ? 'News title is required' : null,
-            onSaved: (val) => _newsTitle = val,
-            decoration: InputDecoration(
-              hintText: 'Enter News title',
-              labelText: 'News title',
-            ),
-          ),
-          SizedBox(
-            height: height * 0.02,
-          ),
-          Text("Enter date"),
-          MaterialButton(
-            onPressed: () {
-              _selectDate(context);
-            },
-            child: Text(
-                "${_selectedDate.day}-${_selectedDate.month}-${_selectedDate.year}"),
-          ),
-          SizedBox(
-            height: height * 0.01,
-          ),
-          TextFormField(
-            keyboardType: TextInputType.text,
-            validator: (val) =>
-                val.isEmpty ? 'News description is required' : null,
-            onSaved: (val) => _description = val,
-            decoration: InputDecoration(
-              hintText: 'Enter description',
-              labelText: 'Description',
-            ),
-          ),
-          SizedBox(
-            height: height * 0.1,
-          ),
-          Visibility(
-            visible: showUploadButton,
-            child: OutlineButton(
-              child: Text("Upload Image"),
-              onPressed: () {
-                loadProgress();
-                showUploadButton = false;
-                _fileImagePicker(context);
-              },
-            ),
-          ),
-          SizedBox(
-            height: height * 0.1,
-          ),
-          Visibility(
-            child: OutlineButton(
-              child: Text("Upload File"),
-              onPressed: () {
-                loadProgress();
-                showUploadButton = false;
-                _filePicker(context);
-              },
-            ),
-          ),
-          SizedBox(
-            height: height * 0.1,
-          ),
-          RaisedButton(
-            child: Text("Submit"),
-            onPressed: () async {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
-                await FirebaseFirestore.instance.collection("News").add({
-                  "isApprovedByAdmin": _isApproved,
-                  "uid": _uid,
-                  "uname": _uname != null ? _uname : "",
-                  "title": _newsTitle,
-                  "postedAt": _selectedDate.toString(),
-                  "description": _description,
-                  "imageUrl": _imageUrl,
-                  "fileUrl": _fileUrl
-                });
-              }
-            },
-          ),
-        ]),
-      )),
+        autovalidateMode: AutovalidateMode.always,
+        child: ListView(
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            children: <Widget>[
+              TextFormField(
+                inputFormatters: [LengthLimitingTextInputFormatter(30)],
+                keyboardType: TextInputType.text,
+                validator: (val) =>
+                    val.isEmpty ? 'News title is required' : null,
+                onSaved: (val) => _newsTitle = val,
+                decoration: InputDecoration(
+                  hintText: 'Enter News title',
+                  icon: Icon(Icons.map),
+                  labelText: 'News title',
+                ),
+              ),
+              TextFormField(
+                keyboardType: TextInputType.text,
+                validator: (val) =>
+                    val.isEmpty ? 'News description is required' : null,
+                onSaved: (val) => _description = val,
+                decoration: InputDecoration(
+                    hintText: 'Enter description',
+                    labelText: 'Description',
+                    icon: Icon(Icons.description)),
+              ),
+              SizedBox(
+                height: height * 0.1,
+              ),
+              Visibility(
+                visible: showUploadButton,
+                child: OutlineButton(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                  borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                  child: Text("Upload Image"),
+                  onPressed: () {
+                    loadProgress();
+                    showUploadButton = false;
+                    _fileImagePicker(context);
+                  },
+                ),
+              ),
+              SizedBox(
+                height: height * 0.1,
+              ),
+              Visibility(
+                child: OutlineButton(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                  borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                  child: Text("Upload File"),
+                  onPressed: () {
+                    loadProgress();
+                    showUploadButton = false;
+                    _filePicker(context);
+                  },
+                ),
+              ),
+              SizedBox(
+                height: height * 0.1,
+              ),
+              RaisedButton(
+                splashColor: Colors.grey,
+                color: Colors.yellow,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                highlightElevation: 0,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Text(
+                          'Submit for Admin Approval',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                          ),
+                        ),
+                      )
+                    ]),
+                onPressed: () async {
+                  if (_formKey.currentState.validate()) {
+                    _formKey.currentState.save();
+                    await FirebaseFirestore.instance.collection("News").add({
+                      "isApprovedByAdmin": _isApproved,
+                      "uid": _uid,
+                      "uname": _uname != null ? _uname : "",
+                      "title": _newsTitle,
+                      "postedAt": _selectedDate.toString(),
+                      "description": _description,
+                      "imageUrl": _imageUrl,
+                      "fileUrl": _fileUrl
+                    });
+                  }
+                },
+              ),
+            ]),
+      ),
     );
   }
 }

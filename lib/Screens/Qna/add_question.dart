@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AddQuestionScreen extends StatefulWidget {
   String uid;
@@ -25,6 +26,9 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
       form.save();
     }
     _uploadQuestion();
+    Fluttertoast.showToast(
+        msg: "Added Successfully",
+        gravity: ToastGravity.BOTTOM);
     Navigator.pop(context);
   }
 

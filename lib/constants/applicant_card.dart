@@ -30,7 +30,7 @@ class _ApplicantCardState extends State<ApplicantCard> {
       padding: EdgeInsets.all(10.0),
       child: Card(
         shape: RoundedRectangleBorder(
-          side: BorderSide(),
+          side: BorderSide(color: Colors.orange, width: 3.0),
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: Padding(

@@ -1,12 +1,14 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:agriglance/Services/authentication_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class AddStudyMaterial extends StatefulWidget {
@@ -52,11 +54,12 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
     } else {
       form.save();
     }
-    _uploadResearchPaper();
+    _uploadStudyMaterial();
     Navigator.pop(context);
   }
 
-  Future<void> _uploadResearchPaper() async {
+  Future<void> _uploadStudyMaterial() async {
+    context.read<AuthenticationService>().addPoints(widget.uid, 5).then((value) => print("**********************$value****************"));
     await FirebaseFirestore.instance.collection("study_materials").add({
       'isApprovedByAdmin': false,
       'type': dropdownValue,
@@ -122,6 +125,7 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
                   "Choose Type",
                   'Research Paper',
                   'Question Paper',
+                  'PPT',
                   'Book/Article',
                   'Other'
                 ].map<DropdownMenuItem<String>>((String value) {
@@ -290,7 +294,7 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
     _filePickerResult = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowMultiple: false,
-        allowedExtensions: ['pdf'],
+        allowedExtensions: ['pdf', 'doc', 'xls', 'csv'],
         allowCompression: true);
     if (_filePickerResult != null) {
       setState(() {

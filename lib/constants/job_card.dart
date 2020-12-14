@@ -13,6 +13,7 @@ class JobCard extends StatefulWidget {
   String salary;
   String orgLink;
   String postedByName;
+
   int index;
   String jobId;
 

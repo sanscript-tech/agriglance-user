@@ -1,5 +1,6 @@
 import 'package:agriglance/Screens/Home/Drawer/contactAdmin.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_jobs.dart';
+import 'package:agriglance/Screens/Home/Drawer/my_points.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_poll.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_questions.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_quiz.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/material.dart';
 
 import '../Profile/profile.dart';
 import '../Profile/update_profile.dart';
+import 'my_news_and_currentAffairs.dart';
 
 class DrawerWindow extends StatefulWidget {
   @override
@@ -70,6 +72,14 @@ class _DrawerWindowState extends State<DrawerWindow> {
             },
           ),
           ListTile(
+            trailing: Icon(Icons.monetization_on),
+            title: Text("My Points"),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => MyPoints()));
+            },
+          ),
+          ListTile(
             trailing: Icon(Icons.book),
             title: Text("My Study Materials"),
             onTap: () {
@@ -93,14 +103,14 @@ class _DrawerWindowState extends State<DrawerWindow> {
                   MaterialPageRoute(builder: (context) => MyQuestions()));
             },
           ),
-          // ListTile(
-          //   trailing: Icon(Icons.lightbulb),
-          //   title: Text("My Quiz"),
-          //   onTap: () {
-          //     Navigator.push(
-          //         context, MaterialPageRoute(builder: (context) => MyQuiz()));
-          //   },
-          // ),
+          ListTile(
+            trailing: Icon(Icons.trending_up),
+            title: Text("My News and CurrentAffairs"),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MyNewsAndCurrentAffairs()));
+            },
+          ),
           ListTile(
             trailing: Icon(Icons.how_to_vote),
             title: Text("My Poll"),

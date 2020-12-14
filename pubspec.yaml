@@ -39,12 +39,15 @@ dependencies:
   youtube_player_flutter: ^7.0.0+7
   cached_network_image: ^2.4.1
   google_fonts: ^1.1.1
-  flutter_downloader: ^1.5.2
   firebase_auth_web: ^0.3.2+3
   mailto: ^1.0.0
   url_launcher: ^5.7.10
   percent_indicator: "^2.1.7+2"
   wc_flutter_share: ^0.2.2
+  firebase: ^7.3.3
+  universal_html: ^1.2.1
+  cloud_firestore_web: ^0.2.1+2
+  google_sign_in_web: ^0.9.2
 
 
   # The following adds the Cupertino Icons font to your application.

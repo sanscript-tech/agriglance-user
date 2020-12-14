@@ -1,7 +1,9 @@
+import 'package:agriglance/Services/authentication_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 
 class SubmitVideo extends StatefulWidget {
   @override
@@ -15,7 +17,6 @@ class _SubmitVideoState extends State<SubmitVideo> {
   String _youtubeChannelKey = "";
   String _embedVideo = "";
   bool _isApproved = false;
-  String _postedBy = "";
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +25,11 @@ class _SubmitVideoState extends State<SubmitVideo> {
 
     return Scaffold(
       appBar: AppBar(title: Text("Submit Video"), centerTitle: true),
-      body: Container(
-          padding: EdgeInsets.only(left: width / 25),
-          width: width / 1.3,
-          child: Form(
-            key: _formKey,
-            child: ListView(children: <Widget>[
-              SizedBox(
-                height: height / 25,
-              ),
+      body: Form(
+        key: _formKey,
+        child: ListView(
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            children: <Widget>[
               TextFormField(
                 inputFormatters: [LengthLimitingTextInputFormatter(30)],
                 keyboardType: TextInputType.text,
@@ -47,7 +44,7 @@ class _SubmitVideoState extends State<SubmitVideo> {
                 ),
               ),
               SizedBox(
-                height: height * 0.1,
+                height: height * 0.01,
               ),
               TextFormField(
                 keyboardType: TextInputType.text,
@@ -59,7 +56,7 @@ class _SubmitVideoState extends State<SubmitVideo> {
                 ),
               ),
               SizedBox(
-                height: height * 0.1,
+                height: height * 0.01,
               ),
               TextFormField(
                 keyboardType: TextInputType.url,
@@ -71,9 +68,10 @@ class _SubmitVideoState extends State<SubmitVideo> {
                 ),
               ),
               SizedBox(
-                height: height * 0.1,
+                height: height * 0.05,
               ),
               OutlineButton(
+                  splashColor: Colors.black,
                   borderSide: BorderSide(color: Color(0xFF3EC3C1), width: 2.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
@@ -88,6 +86,11 @@ class _SubmitVideoState extends State<SubmitVideo> {
                   onPressed: () async {
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
+                      context
+                          .read<AuthenticationService>()
+                          .addPoints(FirebaseAuth.instance.currentUser.uid, 5)
+                          .then((value) => print(
+                              "**********************$value****************"));
                       await FirebaseFirestore.instance
                           .collection("Videos")
                           .add({
@@ -108,7 +111,7 @@ class _SubmitVideoState extends State<SubmitVideo> {
                     }
                   }),
             ]),
-          )),
+      ),
     );
   }
 }
