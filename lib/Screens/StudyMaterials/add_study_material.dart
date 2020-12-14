@@ -6,10 +6,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:universal_html/html.dart' as html;
 
 class AddStudyMaterial extends StatefulWidget {
   String uid;
@@ -32,7 +34,7 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
   String absolutePath = "";
   String fileName = "";
   String fileUrl = "";
-  File file;
+  var file;
   bool showUploadButton = true;
   String dropdownValue = "Choose Type";
   List<String> subjectList;
@@ -59,7 +61,6 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
   }
 
   Future<void> _uploadStudyMaterial() async {
-    context.read<AuthenticationService>().addPoints(widget.uid, 5).then((value) => print("**********************$value****************"));
     await FirebaseFirestore.instance.collection("study_materials").add({
       'isApprovedByAdmin': false,
       'type': dropdownValue,
@@ -74,8 +75,7 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
   }
 
   void showMessage(String message, [MaterialColor color = Colors.red]) {
-    _scaffoldKey.currentState.showSnackBar(
-        new SnackBar(backgroundColor: color, content: new Text(message)));
+    Fluttertoast.showToast(msg: message);
   }
 
   bool visible = false;
@@ -291,28 +291,51 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
       print(random.nextInt(100));
       fileName += random.nextInt(100).toString();
     }
-    _filePickerResult = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowMultiple: false,
-        allowedExtensions: ['pdf', 'doc', 'xls', 'csv'],
-        allowCompression: true);
-    if (_filePickerResult != null) {
-      setState(() {
-        file = File(_filePickerResult.files.single.path);
-        List<String> p = file.path.split("/").toList();
-        absolutePath = file.path.split("/")[p.length - 1];
-        fileName += '$absolutePath';
-      });
+    if (!kIsWeb) {
+      _filePickerResult = await FilePicker.platform.pickFiles(
+          type: FileType.custom,
+          allowMultiple: false,
+          allowedExtensions: ['pdf', 'doc', 'xls', 'csv'],
+          allowCompression: true);
+      if (_filePickerResult != null) {
+        setState(() {
+          file = File(_filePickerResult.files.single.path);
+          List<String> p = file.path.split("/").toList();
+          absolutePath = file.path.split("/")[p.length - 1];
+          fileName += '$absolutePath';
+        });
+      } else {
+        showMessage("No file Selected!");
+      }
     } else {
-      showMessage("No file Selected!");
+      html.InputElement uploadInput = html.FileUploadInputElement();
+      uploadInput.click();
+
+      uploadInput.onChange.listen((e) {
+        final userFile = uploadInput.files.first;
+        final reader = html.FileReader();
+        reader.readAsDataUrl(userFile);
+        reader.onLoadEnd.listen((event) {
+          setState(() {
+            file = userFile;
+            absolutePath = userFile.name;
+            fileName += absolutePath;
+          });
+        });
+      });
     }
   }
 
   Future uploadStarted() async {
-    if (_filePickerResult != null) {
+    if (file != null) {
       Reference storageReference =
           FirebaseStorage.instance.ref().child("studyMaterials/" + fileName);
-      UploadTask uploadTask = storageReference.putFile(file);
+      UploadTask uploadTask;
+      if(kIsWeb) {
+        uploadTask = storageReference.putBlob(file);
+      } else{
+        uploadTask = storageReference.putFile(file);
+      }
       uploadTask.whenComplete(() async {
         try {
           loadProgress();

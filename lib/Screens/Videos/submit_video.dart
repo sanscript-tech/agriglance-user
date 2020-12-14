@@ -1,9 +1,8 @@
-import 'package:agriglance/Services/authentication_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:provider/provider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SubmitVideo extends StatefulWidget {
   @override
@@ -86,11 +85,6 @@ class _SubmitVideoState extends State<SubmitVideo> {
                   onPressed: () async {
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
-                      context
-                          .read<AuthenticationService>()
-                          .addPoints(FirebaseAuth.instance.currentUser.uid, 5)
-                          .then((value) => print(
-                              "**********************$value****************"));
                       await FirebaseFirestore.instance
                           .collection("Videos")
                           .add({
@@ -105,9 +99,8 @@ class _SubmitVideoState extends State<SubmitVideo> {
                       });
 
                       _formKey.currentState.reset();
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content:
-                              const Text("Details Submitted Successfully")));
+                      Fluttertoast.showToast(
+                          msg: "Details Submitted Successfully");
                     }
                   }),
             ]),
