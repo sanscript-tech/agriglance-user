@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:core';
-import 'dart:isolate';
-import 'dart:ui';
 
 import 'package:agriglance/Screens/StudyMaterials/add_study_material.dart';
 import 'package:agriglance/constants/study_material_card.dart';
@@ -10,12 +8,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wc_flutter_share/wc_flutter_share.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 class StudyMaterialsHome extends StatefulWidget {
   @override
@@ -28,43 +23,6 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final papersCollectionReference =
       FirebaseStorage.instance.ref().child("studyMaterials");
-  var _permissionStatus;
-
-  void _listenForPermissionStatus() async {
-    final status = await Permission.storage.request().isGranted;
-    setState(() => _permissionStatus = status);
-  }
-
-  ReceivePort _port = ReceivePort();
-
-  @override
-  void initState() {
-    super.initState();
-    _listenForPermissionStatus();
-    IsolateNameServer.registerPortWithName(
-        _port.sendPort, 'downloader_send_port');
-    _port.listen((dynamic data) {
-      String id = data[0];
-      DownloadTaskStatus status = data[1];
-      int progress = data[2];
-      setState(() {});
-    });
-
-    FlutterDownloader.registerCallback(downloadCallback);
-  }
-
-  @override
-  void dispose() {
-    IsolateNameServer.removePortNameMapping('downloader_send_port');
-    super.dispose();
-  }
-
-  static void downloadCallback(
-      String id, DownloadTaskStatus status, int progress) {
-    final SendPort send =
-        IsolateNameServer.lookupPortByName('downloader_send_port');
-    send.send([id, status, progress]);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,16 +55,8 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
                       if (papers['isApprovedByAdmin']) {
                         return GestureDetector(
                           onTap: () async {
-                            if (_permissionStatus) {
-                              // downloadPDF(papers['title'], papers['fileName']);
-                              // download(papers['pdfUrl'], papers['fileName']);
-                              await _asyncSimpleDialog(context,
-                                  papers['pdfUrl'], papers['fileName']);
-                            } else {
-                              Fluttertoast.showToast(
-                                  msg: "PDF Download Failed...",
-                                  gravity: ToastGravity.BOTTOM);
-                            }
+                            await _asyncSimpleDialog(
+                                context, papers['pdfUrl'], papers['fileName']);
                           },
                           child: StudyMaterialCard(
                             type: papers['type'],
@@ -129,17 +79,6 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
     );
   }
 
-  Future<void> download(String url, String fileName) async {
-    final taskId = await FlutterDownloader.enqueue(
-        url: url,
-        savedDir:
-            await getExternalStorageDirectory().then((value) => value.path),
-        showNotification: true,
-        openFileFromNotification: true,
-        fileName: fileName);
-    await FlutterDownloader.open(taskId: taskId);
-  }
-
   void _share(String link) async {
     try {
       WcFlutterShare.share(
@@ -152,6 +91,9 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
       print(e);
     }
   }
+
+  void _launchURL(url) async =>
+      await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
 
   Future<options> _asyncSimpleDialog(
       BuildContext context, String url, String filename) async {
@@ -167,7 +109,8 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
                   Fluttertoast.showToast(
                       msg: "PDF Download started...",
                       gravity: ToastGravity.BOTTOM);
-                  download(url, filename);
+                  // download(url, filename);
+                  _launchURL(url);
                 },
                 child: const Text('Download'),
               ),
@@ -182,52 +125,3 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
         });
   }
 }
-
-//   Reference only code
-//
-// Future<String> prepareTestPdf(String _documentPath) async {
-//   final ByteData bytes =
-//   await DefaultAssetBundle.of(context).load(_documentPath);
-//   final Uint8List list = bytes.buffer.asUint8List();
-//
-//   final tempDir = await getTemporaryDirectory();
-//   final tempDocumentPath = '${tempDir.path}/$_documentPath';
-//
-//   final file = await File(tempDocumentPath).create(recursive: true);
-//   file.writeAsBytesSync(list);
-//   return tempDocumentPath;
-// }
-// Future<void> downloadPDF(String paperTitle, String fileName) async {
-//   Directory appDocDir = await getExternalStorageDirectory();
-//   String appDocPath = appDocDir.path;
-//   File _file = File('$appDocPath/$fileName');
-//   print("FILE PATH: ***************** ${_file.path}");
-//   Reference _fileRef = papersCollectionReference.child('$fileName');
-//   var _downloadTask = _fileRef.writeToFile(_file);
-//   TaskSnapshot snap = await _downloadTask;
-//   print(snap.state);
-//   prepareTestPdf(_file.path).then((path) {
-//     Navigator.push(
-//       context,
-//       MaterialPageRoute(
-//           builder: (context) => FullPdfViewerScreen(path, paperTitle)),
-//     );
-//   });
-// }
-//
-// class FullPdfViewerScreen extends StatelessWidget {
-//   String path;
-//   String paperTitle;
-//
-//   FullPdfViewerScreen(this.path, this.paperTitle);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return PDFViewerScaffold(
-//       appBar: AppBar(
-//         title: Text("$paperTitle"),
-//       ),
-//       path: path,
-//     );
-//   }
-// }
