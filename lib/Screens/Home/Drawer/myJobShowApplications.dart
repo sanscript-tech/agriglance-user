@@ -61,5 +61,5 @@ class _MyJobShowApplicationsState extends State<MyJobShowApplications> {
   }
 
   void _launchURL(url) async =>
-      await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
+      await canLaunch(url) ? await launch(url) : Fluttertoast.showToast(msg: "Could not launch $url");
 }

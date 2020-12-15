@@ -37,10 +37,11 @@ class _MyNewsAndCurrentAffairsState extends State<MyNewsAndCurrentAffairs> {
               DocumentSnapshot news = snapshot.data.docs[index];
               _newsPostedBy = news['uname'] != "" ? news['uname'] : "Anonymous";
               return NewsCard(
+                  approved: news['isApprovedByAdmin'],
                   newsTitle: news['title'],
                   newsDescription: news['description'],
-                  newsImage: news['imageUrl'],
                   newsFile: news['fileUrl'],
+                  newsLink: news['newsLink'],
                   newsDate: news['postedAt'],
                   newsPostedBy: _newsPostedBy);
             },

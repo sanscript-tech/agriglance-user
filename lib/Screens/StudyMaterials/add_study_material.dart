@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:agriglance/Services/authentication_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:file_picker/file_picker.dart';
@@ -9,7 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:universal_html/html.dart' as html;
 
@@ -331,9 +329,9 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
       Reference storageReference =
           FirebaseStorage.instance.ref().child("studyMaterials/" + fileName);
       UploadTask uploadTask;
-      if(kIsWeb) {
+      if (kIsWeb) {
         uploadTask = storageReference.putBlob(file);
-      } else{
+      } else {
         uploadTask = storageReference.putFile(file);
       }
       uploadTask.whenComplete(() async {
@@ -350,7 +348,6 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
         }
       });
     }
-    showMessage("No file Selected!");
   }
 
   void fetchSubjectList() async {

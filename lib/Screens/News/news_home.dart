@@ -44,10 +44,11 @@ class _NewsHomeState extends State<NewsHome> {
 
               if (news['isApprovedByAdmin']) {
                 return NewsCard(
+                    approved: news['isApprovedByAdmin'],
                     newsTitle: news['title'],
                     newsDescription: news['description'],
-                    newsImage: news['imageUrl'],
                     newsFile: news['fileUrl'],
+                    newsLink: news['newsLink'],
                     newsDate: news['postedAt'],
                     newsPostedBy: _newsPostedBy);
               }

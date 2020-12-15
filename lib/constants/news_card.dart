@@ -1,29 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:core';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NewsCard extends StatelessWidget {
+  final bool approved;
   final String newsTitle;
   final String newsDescription;
-  final String newsImage;
   final String newsFile;
   final String newsDate;
+  final String newsLink;
   final String newsPostedBy;
 
   NewsCard(
-      {this.newsTitle,
+      {this.approved,
+      this.newsTitle,
       this.newsDescription,
       this.newsDate,
+      this.newsLink,
       this.newsFile,
-      this.newsImage,
       this.newsPostedBy});
+
+  final TextStyle linkStyle = TextStyle(color: Colors.blue, fontSize: 20.0);
 
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    bool isImageAvailable = newsImage != null || newsImage != "" ? true : false;
     return Container(
       padding: EdgeInsets.all(deviceWidth / 25),
       child: Card(
@@ -35,19 +40,31 @@ class NewsCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(
+                ((approved == true)
+                    ? "Approved by Admin"
+                    : "Waiting for approval"),
+                style: TextStyle(fontSize: 8.0),
+              ),
+              Text(
                 "$newsTitle",
                 style: GoogleFonts.oswald(
                     fontWeight: FontWeight.w500, fontSize: 20.0),
               ),
-              Visibility(
-                  visible: isImageAvailable,
-                  child: Image.network(
-                    newsImage,
-                    height: deviceHeight / 2,
-                    width: deviceWidth,
-                  )),
+              Image.network(
+                newsFile,
+                height: deviceHeight / 2,
+                width: deviceWidth,
+              ),
               Text(
                 'Description: $newsDescription',
+              ),
+              GestureDetector(
+                onTap: () {
+                  _launchURL(newsLink);
+                },
+                child: Container(
+                  child: Text('Go To News', style: linkStyle),
+                ),
               ),
               Text("${DateFormat('yMMMMd').format(DateTime.parse(newsDate))}"),
               (newsPostedBy != null && newsPostedBy != "")
@@ -57,4 +74,7 @@ class NewsCard extends StatelessWidget {
       ),
     );
   }
+
+  void _launchURL(url) async =>
+      await canLaunch(url) ? await launch(url) : Fluttertoast.showToast(msg: "Could not launch $url");
 }

@@ -11,7 +11,8 @@ class QuizHome extends StatefulWidget {
 
 class _QuizHomeState extends State<QuizHome> {
   final _uid = FirebaseAuth.instance.currentUser.uid;
-  final _uname = FirebaseAuth.instance.currentUser.displayName;
+  String _uname;
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -19,24 +20,14 @@ class _QuizHomeState extends State<QuizHome> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           tooltip: "Add quiz",
-          child: Column(
-            children: <Widget>[
-              Icon(
-                Icons.add,
-                size: 40.0,
-              ),
-              Text(
-                "Add Quiz",
-                style: TextStyle(fontSize: 10.0),
-              ),
-            ],
+          child: Icon(
+            Icons.add,
+            size: 40.0,
           ),
           backgroundColor: Colors.amber,
           onPressed: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Quiz()));
+                context, MaterialPageRoute(builder: (context) => Quiz()));
           }),
       appBar: AppBar(
         title: Text("Quizzes"),
@@ -53,25 +44,27 @@ class _QuizHomeState extends State<QuizHome> {
                 child: StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection("QuizTestName")
+                      .orderBy("isApprovedByAdmin", descending: true)
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
-                      return Text("Loading");
+                      return Center(child: CircularProgressIndicator());
                     }
-
                     final testNames = snapshot.data.docs;
                     List<QuizCard> testsWidgets = [];
                     for (var test in testNames) {
-                      final quizName = test.get('quizName').toString();
-                      final uuid = test.get('uid').toString();
-                  
-                      final testWidget = QuizCard(
-                        quizName: quizName,
-                        uid: uuid,
-                        currentUser: _uid,
-                      );
+                      if(test.get('isApprovedByAdmin')) {
+                        final quizName = test.get('quizName').toString();
+                        final uuid = test.get('uid').toString();
 
-                      testsWidgets.add(testWidget);
+                        final testWidget = QuizCard(
+                          quizName: quizName,
+                          uid: uuid,
+                          currentUser: _uid,
+                        );
+
+                        testsWidgets.add(testWidget);
+                      }
                     }
 
                     return (ListView(children: testsWidgets));

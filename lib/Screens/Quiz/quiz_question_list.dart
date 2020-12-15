@@ -4,7 +4,9 @@ import '../../constants/quiz_question_card.dart';
 
 class QuizQuestions extends StatefulWidget {
   QuizQuestions({this.quizName});
+
   final String quizName;
+
   @override
   _QuizQuestionsState createState() => _QuizQuestionsState();
 }
@@ -35,9 +37,8 @@ class _QuizQuestionsState extends State<QuizQuestions> {
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
-                      return Text("Loading");
+                      return Center(child: CircularProgressIndicator());
                     }
-
                     final questionNames = snapshot.data.docs;
                     List<QuestionCard> questionsWidgets = [];
                     for (var question in questionNames) {

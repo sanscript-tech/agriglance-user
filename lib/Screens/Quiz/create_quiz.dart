@@ -1,3 +1,5 @@
+import 'package:agriglance/Models/usermodel.dart';
+import 'package:agriglance/Services/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,11 +12,11 @@ class Quiz extends StatefulWidget {
 
 class _QuizState extends State<Quiz> {
   final _uid = FirebaseAuth.instance.currentUser.uid;
-  final _uname = FirebaseAuth.instance.currentUser.displayName;
+  String _uname;
   bool _isApproved = false;
   bool isAvailable = false;
 
-  String _quizSubject = "";
+  String _quizName = "";
   int time = 0;
   int numOfQues = 0;
 
@@ -66,19 +68,23 @@ class _QuizState extends State<Quiz> {
         ),
         body: SafeArea(
             child: Column(children: <Widget>[
-          Text("Subject type and quiz name"),
           TextFormField(
-            inputFormatters: [LengthLimitingTextInputFormatter(30)],
+            inputFormatters: [LengthLimitingTextInputFormatter(50)],
             validator: (val) => val.isEmpty ? 'Quiz subject is required' : null,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              icon: Icon(Icons.edit),
+              hintText: 'Enter quiz name',
+              labelText: 'Quiz Name',
+            ),
             onChanged: (val) {
               setState(() {
-                _quizSubject = val;
+                _quizName = val;
               });
             },
           ),
-          Text("Time Limit"),
           TextFormField(
-            inputFormatters: [LengthLimitingTextInputFormatter(30)],
+            inputFormatters: [LengthLimitingTextInputFormatter(50)],
             validator: (val) => val.isEmpty ? 'Time Limit is required' : null,
             onChanged: (val) {
               setState(() {
@@ -87,19 +93,24 @@ class _QuizState extends State<Quiz> {
             },
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
-              hintText: 'Enter the time limit',
-              labelText: 'Time',
+              hintText: 'Enter the time limit in seconds',
+              labelText: 'Time in seconds',
+              icon: Icon(Icons.timer_sharp),
             ),
           ),
-          Text("Number of questions"),
           TextFormField(
-            keyboardType: TextInputType.number,
             controller: eCtrl,
             onChanged: (value) {
               setState(() {
                 numOfQues = int.parse(value);
               });
             },
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              hintText: 'Enter Number of Questions',
+              labelText: 'Number of Questions',
+              icon: Icon(Icons.confirmation_number_outlined),
+            ),
           ),
           Expanded(
             child: ListView.builder(
@@ -112,6 +123,7 @@ class _QuizState extends State<Quiz> {
                     child: Container(
                       child: Form(
                         key: _formKey,
+                        autovalidateMode: AutovalidateMode.always,
                         child: Column(
                           children: <Widget>[
                             TextFormField(
@@ -176,14 +188,23 @@ class _QuizState extends State<Quiz> {
                                 }),
                             RaisedButton(
                               child: Text("Submit"),
+                              color: Colors.yellow,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
                               onPressed: () async {
+                                UserModel updateUser = await FirestoreService()
+                                    .getUser(
+                                        FirebaseAuth.instance.currentUser.uid);
+                                setState(() {
+                                  _uname = updateUser.fullName;
+                                });
                                 if (_formKey.currentState.validate()) {
                                   _formKey.currentState.save();
-                                  isQuizAvailable(_quizSubject);
+                                  isQuizAvailable(_quizName);
                                   if (isAvailable) {
                                     await FirebaseFirestore.instance
                                         .collection("QuizTestName")
-                                        .doc(_quizSubject)
+                                        .doc(_quizName)
                                         .collection("questions")
                                         .add({
                                       "ques": _ques,
@@ -196,9 +217,9 @@ class _QuizState extends State<Quiz> {
                                   } else {
                                     await FirebaseFirestore.instance
                                         .collection("QuizTestName")
-                                        .doc(_quizSubject)
+                                        .doc(_quizName)
                                         .set({
-                                      "quizName": _quizSubject,
+                                      "quizName": _quizName,
                                       "quizTime": time,
                                       "isApprovedByAdmin": _isApproved,
                                       "uid": _uid,
@@ -206,7 +227,7 @@ class _QuizState extends State<Quiz> {
                                     });
                                     await FirebaseFirestore.instance
                                         .collection("QuizTestName")
-                                        .doc(_quizSubject)
+                                        .doc(_quizName)
                                         .collection("questions")
                                         .add({
                                       "ques": _ques,
@@ -217,7 +238,6 @@ class _QuizState extends State<Quiz> {
                                       "correct": _rightAnswer
                                     });
                                   }
-
                                   setState(() {
                                     numOfQues -= 1;
                                   });

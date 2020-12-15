@@ -95,7 +95,7 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
   }
 
   void _launchURL(url) async =>
-      await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
+      await canLaunch(url) ? await launch(url) : Fluttertoast.showToast(msg: "Could not launch $url");
 
   Future<options> _asyncSimpleDialog(
       BuildContext context, String url, String filename) async {
