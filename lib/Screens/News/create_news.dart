@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path/path.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -69,8 +70,7 @@ class _CreateNewsState extends State<CreateNews> {
           });
         });
 
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: const Text("Image uploaded successfully")));
+        Fluttertoast.showToast(msg: "Image uploaded successfully");
       } catch (e) {
         setState(() {
           showUploadButton = true;
@@ -146,8 +146,7 @@ class _CreateNewsState extends State<CreateNews> {
             _fileUrl = value;
           });
         });
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: const Text("File uploaded successfully")));
+        Fluttertoast.showToast(msg: "File uploaded successfully");
       } catch (e) {
         setState(() {
           showUploadButton = true;
@@ -232,7 +231,8 @@ class _CreateNewsState extends State<CreateNews> {
               Visibility(
                 visible: showUploadButton,
                 child: OutlineButton(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50)),
                   borderSide: BorderSide(color: Colors.blue, width: 2.0),
                   child: Text("Upload Image"),
                   onPressed: () {
@@ -247,7 +247,8 @@ class _CreateNewsState extends State<CreateNews> {
               ),
               Visibility(
                 child: OutlineButton(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50)),
                   borderSide: BorderSide(color: Colors.blue, width: 2.0),
                   child: Text("Upload File"),
                   onPressed: () {

@@ -79,11 +79,11 @@ class AuthenticationService {
   }
 
   Future editProfile(String email, String fullName, String dob,
-      String qualification, String university) async {
+      String qualification, String university,int points) async {
     try {
       _firebaseAuth.currentUser.updateEmail(email);
       _currentUser = UserModel(_firebaseAuth.currentUser.uid, fullName, email,
-          dob, qualification, university, 0);
+          dob, qualification, university, points);
       await _firestoreService.createOrUpdateUser(_currentUser);
       return "Signed Up";
     } on FirebaseAuthException catch (e) {

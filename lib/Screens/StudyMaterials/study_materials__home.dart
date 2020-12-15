@@ -31,12 +31,14 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
         title: Text("Study Materials"),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => AddStudyMaterial(
-                    uid: auth.currentUser.uid,
-                    uName: auth.currentUser.displayName))),
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => AddStudyMaterial(
+                      uid: auth.currentUser.uid,
+                      uName: auth.currentUser.displayName)));
+        },
         child: Icon(Icons.add),
       ),
       body: Container(

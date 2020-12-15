@@ -47,15 +47,15 @@ class _UpdateProfileState extends State<UpdateProfile> {
     String _dob = "";
     String _qualification = "";
     String _university = "";
+    int points = userData.points;
     void showMessage(String message, [MaterialColor color = Colors.red]) {
       _scaffoldKey.currentState.showSnackBar(
           new SnackBar(backgroundColor: color, content: new Text(message)));
     }
 
     Future _updateProfile() {
-      context
-          .read<AuthenticationService>()
-          .editProfile(_emailId, _fullName, _dob, _qualification, _university);
+      context.read<AuthenticationService>().editProfile(
+          _emailId, _fullName, _dob, _qualification, _university, points);
     }
 
     void _submitForm() async {
@@ -98,10 +98,9 @@ class _UpdateProfileState extends State<UpdateProfile> {
                   onSaved: (val) => _emailId = val,
                   initialValue: userData.email,
                   decoration: InputDecoration(
-                    hintText: 'Email Id',
-                    icon: Icon(Icons.email),
-                    labelText: "Email Id"
-                  ),
+                      hintText: 'Email Id',
+                      icon: Icon(Icons.email),
+                      labelText: "Email Id"),
                 ),
               ),
               Padding(
@@ -111,10 +110,9 @@ class _UpdateProfileState extends State<UpdateProfile> {
                   onSaved: (val) => _dob = val,
                   initialValue: userData.dob,
                   decoration: InputDecoration(
-                    hintText: 'DOB',
-                    icon: Icon(Icons.date_range),
-                    labelText: "Date of Birth"
-                  ),
+                      hintText: 'DOB',
+                      icon: Icon(Icons.date_range),
+                      labelText: "Date of Birth"),
                 ),
               ),
               Padding(
@@ -125,10 +123,9 @@ class _UpdateProfileState extends State<UpdateProfile> {
                   onSaved: (val) => _qualification = val,
                   initialValue: userData.qualification,
                   decoration: InputDecoration(
-                    hintText: 'Qualification',
-                    icon: Icon(Icons.grade),
-                    labelText: "Educational Qualification"
-                  ),
+                      hintText: 'Qualification',
+                      icon: Icon(Icons.grade),
+                      labelText: "Educational Qualification"),
                 ),
               ),
               Padding(
@@ -139,10 +136,9 @@ class _UpdateProfileState extends State<UpdateProfile> {
                   onSaved: (val) => _university = val,
                   initialValue: userData.university,
                   decoration: InputDecoration(
-                    hintText: 'University',
-                    icon: Icon(Icons.account_balance),
-                    labelText: "University"
-                  ),
+                      hintText: 'University',
+                      icon: Icon(Icons.account_balance),
+                      labelText: "University"),
                 ),
               ),
               Container(
