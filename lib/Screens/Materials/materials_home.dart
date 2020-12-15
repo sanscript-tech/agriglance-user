@@ -3,6 +3,7 @@ import 'package:agriglance/Screens/StudyMaterials/study_materials__home.dart';
 import 'package:agriglance/Screens/Videos/video_home.dart';
 import 'package:flutter/material.dart';
 import '../News/news_home.dart';
+import '../Quiz/quiz_home.dart';
 
 class MaterialsHome extends StatelessWidget {
   @override
@@ -36,6 +37,11 @@ class MaterialsHome extends StatelessWidget {
               {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => newScreen));
+                break;
+              }
+            case "Quiz":
+              {
+                Navigator.push(context, MaterialPageRoute(builder:(context)=>newScreen));
                 break;
               }
 
@@ -89,7 +95,8 @@ class MaterialsHome extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              categoryButton("Polls", context, PollHome())
+              categoryButton("Polls", context, PollHome()),
+              categoryButton("Quiz", context, QuizHome())
             ],
           )
         ],
