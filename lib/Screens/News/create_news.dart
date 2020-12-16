@@ -111,7 +111,7 @@ class _CreateNewsState extends State<CreateNews> {
                       borderRadius: BorderRadius.circular(50)),
                   borderSide: BorderSide(color: Color(0xFF3EC3C1), width: 2.0),
                   child: Text(
-                    'Select File',
+                    'Upload Image',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
                   ),
                 ),
