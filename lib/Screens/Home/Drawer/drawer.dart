@@ -120,6 +120,14 @@ class _DrawerWindowState extends State<DrawerWindow> {
             },
           ),
           ListTile(
+            trailing: Icon(Icons.lightbulb),
+            title: Text("My Quiz"),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MyQuiz()));
+            },
+          ),
+          ListTile(
             trailing: Icon(Icons.videocam),
             title: Text("My Videos"),
             onTap: () {

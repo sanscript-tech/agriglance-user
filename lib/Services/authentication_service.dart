@@ -79,7 +79,7 @@ class AuthenticationService {
   }
 
   Future editProfile(String email, String fullName, String dob,
-      String qualification, String university,int points) async {
+      String qualification, String university, int points) async {
     try {
       _firebaseAuth.currentUser.updateEmail(email);
       _currentUser = UserModel(_firebaseAuth.currentUser.uid, fullName, email,
@@ -87,23 +87,6 @@ class AuthenticationService {
       await _firestoreService.createOrUpdateUser(_currentUser);
       return "Signed Up";
     } on FirebaseAuthException catch (e) {
-      return e.message;
-    }
-  }
-
-  Future<String> addPoints(String uid, int addPoints) async {
-    try {
-      _currentUser = UserModel(
-          uid,
-          _currentUser.fullName,
-          currentUser.email,
-          currentUser.dob,
-          currentUser.qualification,
-          currentUser.university,
-          (currentUser.points==null ? 0:currentUser.points) + addPoints);
-      await _firestoreService.createOrUpdateUser(_currentUser);
-      return "true";
-    } on FirebaseException catch (e) {
       return e.message;
     }
   }

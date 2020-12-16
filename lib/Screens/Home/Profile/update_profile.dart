@@ -108,7 +108,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                 child: TextFormField(
                   validator: (val) => val.isEmpty ? 'DOB is required' : null,
                   onSaved: (val) => _dob = val,
-                  initialValue: userData.date,
+                  initialValue: userData.dob,
                   decoration: InputDecoration(
                       hintText: 'DOB',
                       icon: Icon(Icons.date_range),

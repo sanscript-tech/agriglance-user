@@ -21,6 +21,7 @@ class _MyVideosState extends State<MyVideos> {
             .collection("Videos")
             .where("postedBy",
                 isEqualTo: FirebaseAuth.instance.currentUser.uid.toString())
+            .orderBy('isApprovedByAdmin', descending: true)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {

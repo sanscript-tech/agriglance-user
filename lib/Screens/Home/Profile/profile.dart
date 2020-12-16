@@ -87,7 +87,7 @@ class _ProfileState extends State<Profile> {
                   style: defaultStyle,
                 ),
                 Text(
-                  "${userData.date}",
+                  "${userData.dob}",
                   style: valueStyle,
                 ),
               ],

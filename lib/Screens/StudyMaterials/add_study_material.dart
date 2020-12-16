@@ -24,8 +24,8 @@ class AddStudyMaterial extends StatefulWidget {
 class _AddStudyMaterialState extends State<AddStudyMaterial> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  String _title;
-  String _description;
+  String _title = "";
+  String _description = "";
   String _pdfUrl;
   String _subject = "Choose Subject";
   FilePickerResult _filePickerResult;
@@ -53,9 +53,9 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
       showMessage('Form is not valid!  Please review and correct.');
     } else {
       form.save();
+      _uploadStudyMaterial();
+      Navigator.pop(context);
     }
-    _uploadStudyMaterial();
-    Navigator.pop(context);
   }
 
   Future<void> _uploadStudyMaterial() async {

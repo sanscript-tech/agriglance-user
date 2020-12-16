@@ -67,7 +67,7 @@ class _StudyMaterialCardState extends State<StudyMaterialCard> {
                 child: Text(
                   (widget.postedByName != null && widget.postedByName != "")
                       ? "Posted By: " + widget.postedByName
-                      : "Posted By: FAnonymous",
+                      : "Posted By: Anonymous",
                   style: TextStyle(fontSize: 12.0),
                 ),
               ),
