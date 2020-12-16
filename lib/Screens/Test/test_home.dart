@@ -46,8 +46,8 @@ class TestHome extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              categoryButton("ICAR UG", context),
-              categoryButton("ICAR JRF", context),
+              categoryButton("IPS", context),
+              categoryButton("IAS", context),
             ],
           ),
           SizedBox(

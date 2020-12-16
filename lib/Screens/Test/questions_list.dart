@@ -1,3 +1,4 @@
+import 'package:agriglance/Screens/Test/SingleSubject.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../constants/question_card.dart';
@@ -16,6 +17,14 @@ class _QuestionsListState extends State<QuestionsList> {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+          floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.done),
+          onPressed: () {
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("Submitted test Successfully.")));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => SingleSubject()));
+          }),
       appBar: AppBar(
         title: Text("Agriglance"),
         centerTitle: true,
@@ -57,6 +66,8 @@ class _QuestionsListState extends State<QuestionsList> {
                       final option3 = question.get('option3').toString();
                       final option4 = question.get('option4').toString();
                       final questionWidget = QuestionCard(
+                        subjectName: widget.subjectName,
+                        testName: widget.testname,
                         question: questionTest,
                         option1: option1,
                         option2: option2,
