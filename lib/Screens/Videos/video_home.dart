@@ -1,8 +1,11 @@
 import 'package:agriglance/Screens/Videos/submit_video.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/foundation.dart';
 
 class VideoHome extends StatefulWidget {
   @override
@@ -10,6 +13,8 @@ class VideoHome extends StatefulWidget {
 }
 
 class _VideoHomeState extends State<VideoHome> {
+  final TextStyle linkStyle = TextStyle(color: Colors.blue, fontSize: 20.0);
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -45,52 +50,69 @@ class _VideoHomeState extends State<VideoHome> {
               if (videos['isApprovedByAdmin']) {
                 var url = videos['videoUrl'];
 
-                YoutubePlayerController _controller = YoutubePlayerController(
-                  initialVideoId: YoutubePlayer.convertUrlToId(url),
-                  flags: YoutubePlayerFlags(
-                      controlsVisibleAtStart: true,
-                      autoPlay: false,
-                      mute: false,
-                      disableDragSeek: false,
-                      loop: false,
-                      isLive: false,
-                      forceHD: false),
-                );
-
                 return Center(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      width: width / 1,
-                      child: YoutubePlayerBuilder(
-                        player: YoutubePlayer(
-                          controller: _controller,
-                          showVideoProgressIndicator: true,
-                          liveUIColor: Colors.redAccent,
-                          bottomActions: [
-                            FullScreenButton(
-                              color: Colors.amber[700],
-                            ),
-                            CurrentPosition(),
-                            PlaybackSpeedButton(),
-                          ],
-                        ),
-                        builder: (context, player) {
-                          return Column(
-                            children: [
-                              Text(
-                                videos['lectureTitle'],
-                                style: GoogleFonts.notoSans(
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 20.0),
-                              ),
-                              player,
-                            ],
-                          );
-                        },
-                      ),
-                    ),
-                  ),
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                          width: width / 1,
+                          child: (!kIsWeb)
+                              ? YoutubePlayerBuilder(
+                                  player: YoutubePlayer(
+                                    controller: YoutubePlayerController(
+                                      initialVideoId:
+                                          YoutubePlayer.convertUrlToId(url),
+                                      flags: YoutubePlayerFlags(
+                                          controlsVisibleAtStart: true,
+                                          autoPlay: false,
+                                          mute: false,
+                                          disableDragSeek: false,
+                                          loop: false,
+                                          isLive: false,
+                                          forceHD: false),
+                                    ),
+                                    showVideoProgressIndicator: true,
+                                    liveUIColor: Colors.redAccent,
+                                    bottomActions: [
+                                      FullScreenButton(
+                                        color: Colors.amber[700],
+                                      ),
+                                      CurrentPosition(),
+                                      PlaybackSpeedButton(),
+                                    ],
+                                  ),
+                                  builder: (context, player) {
+                                    return Column(
+                                      children: [
+                                        Text(
+                                          videos['lectureTitle'],
+                                          style: GoogleFonts.notoSans(
+                                              fontStyle: FontStyle.normal,
+                                              fontSize: 20.0),
+                                        ),
+                                        player,
+                                      ],
+                                    );
+                                  },
+                                )
+                              : Column(
+                                  children: [
+                                    Text(
+                                      videos['lectureTitle'],
+                                      style: GoogleFonts.notoSans(
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 20.0),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        _launchURL(url);
+                                      },
+                                      child: Text(
+                                        "Link to the video",
+                                        style: linkStyle,
+                                      ),
+                                    ),
+                                  ],
+                                ))),
                 );
               }
               return null;
@@ -100,4 +122,8 @@ class _VideoHomeState extends State<VideoHome> {
       ),
     );
   }
+
+  void _launchURL(url) async => await canLaunch(url)
+      ? await launch(url)
+      : Fluttertoast.showToast(msg: 'Could not launch $url');
 }
