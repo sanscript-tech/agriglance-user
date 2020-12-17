@@ -6,9 +6,10 @@ class UserModel {
   final String qualification;
   final String university;
   final int points;
+  final bool isBanned;
 
   UserModel(this.id, this.fullName, this.email, this.dob, this.qualification,
-      this.university, this.points);
+      this.university, this.points, this.isBanned);
 
   UserModel.fromData(Map<String, dynamic> data)
       : id = data['id'],
@@ -17,7 +18,8 @@ class UserModel {
         dob = data['dob'],
         qualification = data['qualification'],
         university = data['university'],
-        points = data['points'];
+        points = data['points'],
+        isBanned = data['isBanned'];
 
   Map<String, dynamic> toJson() {
     return {
@@ -27,7 +29,8 @@ class UserModel {
       'dob': dob,
       'qualification': qualification,
       'university': university,
-      'points': points
+      'points': points,
+      'isBanned': isBanned
     };
   }
 }

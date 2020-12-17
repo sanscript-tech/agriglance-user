@@ -20,6 +20,10 @@ class AuthenticationService {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
       await _populateCurrentUser(_firebaseAuth.currentUser);
+      if (_currentUser.isBanned) {
+        signOut();
+        return "User Banned!";
+      }
       return "Signed In";
     } on FirebaseAuthException catch (e) {
       return e.message;
@@ -32,7 +36,7 @@ class AuthenticationService {
       await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
       _currentUser = UserModel(_firebaseAuth.currentUser.uid, fullName, email,
-          dob, qualification, university, 0);
+          dob, qualification, university, 0, false);
       await _firestoreService.createOrUpdateUser(_currentUser);
       return "Signed Up";
     } on FirebaseAuthException catch (e) {
@@ -67,7 +71,8 @@ class AuthenticationService {
 
       print('signInWithGoogle succeeded: $user');
       if (_firestoreService.isUserRegistered(user.uid) == null) {
-        _currentUser = UserModel(user.uid, "", user.email, "", "", "", 0);
+        _currentUser =
+            UserModel(user.uid, "", user.email, "", "", "", 0, false);
         await _firestoreService.createOrUpdateUser(_currentUser);
       } else {
         await _populateCurrentUser(currentUser);
@@ -83,7 +88,7 @@ class AuthenticationService {
     try {
       _firebaseAuth.currentUser.updateEmail(email);
       _currentUser = UserModel(_firebaseAuth.currentUser.uid, fullName, email,
-          dob, qualification, university, points);
+          dob, qualification, university, points, false);
       await _firestoreService.createOrUpdateUser(_currentUser);
       return "Signed Up";
     } on FirebaseAuthException catch (e) {

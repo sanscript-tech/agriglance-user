@@ -4,8 +4,11 @@ import 'package:agriglance/Screens/Materials/materials_home.dart';
 import 'package:agriglance/Screens/Qna/qna_home.dart';
 import 'package:agriglance/Screens/Test/test_home.dart';
 import 'package:agriglance/Services/authentication_service.dart';
+import 'package:agriglance/Services/firestore_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
@@ -22,6 +25,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
+    checkUserIsBanned();
     _tabController = new TabController(length: 4, vsync: this);
     super.initState();
   }
@@ -62,5 +66,19 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       ]),
       drawer: DrawerWindow(),
     );
+  }
+
+  void checkUserIsBanned() {
+    FirestoreService()
+        .getUser(FirebaseAuth.instance.currentUser.uid)
+        .then((user) {
+      if (user.isBanned) {
+        context.read<AuthenticationService>().signOut();
+        Fluttertoast.showToast(
+            msg: "User is banned by the Admin",
+            gravity: ToastGravity.BOTTOM,
+            toastLength: Toast.LENGTH_LONG);
+      }
+    });
   }
 }
