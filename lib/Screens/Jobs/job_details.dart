@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:agriglance/Models/usermodel.dart';
+import 'package:agriglance/Services/firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -46,6 +48,7 @@ class _JobDetailsState extends State<JobDetails> {
   String fileUrl = "";
   var file;
   bool showUploadButton = true;
+  String uName = "";
 
   Future _uploadFileCV() async {
     if (file != null) {
@@ -61,6 +64,11 @@ class _JobDetailsState extends State<JobDetails> {
       uploadTask.whenComplete(() async {
         try {
           loadProgress();
+          UserModel updateUser = await FirestoreService()
+              .getUser(FirebaseAuth.instance.currentUser.uid);
+          setState(() {
+            uName = updateUser.fullName;
+          });
           await storageReference.getDownloadURL().then((value) {
             print("***********" + value + "**********");
             setState(() {
@@ -74,7 +82,7 @@ class _JobDetailsState extends State<JobDetails> {
                 'cvUrl': _pdfUrl,
                 'cvFileName': fileName,
                 'appliedBy': FirebaseAuth.instance.currentUser.uid,
-                'appliedByName': FirebaseAuth.instance.currentUser.displayName,
+                'appliedByName': uName,
               });
             });
           });

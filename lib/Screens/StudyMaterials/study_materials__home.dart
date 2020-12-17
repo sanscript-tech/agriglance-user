@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:core';
 
+import 'package:agriglance/Models/usermodel.dart';
 import 'package:agriglance/Screens/StudyMaterials/add_study_material.dart';
+import 'package:agriglance/Services/firestore_service.dart';
 import 'package:agriglance/constants/study_material_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,6 +25,7 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final papersCollectionReference =
       FirebaseStorage.instance.ref().child("studyMaterials");
+  String uName = "";
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +34,17 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
         title: Text("Study Materials"),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
+          UserModel updateUser = await FirestoreService()
+              .getUser(FirebaseAuth.instance.currentUser.uid);
+          setState(() {
+            uName = updateUser.fullName;
+          });
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => AddStudyMaterial(
-                      uid: auth.currentUser.uid,
-                      uName: auth.currentUser.displayName)));
+                      uid: auth.currentUser.uid, uName: uName)));
         },
         child: Icon(Icons.add),
       ),
@@ -94,8 +101,9 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
     }
   }
 
-  void _launchURL(url) async =>
-      await canLaunch(url) ? await launch(url) : Fluttertoast.showToast(msg: "Could not launch $url");
+  void _launchURL(url) async => await canLaunch(url)
+      ? await launch(url)
+      : Fluttertoast.showToast(msg: "Could not launch $url");
 
   Future<options> _asyncSimpleDialog(
       BuildContext context, String url, String filename) async {
