@@ -50,38 +50,58 @@ class _VideoHomeState extends State<VideoHome> {
               if (videos['isApprovedByAdmin']) {
                 var url = videos['videoUrl'];
 
-                return Center(
-                  child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                          width: width / 1,
-                          child: (!kIsWeb)
-                              ? YoutubePlayerBuilder(
-                                  player: YoutubePlayer(
-                                    controller: YoutubePlayerController(
-                                      initialVideoId:
-                                          YoutubePlayer.convertUrlToId(url),
-                                      flags: YoutubePlayerFlags(
-                                          controlsVisibleAtStart: true,
-                                          autoPlay: false,
-                                          mute: false,
-                                          disableDragSeek: false,
-                                          loop: false,
-                                          isLive: false,
-                                          forceHD: false),
-                                    ),
-                                    showVideoProgressIndicator: true,
-                                    liveUIColor: Colors.redAccent,
-                                    bottomActions: [
-                                      FullScreenButton(
-                                        color: Colors.amber[700],
+                return Container(
+                  width: MediaQuery.of(context).size.width / 2,
+                  child: Card(
+                    elevation: 5.0,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        side: BorderSide(width: 2.0)),
+                    child: Center(
+                      child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                              width: width / 1,
+                              child: (!kIsWeb)
+                                  ? YoutubePlayerBuilder(
+                                      player: YoutubePlayer(
+                                        controller: YoutubePlayerController(
+                                          initialVideoId:
+                                              YoutubePlayer.convertUrlToId(url),
+                                          flags: YoutubePlayerFlags(
+                                              controlsVisibleAtStart: true,
+                                              autoPlay: false,
+                                              mute: false,
+                                              disableDragSeek: false,
+                                              loop: false,
+                                              isLive: false,
+                                              forceHD: false),
+                                        ),
+                                        showVideoProgressIndicator: true,
+                                        liveUIColor: Colors.redAccent,
+                                        bottomActions: [
+                                          FullScreenButton(
+                                            color: Colors.amber[700],
+                                          ),
+                                          CurrentPosition(),
+                                          PlaybackSpeedButton(),
+                                        ],
                                       ),
-                                      CurrentPosition(),
-                                      PlaybackSpeedButton(),
-                                    ],
-                                  ),
-                                  builder: (context, player) {
-                                    return Column(
+                                      builder: (context, player) {
+                                        return Column(
+                                          children: [
+                                            Text(
+                                              videos['lectureTitle'],
+                                              style: GoogleFonts.notoSans(
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 20.0),
+                                            ),
+                                            player,
+                                          ],
+                                        );
+                                      },
+                                    )
+                                  : Column(
                                       children: [
                                         Text(
                                           videos['lectureTitle'],
@@ -89,30 +109,19 @@ class _VideoHomeState extends State<VideoHome> {
                                               fontStyle: FontStyle.normal,
                                               fontSize: 20.0),
                                         ),
-                                        player,
+                                        GestureDetector(
+                                          onTap: () {
+                                            _launchURL(url);
+                                          },
+                                          child: Text(
+                                            "Link to the video",
+                                            style: linkStyle,
+                                          ),
+                                        ),
                                       ],
-                                    );
-                                  },
-                                )
-                              : Column(
-                                  children: [
-                                    Text(
-                                      videos['lectureTitle'],
-                                      style: GoogleFonts.notoSans(
-                                          fontStyle: FontStyle.normal,
-                                          fontSize: 20.0),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        _launchURL(url);
-                                      },
-                                      child: Text(
-                                        "Link to the video",
-                                        style: linkStyle,
-                                      ),
-                                    ),
-                                  ],
-                                ))),
+                                    ))),
+                    ),
+                  ),
                 );
               }
               return null;
