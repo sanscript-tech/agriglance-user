@@ -19,8 +19,19 @@ class _SignInState extends State<SignIn> {
   final TextEditingController passwordController = TextEditingController();
   final TextStyle defaultStyle = TextStyle(color: Colors.grey, fontSize: 20.0);
   final TextStyle linkStyle = TextStyle(color: Colors.blue, fontSize: 20.0);
-  var opacity = 0.0;
-  var response;
+  bool visible = false;
+
+  loadProgress() {
+    if (visible == true) {
+      setState(() {
+        visible = false;
+      });
+    } else {
+      setState(() {
+        visible = true;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +45,6 @@ class _SignInState extends State<SignIn> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Opacity(
-                opacity: opacity,
-                child: CircularProgressIndicator(
-                  backgroundColor: Colors.yellow,
-                  strokeWidth: 8,
-                ),
-              ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 25.0),
                 child: TextField(
@@ -62,20 +66,24 @@ class _SignInState extends State<SignIn> {
                   color: Colors.yellow,
                   onPressed: () async {
                     setState(() {
-                      opacity = 1.0;
+                      loadProgress();
                     });
-                    response = await context
+                    await context
                         .read<AuthenticationService>()
-                        .signIn(emailController.text, passwordController.text);
-                    if (response != "Signed In") {
-                      setState(() {
-                        opacity = 0.0;
-                      });
-                      Fluttertoast.showToast(
-                          msg: response,
-                          toastLength: Toast.LENGTH_LONG,
-                          gravity: ToastGravity.BOTTOM);
-                    }
+                        .signIn(emailController.text, passwordController.text)
+                        .then((value) {
+                      if (value == "Signed In") {
+                        Navigator.popUntil(context, (route) => route.isFirst);
+                      } else {
+                        setState(() {
+                          loadProgress();
+                        });
+                        Fluttertoast.showToast(
+                            msg: value,
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.BOTTOM);
+                      }
+                    });
                   },
                   child: Text(
                     "Sign In",
@@ -83,15 +91,37 @@ class _SignInState extends State<SignIn> {
                   ),
                 ),
               ),
+              Visibility(
+                visible: visible,
+                child: CircularProgressIndicator(
+                  backgroundColor: Colors.yellow,
+                  strokeWidth: 8,
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 25.0),
                 child: OutlineButton(
                   splashColor: Colors.grey,
-                  onPressed: () {
+                  onPressed: () async {
                     setState(() {
-                      opacity = 1.0;
+                      loadProgress();
                     });
-                    context.read<AuthenticationService>().signInWithGoogle();
+                    await context
+                        .read<AuthenticationService>()
+                        .signInWithGoogle()
+                        .then((value) {
+                      if (value == "Signed In") {
+                        Navigator.pop(context);
+                      } else {
+                        setState(() {
+                          loadProgress();
+                        });
+                        Fluttertoast.showToast(
+                            msg: value,
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.BOTTOM);
+                      }
+                    });
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40)),

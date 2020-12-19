@@ -1,4 +1,5 @@
 import 'package:agriglance/Screens/Videos/submit_video.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -20,14 +21,14 @@ class _VideoHomeState extends State<VideoHome> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: (FirebaseAuth.instance.currentUser != null) ? FloatingActionButton(
         child: Icon(
           Icons.add,
           size: 30.0,
         ),
         onPressed: () => Navigator.push(
             context, MaterialPageRoute(builder: (context) => SubmitVideo())),
-      ),
+      ) : null,
       appBar: AppBar(title: Text("Learning Videos"), centerTitle: true),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance

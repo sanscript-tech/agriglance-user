@@ -1,13 +1,9 @@
-import 'package:agriglance/Models/usermodel.dart';
-import 'package:agriglance/Screens/Quiz/quiz_home.dart';
-import 'package:agriglance/Services/firestore_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'Screens/Home/home.dart';
-import 'Services/authenticate.dart';
 import 'Services/authentication_service.dart';
 
 void main() async {
@@ -34,22 +30,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.amber,
           ),
-          home: AuthenticationWrapper(),
+          home: Home(),
         ));
-  }
-}
-
-class AuthenticationWrapper extends StatelessWidget {
-  const AuthenticationWrapper({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final firebaseUser = context.watch<User>();
-    if (firebaseUser != null) {
-      return Home();
-    }
-    return Authenticate();
   }
 }

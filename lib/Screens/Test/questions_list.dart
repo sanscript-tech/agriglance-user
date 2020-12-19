@@ -1,4 +1,6 @@
 import 'package:agriglance/Screens/Test/SingleSubject.dart';
+import 'package:agriglance/Services/authenticate.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../constants/question_card.dart';
@@ -6,7 +8,9 @@ import '../../constants/question_card.dart';
 class QuestionsList extends StatefulWidget {
   final String subjectName;
   final String testname;
+
   QuestionsList({this.subjectName, this.testname});
+
   @override
   _QuestionsListState createState() => _QuestionsListState();
 }
@@ -17,14 +21,30 @@ class _QuestionsListState extends State<QuestionsList> {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-          floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.done),
-          onPressed: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("Submitted test Successfully.")));
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => SingleSubject()));
-          }),
+      floatingActionButton: (FirebaseAuth.instance.currentUser != null)
+          ? FloatingActionButton(
+              child: Icon(Icons.done),
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Submitted test Successfully.")));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SingleSubject()));
+              })
+          : FloatingActionButton(
+              child: Column(
+                children: [
+                  Icon(Icons.login),
+                  Text("Login")
+                ],
+              ),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  side: BorderSide(width: 2.0)),
+              onPressed: () {
+                Navigator.of(context).popUntil((route) => route.isFirst);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Authenticate()));
+              }),
       appBar: AppBar(
         title: Text("Agriglance"),
         centerTitle: true,

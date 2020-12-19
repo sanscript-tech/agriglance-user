@@ -6,6 +6,7 @@ import 'package:agriglance/Screens/Home/Drawer/my_questions.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_quiz.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_study_materials.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_videos.dart';
+import 'package:agriglance/Services/authenticate.dart';
 import 'package:agriglance/Services/firestore_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,16 +26,34 @@ class _DrawerWindowState extends State<DrawerWindow> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future:
-            _firestoreService.getUser(FirebaseAuth.instance.currentUser.uid),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return drawerWidget(context, snapshot);
-          } else {
-            return Container(child: Center(child: CircularProgressIndicator()));
-          }
-        });
+    if (FirebaseAuth.instance.currentUser != null) {
+      return FutureBuilder(
+          future:
+          _firestoreService.getUser(FirebaseAuth.instance.currentUser.uid),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return drawerWidget(context, snapshot);
+            } else {
+              return Container(
+                  child: Center(child: CircularProgressIndicator()));
+            }
+          });
+    }
+    else {
+      return Drawer(
+        elevation: 10.0,
+        child: Center(
+          child: RaisedButton(
+            color: Colors.amber,
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Authenticate()));
+            },
+            child: Text("Login to Access"),
+          ),
+        ),
+      );
+    }
   }
 
   Widget drawerWidget(BuildContext context, AsyncSnapshot snapshot) {
@@ -50,14 +69,14 @@ class _DrawerWindowState extends State<DrawerWindow> {
             },
             child: UserAccountsDrawerHeader(
               accountName: Text(
-                userData.fullName == "" ? "Anonymous": userData.fullName,
+                userData.fullName == "" ? "Anonymous" : userData.fullName,
                 style: TextStyle(fontSize: 20.0),
               ),
               accountEmail: Text(userData.email),
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Colors.blue,
                 child: Text(
-                  userData.fullName == "" ? "A": userData.fullName[0],
+                  userData.fullName == "" ? "A" : userData.fullName[0],
                   style: TextStyle(fontSize: 40.0, color: Colors.black),
                 ),
               ),
@@ -108,7 +127,8 @@ class _DrawerWindowState extends State<DrawerWindow> {
             title: Text("My News and CurrentAffairs"),
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => MyNewsAndCurrentAffairs()));
+                  context, MaterialPageRoute(
+                  builder: (context) => MyNewsAndCurrentAffairs()));
             },
           ),
           ListTile(
@@ -140,7 +160,8 @@ class _DrawerWindowState extends State<DrawerWindow> {
             title: Text("Contact Admin"),
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => ContactAdmin()));
+                  context,
+                  MaterialPageRoute(builder: (context) => ContactAdmin()));
             },
           ),
         ],
