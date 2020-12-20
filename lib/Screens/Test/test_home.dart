@@ -29,7 +29,7 @@ class TestHome extends StatelessWidget {
           ),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-          borderSide: BorderSide(color: Color(0xFF3EC3C1), width: 10.0)),
+          borderSide: BorderSide(color: Color(0xFF3EC3C1), width: 6.0)),
     );
   }
 

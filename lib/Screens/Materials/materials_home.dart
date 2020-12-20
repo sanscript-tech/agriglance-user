@@ -67,7 +67,7 @@ class MaterialsHome extends StatelessWidget {
           style: style,
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-        borderSide: BorderSide(color: Colors.blue, width: 10.0),
+        borderSide: BorderSide(color: Colors.blue, width: 6.0),
       ),
     );
   }

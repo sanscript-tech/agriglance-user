@@ -71,7 +71,7 @@ class _SingleSubjectState extends State<SingleSubject> {
                   SizedBox(height: screenHeight * 0.03),
                   Container(
                     child: Text(
-                      widget.subjectName,
+                      widget.subjectName == null ? " " : widget.subjectName,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontFamily: "Roboto",
@@ -93,7 +93,7 @@ class _SingleSubjectState extends State<SingleSubject> {
                         final testNames = snapshot.data.docs;
                         List<TestCard> testsWidgets = [];
                         for (var test in testNames) {
-                          final testName = test.get('testName').toString();
+                          String testName = test.get('testName').toString();
                           // final numQuestions =
                           //     test.get('numOfQuestions').toString();
                           final testWidget = TestCard(
