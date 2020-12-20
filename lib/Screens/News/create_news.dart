@@ -58,144 +58,164 @@ class _CreateNewsState extends State<CreateNews> {
         title: Text("Add News"),
         centerTitle: true,
       ),
-      body: Form(
-        key: _formKey,
-        autovalidateMode: AutovalidateMode.always,
-        child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            children: <Widget>[
-              TextFormField(
-                inputFormatters: [LengthLimitingTextInputFormatter(50)],
-                keyboardType: TextInputType.text,
-                validator: (val) =>
-                    val.isEmpty ? 'News title is required' : null,
-                onSaved: (val) => _newsTitle = val,
-                decoration: InputDecoration(
-                  hintText: 'Enter News title',
-                  icon: Icon(Icons.map),
-                  labelText: 'News title',
-                ),
+      body: Center(
+        child: Container(
+          width: 700.0,
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 25.0, // soften the shadow
+              spreadRadius: 5.0, //extend the shadow
+              offset: Offset(
+                15.0,
+                15.0,
               ),
-              TextFormField(
-                keyboardType: TextInputType.text,
-                validator: (val) =>
-                    val.isEmpty ? 'News description is required' : null,
-                onSaved: (val) => _description = val,
-                decoration: InputDecoration(
-                    hintText: 'Enter description',
-                    labelText: 'Description',
-                    icon: Icon(Icons.description)),
-              ),
-              TextFormField(
-                keyboardType: TextInputType.text,
-                onSaved: (val) => _link = val,
-                decoration: InputDecoration(
-                    hintText: 'Enter News Link(optional)',
-                    labelText: 'News Link',
-                    icon: Icon(Icons.link)),
-              ),
-              SizedBox(
-                height: height * 0.1,
-              ),
-              Container(
-                padding:
-                    EdgeInsets.all(MediaQuery.of(context).size.height / 20),
-                child: OutlineButton(
-                  splashColor: Colors.yellow,
-                  onPressed: () {
-                    setState(() {
-                      getPDF();
-                    });
-                  },
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50)),
-                  borderSide: BorderSide(color: Color(0xFF3EC3C1), width: 2.0),
-                  child: Text(
-                    'Upload Image',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+            )
+          ], color: Colors.amber[100], border: Border.all(color: Colors.white)),
+          child: Form(
+            key: _formKey,
+            autovalidateMode: AutovalidateMode.always,
+            child: ListView(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                children: <Widget>[
+                  TextFormField(
+                    inputFormatters: [LengthLimitingTextInputFormatter(50)],
+                    keyboardType: TextInputType.text,
+                    validator: (val) =>
+                        val.isEmpty ? 'News title is required' : null,
+                    onSaved: (val) => _newsTitle = val,
+                    decoration: InputDecoration(
+                      hintText: 'Enter News title',
+                      icon: Icon(Icons.map),
+                      labelText: 'News title',
+                    ),
                   ),
-                ),
-              ),
-              Center(
-                  child: Text(
-                "File selected : $absolutePath",
-                style: TextStyle(fontSize: 16.0),
-              )),
-              Visibility(
-                visible: showUploadButton,
-                child: OutlineButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50)),
-                  borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                  child: Text("Upload File"),
-                  onPressed: () {
-                    loadProgress();
-                    showUploadButton = false;
-                    uploadStarted();
-                  },
-                ),
-              ),
-              Column(
-                children: [
-                  Visibility(
-                      visible: visible, child: CircularProgressIndicator()),
-                  Visibility(
-                      visible: visible,
+                  TextFormField(
+                    keyboardType: TextInputType.text,
+                    validator: (val) =>
+                        val.isEmpty ? 'News description is required' : null,
+                    onSaved: (val) => _description = val,
+                    decoration: InputDecoration(
+                        hintText: 'Enter description',
+                        labelText: 'Description',
+                        icon: Icon(Icons.description)),
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.text,
+                    onSaved: (val) => _link = val,
+                    decoration: InputDecoration(
+                        hintText: 'Enter News Link(optional)',
+                        labelText: 'News Link',
+                        icon: Icon(Icons.link)),
+                  ),
+                  SizedBox(
+                    height: height * 0.1,
+                  ),
+                  Container(
+                    padding:
+                        EdgeInsets.all(MediaQuery.of(context).size.height / 20),
+                    child: OutlineButton(
+                      splashColor: Colors.yellow,
+                      onPressed: () {
+                        setState(() {
+                          getPDF();
+                        });
+                      },
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)),
+                      borderSide:
+                          BorderSide(color: Color(0xFF3EC3C1), width: 2.0),
                       child: Text(
-                          "Uploading your file.. Please wait. Do not navigate back."))
-                ],
-              ),
-              SizedBox(
-                height: height * 0.1,
-              ),
-              Visibility(
-                visible: _fileUrl == null ? false : true,
-                child: RaisedButton(
-                  splashColor: Colors.grey,
-                  color: Colors.yellow,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  highlightElevation: 0,
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
+                        'Upload Image',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                  ),
+                  Center(
+                      child: Text(
+                    "File selected : $absolutePath",
+                    style: TextStyle(fontSize: 16.0),
+                  )),
+                  Visibility(
+                    visible: showUploadButton,
+                    child: OutlineButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)),
+                      borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                      child: Text("Upload File"),
+                      onPressed: () {
+                        loadProgress();
+                        showUploadButton = false;
+                        uploadStarted();
+                      },
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      Visibility(
+                          visible: visible, child: CircularProgressIndicator()),
+                      Visibility(
+                          visible: visible,
                           child: Text(
-                            'Submit for Admin Approval',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                            ),
-                          ),
-                        )
-                      ]),
-                  onPressed: () async {
-                    loadProgress();
-                    UserModel updateUser = await FirestoreService()
-                        .getUser(FirebaseAuth.instance.currentUser.uid);
-                    setState(() {
-                      _uname = updateUser.fullName;
-                    });
-                    if (_formKey.currentState.validate()) {
-                      _formKey.currentState.save();
-                      await FirebaseFirestore.instance.collection("News").add({
-                        "isApprovedByAdmin": _isApproved,
-                        "uid": _uid,
-                        "uname": _uname != null ? _uname : "",
-                        "title": _newsTitle,
-                        "newsLink": _link,
-                        "postedAt": _selectedDate.toString(),
-                        "description": _description,
-                        "fileUrl": _fileUrl
-                      }).then((value) {
-                        Navigator.pop(context);
-                      });
-                    }
-                  },
-                ),
-              ),
-            ]),
+                              "Uploading your file.. Please wait. Do not navigate back."))
+                    ],
+                  ),
+                  SizedBox(
+                    height: height * 0.1,
+                  ),
+                  Visibility(
+                    visible: _fileUrl == null ? false : true,
+                    child: RaisedButton(
+                      splashColor: Colors.grey,
+                      color: Colors.yellow,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      highlightElevation: 0,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(
+                                'Submit for Admin Approval',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            )
+                          ]),
+                      onPressed: () async {
+                        loadProgress();
+                        UserModel updateUser = await FirestoreService()
+                            .getUser(FirebaseAuth.instance.currentUser.uid);
+                        setState(() {
+                          _uname = updateUser.fullName;
+                        });
+                        if (_formKey.currentState.validate()) {
+                          _formKey.currentState.save();
+                          await FirebaseFirestore.instance
+                              .collection("News")
+                              .add({
+                            "isApprovedByAdmin": _isApproved,
+                            "uid": _uid,
+                            "uname": _uname != null ? _uname : "",
+                            "title": _newsTitle,
+                            "newsLink": _link,
+                            "postedAt": _selectedDate.toString(),
+                            "description": _description,
+                            "fileUrl": _fileUrl
+                          }).then((value) {
+                            Navigator.pop(context);
+                          });
+                        }
+                      },
+                    ),
+                  ),
+                ]),
+          ),
+        ),
       ),
     );
   }

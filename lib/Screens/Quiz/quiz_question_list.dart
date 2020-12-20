@@ -96,15 +96,17 @@ class _QuizQuestionsState extends State<QuizQuestions> {
                         correct: correct,
                       );
 
-                      questionsWidgets.add(questionWidget);
-                    }
+                          questionsWidgets.add(questionWidget);
+                        }
 
-                    return (ListView(children: questionsWidgets));
-                  },
-                ),
+                        return (ListView(children: questionsWidgets));
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ],
-          )),
+            ),
+          
     );
   }
 }

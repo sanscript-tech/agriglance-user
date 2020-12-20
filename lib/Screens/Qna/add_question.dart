@@ -6,7 +6,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 class AddQuestionScreen extends StatefulWidget {
   String uid;
   String uName;
+
   AddQuestionScreen({this.uid, this.uName});
+
   @override
   _AddQuestionScreenState createState() => _AddQuestionScreenState();
 }
@@ -27,8 +29,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
     }
     _uploadQuestion();
     Fluttertoast.showToast(
-        msg: "Added Successfully",
-        gravity: ToastGravity.BOTTOM);
+        msg: "Added Successfully", gravity: ToastGravity.BOTTOM);
     Navigator.pop(context);
   }
 
@@ -58,52 +59,72 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
         body: SafeArea(
           top: false,
           bottom: false,
-          child: Form(
-            key: _formKey,
-            autovalidateMode: AutovalidateMode.always,
-            child: ListView(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              children: [
-                TextFormField(
-                  inputFormatters: [LengthLimitingTextInputFormatter(30)],
-                  validator: (val) =>
-                      val.isEmpty ? 'Question Category is required' : null,
-                  onSaved: (val) => _category = val,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.category),
-                    hintText: 'Enter the category of question',
-                    labelText: 'Question Category',
-                  ),
+          child: Center(
+            child: Container(
+              width: 700.0,
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 25.0, // soften the shadow
+                      spreadRadius: 5.0, //extend the shadow
+                      offset: Offset(
+                        15.0,
+                        15.0,
+                      ),
+                    )
+                  ],
+                  color: Colors.amber[100],
+                  border: Border.all(color: Colors.white)),
+              child: Form(
+                key: _formKey,
+                autovalidateMode: AutovalidateMode.always,
+                child: ListView(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  children: [
+                    TextFormField(
+                      inputFormatters: [LengthLimitingTextInputFormatter(30)],
+                      validator: (val) =>
+                          val.isEmpty ? 'Question Category is required' : null,
+                      onSaved: (val) => _category = val,
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.category),
+                        hintText: 'Enter the category of question',
+                        labelText: 'Question Category',
+                      ),
+                    ),
+                    TextFormField(
+                      inputFormatters: [LengthLimitingTextInputFormatter(30)],
+                      validator: (val) =>
+                          val.isEmpty ? 'Question title is required' : null,
+                      onSaved: (val) => _question = val,
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.question_answer),
+                        hintText: 'Enter the title of question',
+                        labelText: 'Question',
+                      ),
+                    ),
+                    TextFormField(
+                      inputFormatters: [LengthLimitingTextInputFormatter(30)],
+                      validator: (val) => val.isEmpty
+                          ? 'Question description is required'
+                          : null,
+                      onSaved: (val) => _questionDesc = val,
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.subject),
+                        hintText: 'Enter the description of question',
+                        labelText: 'Question Description',
+                      ),
+                    ),
+                    Container(
+                        padding: EdgeInsets.only(left: 40.0, top: 20.0),
+                        child: RaisedButton(
+                          child: Text('Add Question'),
+                          onPressed: _submitForm,
+                        )),
+                  ],
                 ),
-                TextFormField(
-                  inputFormatters: [LengthLimitingTextInputFormatter(30)],
-                  validator: (val) =>
-                      val.isEmpty ? 'Question title is required' : null,
-                  onSaved: (val) => _question = val,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.question_answer),
-                    hintText: 'Enter the title of question',
-                    labelText: 'Question',
-                  ),
-                ),
-                TextFormField(
-                  inputFormatters: [LengthLimitingTextInputFormatter(30)],
-                  validator: (val) =>
-                      val.isEmpty ? 'Question description is required' : null,
-                  onSaved: (val) => _questionDesc = val,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.subject),
-                    hintText: 'Enter the description of question',
-                    labelText: 'Question Description',
-                  ),
-                ),
-                Container(
-                    padding: EdgeInsets.only(left: 40.0, top: 20.0),
-                    child: RaisedButton(
-                      child: Text('Add Question'),
-                      onPressed: _submitForm,
-                    )),
-              ],
+              ),
             ),
           ),
         ));

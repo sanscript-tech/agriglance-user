@@ -1,4 +1,3 @@
-
 import 'package:agriglance/constants/study_material_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,38 +26,53 @@ class _MyStudyMaterialsState extends State<MyStudyMaterials> {
       appBar: AppBar(
         title: Text("My Study Materials"),
       ),
-      body: Container(
-        child: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection("study_materials")
-              .where("postedBy", isEqualTo: auth.currentUser.uid.toString())
-              .orderBy("isApprovedByAdmin", descending: true)
-              .snapshots(),
-          builder: (context, snapshot) {
-            return !snapshot.hasData
-                ? Center(child: CircularProgressIndicator())
-                : ListView.builder(
-                    itemCount: snapshot.data.documents.length,
-                    itemBuilder: (context, index) {
-                      DocumentSnapshot papers = snapshot.data.documents[index];
-                      return GestureDetector(
-                        onTap: () async {
-                          await _asyncSimpleDialog(
-                              context, papers['pdfUrl'], papers['fileName']);
-                        },
-                        child: StudyMaterialCard(
-                          type: papers['type'],
-                          title: papers['title'],
-                          description: papers['description'],
-                          pdfUrl: papers['pdfUrl'],
-                          postedByName: papers['postedByName'],
-                          fileName: papers['fileName'],
-                          approved: papers['isApprovedByAdmin'],
-                          index: index,
-                        ),
-                      );
-                    });
-          },
+      body: Center(
+        child: Container(
+          width: 700.0,
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 25.0, // soften the shadow
+              spreadRadius: 5.0, //extend the shadow
+              offset: Offset(
+                15.0,
+                15.0,
+              ),
+            )
+          ], color: Colors.amber[100], border: Border.all(color: Colors.white)),
+          child: StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection("study_materials")
+                .where("postedBy", isEqualTo: auth.currentUser.uid.toString())
+                .orderBy("isApprovedByAdmin", descending: true)
+                .snapshots(),
+            builder: (context, snapshot) {
+              return !snapshot.hasData
+                  ? Center(child: CircularProgressIndicator())
+                  : ListView.builder(
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (context, index) {
+                        DocumentSnapshot papers =
+                            snapshot.data.documents[index];
+                        return GestureDetector(
+                          onTap: () async {
+                            await _asyncSimpleDialog(
+                                context, papers['pdfUrl'], papers['fileName']);
+                          },
+                          child: StudyMaterialCard(
+                            type: papers['type'],
+                            title: papers['title'],
+                            description: papers['description'],
+                            pdfUrl: papers['pdfUrl'],
+                            postedByName: papers['postedByName'],
+                            fileName: papers['fileName'],
+                            approved: papers['isApprovedByAdmin'],
+                            index: index,
+                          ),
+                        );
+                      });
+            },
+          ),
         ),
       ),
     );

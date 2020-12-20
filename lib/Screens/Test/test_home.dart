@@ -1,11 +1,18 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'testSubjects.dart';
 
 class TestHome extends StatelessWidget {
   Widget categoryButton(String category, BuildContext context) {
+    var style;
+    if (kIsWeb)
+      style = TextStyle(fontSize: 30.0, fontWeight: FontWeight.w400);
+    else
+      style = TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400);
     return ButtonTheme(
-      minWidth: MediaQuery.of(context).size.width * 0.4,
-      height: MediaQuery.of(context).size.width * 0.2,
+      minWidth: MediaQuery.of(context).size.width * 0.3,
+      height: MediaQuery.of(context).size.width * 0.09,
+      hoverColor: Colors.amber[200],
       child: OutlineButton(
           splashColor: Colors.grey,
           onPressed: () {
@@ -18,7 +25,7 @@ class TestHome extends StatelessWidget {
           },
           child: Text(
             category,
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
+            style: style,
           ),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),

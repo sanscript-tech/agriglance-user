@@ -69,82 +69,101 @@ class _AddPollState extends State<AddPoll> {
         body: SafeArea(
           top: false,
           bottom: false,
-          child: Form(
-            key: _formKey,
-            autovalidateMode: AutovalidateMode.always,
-            child: ListView(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              children: [
-                TextFormField(
-                  inputFormatters: [LengthLimitingTextInputFormatter(30)],
-                  validator: (val) =>
-                      val.isEmpty ? 'Question cannot be empty' : null,
-                  onSaved: (val) => _question = val,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.question_answer),
-                    hintText: 'Enter question',
-                    labelText: 'Question',
-                  ),
-                ),
-                TextFormField(
-                  inputFormatters: [LengthLimitingTextInputFormatter(30)],
-                  validator: (val) =>
-                      val.isEmpty ? 'Option 1 cannot be empty' : null,
-                  onSaved: (val) => _option1 = val,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.poll),
-                    hintText: 'Enter option 1 of poll',
-                    labelText: 'Option 1',
-                  ),
-                ),
-                TextFormField(
-                  inputFormatters: [LengthLimitingTextInputFormatter(30)],
-                  validator: (val) =>
-                      val.isEmpty ? 'Option 2 cannot be empty' : null,
-                  onSaved: (val) => _option2 = val,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.poll),
-                    hintText: 'Enter option 2 of poll',
-                    labelText: 'Option 2',
-                  ),
-                ),
-                TextFormField(
-                  inputFormatters: [LengthLimitingTextInputFormatter(30)],
-                  validator: (val) =>
-                      val.isEmpty ? 'Option 3 cannot be empty' : null,
-                  onSaved: (val) => _option3 = val,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.poll),
-                    hintText: 'Enter option 3 of poll',
-                    labelText: 'Option 3',
-                  ),
-                ),
-                TextFormField(
-                  inputFormatters: [LengthLimitingTextInputFormatter(30)],
-                  validator: (val) =>
-                      val.isEmpty ? 'Option 4 cannot be empty' : null,
-                  onSaved: (val) => _option4 = val,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.poll),
-                    hintText: 'Enter option 4 of poll',
-                    labelText: 'Option 4',
-                  ),
-                ),
-                Container(
-                    padding: EdgeInsets.only(left: 40.0, top: 20.0),
-                    child: OutlineButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50)),
-                      borderSide:
-                          BorderSide(color: Color(0xFF3EC3C1), width: 2.0),
-                      child: Text(
-                        'Create Poll',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400, fontSize: 16.0),
+          child: Center(
+            child: Container(
+              width: 700.0,
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 25.0, // soften the shadow
+                      spreadRadius: 5.0, //extend the shadow
+                      offset: Offset(
+                        15.0,
+                        15.0,
                       ),
-                      onPressed: _submitForm,
-                    )),
-              ],
+                    )
+                  ],
+                  color: Colors.amber[100],
+                  border: Border.all(color: Colors.white)),
+              child: Form(
+                key: _formKey,
+                autovalidateMode: AutovalidateMode.always,
+                child: ListView(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  children: [
+                    TextFormField(
+                      inputFormatters: [LengthLimitingTextInputFormatter(30)],
+                      validator: (val) =>
+                          val.isEmpty ? 'Question cannot be empty' : null,
+                      onSaved: (val) => _question = val,
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.question_answer),
+                        hintText: 'Enter question',
+                        labelText: 'Question',
+                      ),
+                    ),
+                    TextFormField(
+                      inputFormatters: [LengthLimitingTextInputFormatter(30)],
+                      validator: (val) =>
+                          val.isEmpty ? 'Option 1 cannot be empty' : null,
+                      onSaved: (val) => _option1 = val,
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.poll),
+                        hintText: 'Enter option 1 of poll',
+                        labelText: 'Option 1',
+                      ),
+                    ),
+                    TextFormField(
+                      inputFormatters: [LengthLimitingTextInputFormatter(30)],
+                      validator: (val) =>
+                          val.isEmpty ? 'Option 2 cannot be empty' : null,
+                      onSaved: (val) => _option2 = val,
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.poll),
+                        hintText: 'Enter option 2 of poll',
+                        labelText: 'Option 2',
+                      ),
+                    ),
+                    TextFormField(
+                      inputFormatters: [LengthLimitingTextInputFormatter(30)],
+                      validator: (val) =>
+                          val.isEmpty ? 'Option 3 cannot be empty' : null,
+                      onSaved: (val) => _option3 = val,
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.poll),
+                        hintText: 'Enter option 3 of poll',
+                        labelText: 'Option 3',
+                      ),
+                    ),
+                    TextFormField(
+                      inputFormatters: [LengthLimitingTextInputFormatter(30)],
+                      validator: (val) =>
+                          val.isEmpty ? 'Option 4 cannot be empty' : null,
+                      onSaved: (val) => _option4 = val,
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.poll),
+                        hintText: 'Enter option 4 of poll',
+                        labelText: 'Option 4',
+                      ),
+                    ),
+                    Container(
+                        padding: EdgeInsets.only(left: 40.0, top: 20.0),
+                        child: OutlineButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50)),
+                          borderSide:
+                              BorderSide(color: Color(0xFF3EC3C1), width: 2.0),
+                          child: Text(
+                            'Create Poll',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400, fontSize: 16.0),
+                          ),
+                          onPressed: _submitForm,
+                        )),
+                  ],
+                ),
+              ),
             ),
           ),
         ));

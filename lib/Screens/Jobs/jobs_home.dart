@@ -15,38 +15,52 @@ class _JobsHomeState extends State<JobsHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection("jobs")
-              .orderBy("isApprovedByAdmin", descending: true)
-              .snapshots(),
-          builder: (context, snapshot) {
-            return !snapshot.hasData
-                ? Center(child: CircularProgressIndicator())
-                : ListView.builder(
-                    itemCount: snapshot.data.documents.length,
-                    itemBuilder: (context, index) {
-                      DocumentSnapshot jobs = snapshot.data.documents[index];
-                      if (jobs['isApprovedByAdmin']) {
-                        return JobCard(
-                          jobDesc: jobs['jobSelectionProcedure'],
-                          jobPosts: jobs['noOfPosts'],
-                          jobSkills: jobs['qualificationsRequired'],
-                          jobSubject: jobs['jobSubject'],
-                          jobType: jobs['jobType'],
-                          orgLink: jobs['organizationLink'],
-                          orgName: jobs['organizationName'],
-                          salary: jobs['jobSalary'],
-                          postedByName: jobs['postedByName'],
-                          index: index,
-                          jobId: jobs.id,
-                        );
-                      }
-                      return null;
-                    },
-                  );
-          },
+      body: Center(
+        child: Container(
+          width: 700.0,
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 25.0, // soften the shadow
+              spreadRadius: 5.0, //extend the shadow
+              offset: Offset(
+                15.0,
+                15.0,
+              ),
+            )
+          ], color: Colors.amber[100], border: Border.all(color: Colors.white)),
+          child: StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection("jobs")
+                .orderBy("isApprovedByAdmin", descending: true)
+                .snapshots(),
+            builder: (context, snapshot) {
+              return !snapshot.hasData
+                  ? Center(child: CircularProgressIndicator())
+                  : ListView.builder(
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (context, index) {
+                        DocumentSnapshot jobs = snapshot.data.documents[index];
+                        if (jobs['isApprovedByAdmin']) {
+                          return JobCard(
+                            jobDesc: jobs['jobSelectionProcedure'],
+                            jobPosts: jobs['noOfPosts'],
+                            jobSkills: jobs['qualificationsRequired'],
+                            jobSubject: jobs['jobSubject'],
+                            jobType: jobs['jobType'],
+                            orgLink: jobs['organizationLink'],
+                            orgName: jobs['organizationName'],
+                            salary: jobs['jobSalary'],
+                            postedByName: jobs['postedByName'],
+                            index: index,
+                            jobId: jobs.id,
+                          );
+                        }
+                        return null;
+                      },
+                    );
+            },
+          ),
         ),
       ),
       floatingActionButton: (FirebaseAuth.instance.currentUser != null) ? FloatingActionButton(

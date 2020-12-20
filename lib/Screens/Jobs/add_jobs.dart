@@ -70,127 +70,148 @@ class _AddJobsState extends State<AddJobs> {
         body: SafeArea(
           top: false,
           bottom: false,
-          child: Form(
-            key: _formKey,
-            autovalidateMode: AutovalidateMode.always,
-            child: ListView(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              children: [
-                TextFormField(
-                  inputFormatters: [LengthLimitingTextInputFormatter(30)],
-                  validator: (val) =>
-                      val.isEmpty ? 'Job Type is required' : null,
-                  onSaved: (val) => _jobType = val,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.merge_type),
-                    hintText: 'Enter the type of the job',
-                    labelText: 'Job Type',
-                  ),
-                ),
-                TextFormField(
-                  inputFormatters: [LengthLimitingTextInputFormatter(30)],
-                  validator: (val) =>
-                      val.isEmpty ? 'Organization name is required' : null,
-                  onSaved: (val) => _orgName = val,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.build),
-                    hintText: 'Enter the name of organization',
-                    labelText: 'Organization Name',
-                  ),
-                ),
-                TextFormField(
-                  inputFormatters: [LengthLimitingTextInputFormatter(30)],
-                  validator: (val) =>
-                      val.isEmpty ? 'Job subject is required' : null,
-                  onSaved: (val) => _jobSubject = val,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.subject),
-                    hintText: 'Enter the subject of job',
-                    labelText: 'Job Subject',
-                  ),
-                ),
-                TextFormField(
-                  validator: (val) =>
-                      val.isEmpty ? 'Selection procedure is required' : null,
-                  onSaved: (val) => _jobDesc = val,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.description),
-                    hintText: 'Enter the selection procedure',
-                    labelText: 'Selection Procedure',
-                  ),
-                ),
-                TextFormField(
-                  validator: (val) =>
-                      val.isEmpty ? 'Qualifications is required' : null,
-                  onSaved: (val) => _jobSkills = val,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.person),
-                    hintText: 'Enter the qualifications required for the job',
-                    labelText: 'Qualifications',
-                  ),
-                ),
-                TextFormField(
-                  validator: (val) =>
-                      val.isEmpty ? 'No. of posts is required' : null,
-                  onSaved: (val) => _jobPosts = int.parse(val),
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.confirmation_number),
-                    hintText: 'Enter the number of posts available',
-                    labelText: 'No of posts',
-                  ),
-                  keyboardType: TextInputType.number,
-                ),
-                TextFormField(
-                  validator: (val) =>
-                      val.isEmpty ? 'Payscale is required' : null,
-                  onSaved: (val) => _salary = val,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.attach_money),
-                    hintText: 'Enter the payscale',
-                    labelText: 'Salary/ month',
-                  ),
-                ),
-                TextFormField(
-                  validator: (val) =>
-                      val.isEmpty ? 'Organization link is required' : null,
-                  onSaved: (val) => _orgLink = val,
-                  keyboardType: TextInputType.url,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.link),
-                    hintText: 'Enter the organization link',
-                    labelText: 'Link',
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(20.0),
-                  child: RaisedButton(
-                    splashColor: Colors.grey,
-                    color: Colors.yellow,
-                    onPressed: () {
-                      _submitForm();
-                    },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    highlightElevation: 0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            'Submit Job For Approval',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                            ),
-                          ),
-                        )
-                      ],
+          child: Center(
+            child: Container(
+              width: 700.0,
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 25.0, // soften the shadow
+                      spreadRadius: 5.0, //extend the shadow
+                      offset: Offset(
+                        15.0,
+                        15.0,
+                      ),
+                    )
+                  ],
+                  color: Colors.amber[100],
+                  border: Border.all(color: Colors.white)),
+              child: Form(
+                key: _formKey,
+                autovalidateMode: AutovalidateMode.always,
+                child: ListView(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  children: [
+                    TextFormField(
+                      inputFormatters: [LengthLimitingTextInputFormatter(30)],
+                      validator: (val) =>
+                          val.isEmpty ? 'Job Type is required' : null,
+                      onSaved: (val) => _jobType = val,
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.merge_type),
+                        hintText: 'Enter the type of the job',
+                        labelText: 'Job Type',
+                      ),
                     ),
-                  ),
+                    TextFormField(
+                      inputFormatters: [LengthLimitingTextInputFormatter(30)],
+                      validator: (val) =>
+                          val.isEmpty ? 'Organization name is required' : null,
+                      onSaved: (val) => _orgName = val,
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.build),
+                        hintText: 'Enter the name of organization',
+                        labelText: 'Organization Name',
+                      ),
+                    ),
+                    TextFormField(
+                      inputFormatters: [LengthLimitingTextInputFormatter(30)],
+                      validator: (val) =>
+                          val.isEmpty ? 'Job subject is required' : null,
+                      onSaved: (val) => _jobSubject = val,
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.subject),
+                        hintText: 'Enter the subject of job',
+                        labelText: 'Job Subject',
+                      ),
+                    ),
+                    TextFormField(
+                      validator: (val) => val.isEmpty
+                          ? 'Selection procedure is required'
+                          : null,
+                      onSaved: (val) => _jobDesc = val,
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.description),
+                        hintText: 'Enter the selection procedure',
+                        labelText: 'Selection Procedure',
+                      ),
+                    ),
+                    TextFormField(
+                      validator: (val) =>
+                          val.isEmpty ? 'Qualifications is required' : null,
+                      onSaved: (val) => _jobSkills = val,
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.person),
+                        hintText:
+                            'Enter the qualifications required for the job',
+                        labelText: 'Qualifications',
+                      ),
+                    ),
+                    TextFormField(
+                      validator: (val) =>
+                          val.isEmpty ? 'No. of posts is required' : null,
+                      onSaved: (val) => _jobPosts = int.parse(val),
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.confirmation_number),
+                        hintText: 'Enter the number of posts available',
+                        labelText: 'No of posts',
+                      ),
+                      keyboardType: TextInputType.number,
+                    ),
+                    TextFormField(
+                      validator: (val) =>
+                          val.isEmpty ? 'Payscale is required' : null,
+                      onSaved: (val) => _salary = val,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.attach_money),
+                        hintText: 'Enter the payscale',
+                        labelText: 'Salary/ month',
+                      ),
+                    ),
+                    TextFormField(
+                      validator: (val) =>
+                          val.isEmpty ? 'Organization link is required' : null,
+                      onSaved: (val) => _orgLink = val,
+                      keyboardType: TextInputType.url,
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.link),
+                        hintText: 'Enter the organization link',
+                        labelText: 'Link',
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(20.0),
+                      child: RaisedButton(
+                        splashColor: Colors.grey,
+                        color: Colors.yellow,
+                        onPressed: () {
+                          _submitForm();
+                        },
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        highlightElevation: 0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(
+                                'Submit Job For Approval',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ));

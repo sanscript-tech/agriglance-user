@@ -6,7 +6,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class AddTest extends StatefulWidget {
   final String testSubject;
   final String category;
+
   AddTest({this.category, this.testSubject});
+
   @override
   _AddTestState createState() => _AddTestState();
 }
@@ -36,7 +38,7 @@ class _AddTestState extends State<AddTest> {
   Future<void> _uploadQuestion() async {
     List<String> test_names = [];
     bool isAvailable = false;
-    final sample=await FirebaseFirestore.instance
+    final sample = await FirebaseFirestore.instance
         .collection("testSubjects")
         .doc(widget.testSubject)
         .collection("testNames")
@@ -104,68 +106,87 @@ class _AddTestState extends State<AddTest> {
       body: SafeArea(
           top: true,
           bottom: true,
-          child: Form(
-            key: _formKey,
-            child: ListView(children: <Widget>[
-              TextFormField(
-                inputFormatters: [LengthLimitingTextInputFormatter(30)],
-                validator: (val) =>
-                    val.isEmpty ? 'Test name is required' : null,
-                onSaved: (val) => _testName = val,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.book_rounded),
-                  hintText: 'Enter the test Name',
-                  labelText: 'Test Name',
-                ),
-              ),
-              TextFormField(
-                validator: (val) =>
-                    val.isEmpty ? 'Test description is required' : null,
-                onSaved: (val) => _testDescription = val,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.description),
-                  hintText: 'Enter the test description',
-                  labelText: 'Description',
-                ),
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              Center(
-                  child: RaisedButton(
-                      padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        side: BorderSide(color: Colors.black87),
+          child: Center(
+            child: Container(
+              width: 700.0,
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 25.0, // soften the shadow
+                      spreadRadius: 5.0, //extend the shadow
+                      offset: Offset(
+                        15.0,
+                        15.0,
                       ),
-                      splashColor: Colors.purple,
-                      elevation: 10.0,
-                      highlightElevation: 30.0,
-                      child: const Text(
-                        'Add Questions',
-                        style: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 20.0,
-                        ),
-                      ),
-                      color: Colors.blue[300],
-                      textColor: Colors.white,
-                      onPressed: () {
-                        _formKey.currentState.save();
+                    )
+                  ],
+                  color: Colors.amber[100],
+                  border: Border.all(color: Colors.white)),
+              child: Form(
+                key: _formKey,
+                child: ListView(children: <Widget>[
+                  TextFormField(
+                    inputFormatters: [LengthLimitingTextInputFormatter(30)],
+                    validator: (val) =>
+                        val.isEmpty ? 'Test name is required' : null,
+                    onSaved: (val) => _testName = val,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.book_rounded),
+                      hintText: 'Enter the test Name',
+                      labelText: 'Test Name',
+                    ),
+                  ),
+                  TextFormField(
+                    validator: (val) =>
+                        val.isEmpty ? 'Test description is required' : null,
+                    onSaved: (val) => _testDescription = val,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.description),
+                      hintText: 'Enter the test description',
+                      labelText: 'Description',
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Center(
+                      child: RaisedButton(
+                          padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            side: BorderSide(color: Colors.black87),
+                          ),
+                          splashColor: Colors.purple,
+                          elevation: 10.0,
+                          highlightElevation: 30.0,
+                          child: const Text(
+                            'Add Questions',
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 20.0,
+                            ),
+                          ),
+                          color: Colors.blue[300],
+                          textColor: Colors.white,
+                          onPressed: () {
+                            _formKey.currentState.save();
 
-                        if (_formKey.currentState.validate()) {
-                          _submitForm();
+                            if (_formKey.currentState.validate()) {
+                              _submitForm();
 
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AddQuestions(
-                                        testName: _testName,
-                                        testSubject: widget.testSubject,
-                                      )));
-                        }
-                      })),
-            ]),
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AddQuestions(
+                                            testName: _testName,
+                                            testSubject: widget.testSubject,
+                                          )));
+                            }
+                          })),
+                ]),
+              ),
+            ),
           )),
     );
   }

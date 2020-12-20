@@ -50,30 +50,47 @@ class _QuestionsListState extends State<QuestionsList> {
       body: SafeArea(
           top: true,
           bottom: true,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(height: screenHeight * 0.03),
-              Container(
-                child: Text(
-                  "${widget.subjectName} - ${widget.testname}",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontFamily: "Roboto",
-                      fontSize: screenHeight * 0.035),
-                ),
-              ),
-              Expanded(
-                child: StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection("testQuestions")
-                      .doc(widget.testname)
-                      .collection("questions")
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return Text("Loading");
-                    }
+          child: Center(
+            child: Container(
+              width: 700.0,
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 25.0, // soften the shadow
+                      spreadRadius: 5.0, //extend the shadow
+                      offset: Offset(
+                        15.0,
+                        15.0,
+                      ),
+                    )
+                  ],
+                  color: Colors.amber[100],
+                  border: Border.all(color: Colors.white)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: screenHeight * 0.03),
+                  Container(
+                    child: Text(
+                      "${widget.subjectName} - ${widget.testname}",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "Roboto",
+                          fontSize: screenHeight * 0.035),
+                    ),
+                  ),
+                  Expanded(
+                    child: StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection("testQuestions")
+                          .doc(widget.testname)
+                          .collection("questions")
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Text("Loading");
+                        }
 
                     final questionNames = snapshot.data.docs;
                     List<QuestionCard> questionsWidgets = [];
@@ -101,14 +118,16 @@ class _QuestionsListState extends State<QuestionsList> {
                         correct: correct,
                       );
 
-                      questionsWidgets.add(questionWidget);
-                    }
+                          questionsWidgets.add(questionWidget);
+                        }
 
-                    return (ListView(children: questionsWidgets));
-                  },
-                ),
+                        return (ListView(children: questionsWidgets));
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           )),
     );
   }

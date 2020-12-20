@@ -43,129 +43,146 @@ class _ProfileState extends State<Profile> {
     final TextStyle valueStyle = TextStyle(color: Colors.black, fontSize: 20.0);
 
     return Center(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  "FullName : ",
-                  style: defaultStyle,
-                ),
-                Text(
-                  "${userData.fullName}",
-                  style: valueStyle,
-                ),
-              ],
+      child: Container(
+        width: 400.0,
+        decoration: BoxDecoration(boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 25.0, // soften the shadow
+            spreadRadius: 5.0, //extend the shadow
+            offset: Offset(
+              15.0,
+              15.0,
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  "Email Id : ",
-                  style: defaultStyle,
-                ),
-                Text(
-                  "${userData.email}",
-                  style: valueStyle,
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  "DOB : ",
-                  style: defaultStyle,
-                ),
-                Text(
-                  "${userData.dob}",
-                  style: valueStyle,
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  "Educational Qualification : ",
-                  style: defaultStyle,
-                ),
-                Text(
-                  "${userData.qualification}",
-                  style: valueStyle,
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  "University : ",
-                  style: defaultStyle,
-                ),
-                Text(
-                  "${userData.university}",
-                  style: valueStyle,
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 16.0),
-            child: OutlineButton(
-              splashColor: Colors.grey,
-              onPressed: () {
-                try {
-                  context.read<AuthenticationService>().resetPassword(
-                      FirebaseAuth.instance.currentUser.email.trim());
-                  setState(() {
-                    showSnack(context);
-                  });
-                } catch (e) {
-                  print("Unsuccessful");
-                }
-              },
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(40)),
-              highlightElevation: 0,
-              borderSide: BorderSide(color: Colors.grey),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+          )
+        ], color: Colors.amber[100], border: Border.all(color: Colors.white)),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Text(
-                        'Update Password',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                        ),
-                      ),
-                    )
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "FullName : ",
+                      style: defaultStyle,
+                    ),
+                    Text(
+                      "${userData.fullName}",
+                      style: valueStyle,
+                    ),
                   ],
                 ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Email Id : ",
+                      style: defaultStyle,
+                    ),
+                    Text(
+                      "${userData.email}",
+                      style: valueStyle,
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "DOB : ",
+                      style: defaultStyle,
+                    ),
+                    Text(
+                      "${userData.dob}",
+                      style: valueStyle,
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Educational Qualification : ",
+                      style: defaultStyle,
+                    ),
+                    Text(
+                      "${userData.qualification}",
+                      style: valueStyle,
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "University : ",
+                      style: defaultStyle,
+                    ),
+                    Text(
+                      "${userData.university}",
+                      style: valueStyle,
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: OutlineButton(
+                  splashColor: Colors.grey,
+                  onPressed: () {
+                    try {
+                      context.read<AuthenticationService>().resetPassword(
+                          FirebaseAuth.instance.currentUser.email.trim());
+                      setState(() {
+                        showSnack(context);
+                      });
+                    } catch (e) {
+                      print("Unsuccessful");
+                    }
+                  },
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40)),
+                  highlightElevation: 0,
+                  borderSide: BorderSide(color: Colors.grey),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            'Update Password',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

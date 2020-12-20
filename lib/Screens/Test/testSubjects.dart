@@ -4,13 +4,14 @@ import '../../constants/subject_card.dart';
 
 class TestSubject extends StatefulWidget {
   String category;
+
   TestSubject({this.category});
+
   @override
   _TestSubjectState createState() => _TestSubjectState();
 }
 
 class _TestSubjectState extends State<TestSubject> {
-
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -21,59 +22,76 @@ class _TestSubjectState extends State<TestSubject> {
         centerTitle: true,
       ),
       body: SafeArea(
+          child: Center(
+        child: Container(
+          width: 700.0,
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 25.0, // soften the shadow
+              spreadRadius: 5.0, //extend the shadow
+              offset: Offset(
+                15.0,
+                15.0,
+              ),
+            )
+          ], color: Colors.amber[100], border: Border.all(color: Colors.white)),
           child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(height: screenHeight * 0.03),
-          Container(
-            child: Column(children: <Widget>[
-              Text(
-                widget.category + " " + "2020",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "Roboto",
-                    fontSize: screenHeight * 0.04,
-                    fontStyle: FontStyle.italic),
-              ),
-              SizedBox(height: screenHeight * 0.02),
-              getSeparateDivider(),
-              SizedBox(height: screenHeight * 0.02),
-              Text(
-                "Test Subjects",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "Roboto",
-                    fontSize: screenHeight * 0.035),
-              ),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
               SizedBox(height: screenHeight * 0.03),
-            ]),
-          ),
-          Expanded(
-              child: StreamBuilder(
-            stream: FirebaseFirestore.instance
-                .collection("testCategories")
-                .doc(widget.category)
-                .collection("subjects")
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Text("Loading");
-              }
-              final tests = snapshot.data.docs;
-              List<SubjectCard> testWidgets = [];
-              for (var test in tests) {
-                final testSubject = test.get('subject').toString();
-                //final numOfTests = test.get('numOfTests').toString();
+              Container(
+                child: Column(children: <Widget>[
+                  Text(
+                    widget.category + " " + "2020",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "Roboto",
+                        fontSize: screenHeight * 0.04,
+                        fontStyle: FontStyle.italic),
+                  ),
+                  SizedBox(height: screenHeight * 0.02),
+                  getSeparateDivider(),
+                  SizedBox(height: screenHeight * 0.02),
+                  Text(
+                    "Test Subjects",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "Roboto",
+                        fontSize: screenHeight * 0.035),
+                  ),
+                  SizedBox(height: screenHeight * 0.03),
+                ]),
+              ),
+              Expanded(
+                  child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection("testCategories")
+                    .doc(widget.category)
+                    .collection("subjects")
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Text("Loading");
+                  }
+                  final tests = snapshot.data.docs;
+                  List<SubjectCard> testWidgets = [];
+                  for (var test in tests) {
+                    final testSubject = test.get('subject').toString();
+                    //final numOfTests = test.get('numOfTests').toString();
 
-                final testWidget = SubjectCard(
-                   category: widget.category, subject: testSubject, num1: "0"
-                    );
-                testWidgets.add(testWidget);
-              }
-              return ListView(children: testWidgets);
-            },
-          )),
-        ],
+                    final testWidget = SubjectCard(
+                        category: widget.category,
+                        subject: testSubject,
+                        num1: "0");
+                    testWidgets.add(testWidget);
+                  }
+                  return ListView(children: testWidgets);
+                },
+              )),
+            ],
+          ),
+        ),
       )),
     );
   }
