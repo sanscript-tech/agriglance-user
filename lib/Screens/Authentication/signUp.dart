@@ -43,154 +43,192 @@ class _SignUpState extends State<SignUp> {
       appBar: AppBar(
         title: Center(child: Text("Agriglance")),
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextFormField(
-                controller: nameController,
-                decoration: InputDecoration(labelText: 'Full Name'),
+      body: Center(
+        child: Container(
+          width: 400.0,
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 25.0, // soften the shadow
+              spreadRadius: 5.0, //extend the shadow
+              offset: Offset(
+                15.0,
+                15.0,
               ),
-              TextFormField(
-                controller: emailController,
-                decoration: InputDecoration(labelText: 'Email'),
-              ),
-              TextFormField(
-                controller: passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
-                obscureText: true,
-              ),
-              TextFormField(
-                controller: dobController,
-                onTap: () {
-                  FocusScope.of(context).requestFocus(new FocusNode());
-                  _selectDate();
-                },
-                decoration: InputDecoration(labelText: 'Date of Birth'),
-              ),
-              TextFormField(
-                controller: qualificationController,
-                decoration:
-                    InputDecoration(labelText: 'Educational Qualification'),
-              ),
-              TextFormField(
-                controller: universityController,
-                decoration: InputDecoration(labelText: 'University'),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: RaisedButton(
-                  color: Colors.yellow,
-                  onPressed: () async {
-                    setState(() {
-                      loadProgress();
-                    });
-                    await context
-                        .read<AuthenticationService>()
-                        .signUp(
-                            emailController.text,
-                            passwordController.text,
-                            nameController.text,
-                            dobController.text,
-                            qualificationController.text,
-                            universityController.text)
-                        .then((value) {
-                      if (value == "Signed Up") {
-                        Navigator.pop(context);
-                      } else {
-                        setState(() {
-                          loadProgress();
-                        });
-                        Fluttertoast.showToast(
-                            msg: value,
-                            toastLength: Toast.LENGTH_LONG,
-                            gravity: ToastGravity.BOTTOM);
-                      }
-                    });
-                  },
-                  child: Text(
-                    "Sign Up",
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
-              ),
-              Visibility(
-                visible: visible,
-                child: CircularProgressIndicator(
-                  backgroundColor: Colors.yellow,
-                  strokeWidth: 8,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: OutlineButton(
-                  splashColor: Colors.grey,
-                  onPressed: () {
-                    setState(() {
-                      loadProgress();
-                    });
-                    context
-                        .read<AuthenticationService>()
-                        .signInWithGoogle()
-                        .then((value) {
-                      if (value == "Signed In") {
-                        Navigator.pop(context);
-                      } else {
-                        setState(() {
-                          loadProgress();
-                        });
-                        Fluttertoast.showToast(
-                            msg: value,
-                            toastLength: Toast.LENGTH_LONG,
-                            gravity: ToastGravity.BOTTOM);
-                      }
-                    });
-                  },
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40)),
-                  highlightElevation: 0,
-                  borderSide: BorderSide(color: Colors.grey),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Image(
-                            image: AssetImage("Images/google_logo.png"),
-                            height: 35.0),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            'Sign in with Google',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Row(
+            )
+          ], color: Colors.amber[100], border: Border.all(color: Colors.white)),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Already have an Account?  ', style: defaultStyle),
-                  GestureDetector(
-                    onTap: () {
-                      widget.toogleView();
-                    },
-                    child: Container(
-                      child: Text('Sign In', style: linkStyle),
+                  Image(
+                    image: AssetImage("Images/logo.png"),
+                    height: 200.0,
+                  ),
+                  Container(
+                    width: 350.0,
+                    child: TextFormField(
+                      controller: nameController,
+                      decoration: InputDecoration(labelText: 'Full Name'),
                     ),
+                  ),
+                  Container(
+                    width: 350.0,
+                    child: TextFormField(
+                      controller: emailController,
+                      decoration: InputDecoration(labelText: 'Email'),
+                    ),
+                  ),
+                  Container(
+                    width: 350.0,
+                    child: TextFormField(
+                      controller: passwordController,
+                      decoration: InputDecoration(labelText: 'Password'),
+                      obscureText: true,
+                    ),
+                  ),
+                  Container(
+                    width: 350.0,
+                    child: TextFormField(
+                      controller: dobController,
+                      onTap: () {
+                        FocusScope.of(context).requestFocus(new FocusNode());
+                        _selectDate();
+                      },
+                      decoration: InputDecoration(labelText: 'Date of Birth'),
+                    ),
+                  ),
+                  Container(
+                    width: 350.0,
+                    child: TextFormField(
+                      controller: qualificationController,
+                      decoration:
+                          InputDecoration(labelText: 'Educational Qualification'),
+                    ),
+                  ),
+                  Container(
+                    width: 350.0,
+                    child: TextFormField(
+                      controller: universityController,
+                      decoration: InputDecoration(labelText: 'University'),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: RaisedButton(
+                      color: Colors.yellow,
+                      onPressed: () async {
+                        setState(() {
+                          loadProgress();
+                        });
+                        await context
+                            .read<AuthenticationService>()
+                            .signUp(
+                                emailController.text,
+                                passwordController.text,
+                                nameController.text,
+                                dobController.text,
+                                qualificationController.text,
+                                universityController.text)
+                            .then((value) {
+                          if (value == "Signed Up") {
+                            Navigator.pop(context);
+                          } else {
+                            setState(() {
+                              loadProgress();
+                            });
+                            Fluttertoast.showToast(
+                                msg: value,
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.BOTTOM);
+                          }
+                        });
+                      },
+                      child: Text(
+                        "Sign Up",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: visible,
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.yellow,
+                      strokeWidth: 8,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(25.0),
+                    child: OutlineButton(
+                      splashColor: Colors.grey,
+                      onPressed: () {
+                        setState(() {
+                          loadProgress();
+                        });
+                        context
+                            .read<AuthenticationService>()
+                            .signInWithGoogle()
+                            .then((value) {
+                          if (value == "Signed In") {
+                            Navigator.pop(context);
+                          } else {
+                            setState(() {
+                              loadProgress();
+                            });
+                            Fluttertoast.showToast(
+                                msg: value,
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.BOTTOM);
+                          }
+                        });
+                      },
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40)),
+                      highlightElevation: 0,
+                      borderSide: BorderSide(color: Colors.grey),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Image(
+                                image: AssetImage("Images/google_logo.png"),
+                                height: 35.0),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(
+                                'Sign in with Google',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Already have an Account?  ', style: defaultStyle),
+                      GestureDetector(
+                        onTap: () {
+                          widget.toogleView();
+                        },
+                        child: Container(
+                          child: Text('Sign In', style: linkStyle),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),

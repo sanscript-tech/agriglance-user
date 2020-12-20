@@ -44,8 +44,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                         icon: Icon(Icons.logout),
                         onPressed: () {
                           context.read<AuthenticationService>().signOut();
-                          setState(() {});
                           Fluttertoast.showToast(msg: "Logged Out");
+                          setState(() {});
                         },
                       ),
                   ],

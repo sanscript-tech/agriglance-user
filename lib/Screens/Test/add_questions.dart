@@ -5,7 +5,9 @@ import 'package:flutter/services.dart';
 class AddQuestions extends StatefulWidget {
   final String testName;
   final String testSubject;
+
   AddQuestions({this.testName, this.testSubject});
+
   @override
   _AddQuestionsState createState() => _AddQuestionsState();
 }
@@ -57,112 +59,136 @@ class _AddQuestionsState extends State<AddQuestions> {
       body: SafeArea(
           top: true,
           bottom: true,
-          child: Form(
-            key: _formKey,
-            autovalidateMode: AutovalidateMode.always,
-            child: ListView(children: <Widget>[
-              Text("Question: "),
-              TextFormField(
-                inputFormatters: [LengthLimitingTextInputFormatter(100)],
-                validator: (val) => val.isEmpty ? 'Question is required' : null,
-                onSaved: (val) => _question = val,
-                decoration: InputDecoration(
-                  hintText: 'Enter question',
-                  labelText: 'Question',
-                ),
-              ),
-              Text("Option 1: "),
-              TextFormField(
-                inputFormatters: [LengthLimitingTextInputFormatter(30)],
-                validator: (val) => val.isEmpty ? 'Option is required' : null,
-                onSaved: (val) => _option1 = val,
-                decoration: InputDecoration(
-                  hintText: 'Enter option',
-                  labelText: 'Option',
-                ),
-              ),
-              Text("Option 2: "),
-              TextFormField(
-                inputFormatters: [LengthLimitingTextInputFormatter(30)],
-                validator: (val) => val.isEmpty ? 'Option is required' : null,
-                onSaved: (val) => _option2 = val,
-                decoration: InputDecoration(
-                  hintText: 'Enter option',
-                  labelText: 'Option',
-                ),
-              ),
-              Text("Option 3: "),
-              TextFormField(
-                inputFormatters: [LengthLimitingTextInputFormatter(30)],
-                validator: (val) => val.isEmpty ? 'Option is required' : null,
-                onSaved: (val) => _option3 = val,
-                decoration: InputDecoration(
-                  hintText: 'Enter option',
-                  labelText: 'Option',
-                ),
-              ),
-              Text("Option 4: "),
-              TextFormField(
-                inputFormatters: [LengthLimitingTextInputFormatter(30)],
-                validator: (val) => val.isEmpty ? 'Option is required' : null,
-                onSaved: (val) => _option4 = val,
-                decoration: InputDecoration(
-                  hintText: 'Enter option',
-                  labelText: 'Option',
-                ),
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              Row(
-                children: <Widget>[
-                  RaisedButton(
-                    padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                      side: BorderSide(color: Colors.black87),
-                    ),
-                    splashColor: Colors.purple,
-                    elevation: 10.0,
-                    highlightElevation: 30.0,
-                    child: const Text(
-                      'Submit for Approval',
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 20.0,
+          child: Center(
+            child: Container(
+              width: 700.0,
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 25.0, // soften the shadow
+                      spreadRadius: 5.0, //extend the shadow
+                      offset: Offset(
+                        15.0,
+                        15.0,
                       ),
+                    )
+                  ],
+                  color: Colors.amber[100],
+                  border: Border.all(color: Colors.white)),
+              child: Form(
+                key: _formKey,
+                autovalidateMode: AutovalidateMode.always,
+                child: ListView(children: <Widget>[
+                  Text("Question: "),
+                  TextFormField(
+                    inputFormatters: [LengthLimitingTextInputFormatter(100)],
+                    validator: (val) =>
+                        val.isEmpty ? 'Question is required' : null,
+                    onSaved: (val) => _question = val,
+                    decoration: InputDecoration(
+                      hintText: 'Enter question',
+                      labelText: 'Question',
                     ),
-                    color: Colors.blue[300],
-                    textColor: Colors.white,
-                    onPressed: () {
-                      _submitForm();
-                      _formKey.currentState.reset();
-                    },
                   ),
-                  RaisedButton(
-                      padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        side: BorderSide(color: Colors.black87),
-                      ),
-                      splashColor: Colors.purple,
-                      elevation: 10.0,
-                      highlightElevation: 30.0,
-                      child: const Text(
-                        'Add new Question',
-                        style: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 20.0,
+                  Text("Option 1: "),
+                  TextFormField(
+                    inputFormatters: [LengthLimitingTextInputFormatter(30)],
+                    validator: (val) =>
+                        val.isEmpty ? 'Option is required' : null,
+                    onSaved: (val) => _option1 = val,
+                    decoration: InputDecoration(
+                      hintText: 'Enter option',
+                      labelText: 'Option',
+                    ),
+                  ),
+                  Text("Option 2: "),
+                  TextFormField(
+                    inputFormatters: [LengthLimitingTextInputFormatter(30)],
+                    validator: (val) =>
+                        val.isEmpty ? 'Option is required' : null,
+                    onSaved: (val) => _option2 = val,
+                    decoration: InputDecoration(
+                      hintText: 'Enter option',
+                      labelText: 'Option',
+                    ),
+                  ),
+                  Text("Option 3: "),
+                  TextFormField(
+                    inputFormatters: [LengthLimitingTextInputFormatter(30)],
+                    validator: (val) =>
+                        val.isEmpty ? 'Option is required' : null,
+                    onSaved: (val) => _option3 = val,
+                    decoration: InputDecoration(
+                      hintText: 'Enter option',
+                      labelText: 'Option',
+                    ),
+                  ),
+                  Text("Option 4: "),
+                  TextFormField(
+                    inputFormatters: [LengthLimitingTextInputFormatter(30)],
+                    validator: (val) =>
+                        val.isEmpty ? 'Option is required' : null,
+                    onSaved: (val) => _option4 = val,
+                    decoration: InputDecoration(
+                      hintText: 'Enter option',
+                      labelText: 'Option',
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Column(
+                    children: <Widget>[
+                      RaisedButton(
+                          padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            side: BorderSide(color: Colors.black87),
+                          ),
+                          splashColor: Colors.purple,
+                          elevation: 10.0,
+                          highlightElevation: 30.0,
+                          child: const Text(
+                            'Add new Question',
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 20.0,
+                            ),
+                          ),
+                          color: Colors.blue[300],
+                          textColor: Colors.white,
+                          onPressed: () {
+                            _formKey.currentState.reset();
+                          }),
+                      RaisedButton(
+                        padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          side: BorderSide(color: Colors.black87),
                         ),
-                      ),
-                      color: Colors.blue[300],
-                      textColor: Colors.white,
-                      onPressed: () {
-                        _formKey.currentState.reset();
-                      })
-                ],
+                        splashColor: Colors.purple,
+                        elevation: 10.0,
+                        highlightElevation: 30.0,
+                        child: const Text(
+                          'Submit for Approval',
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                        color: Colors.blue[300],
+                        textColor: Colors.white,
+                        onPressed: () {
+                          _submitForm();
+                          _formKey.currentState.reset();
+                        },
+                      )
+                    ],
+                  ),
+                ]),
               ),
-            ]),
+            ),
           )),
     );
   }

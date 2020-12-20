@@ -97,188 +97,204 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
           title: Text("Add Research Paper"),
           centerTitle: true,
         ),
-        body: Form(
-          key: _formKey,
-          autovalidateMode: AutovalidateMode.always,
-          child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            children: [
-              DropdownButtonFormField<String>(
-                value: dropdownValue,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.category, color: Colors.grey),
+        body: Center(
+          child: Container(
+            width: 700.0,
+            decoration: BoxDecoration(boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 25.0, // soften the shadow
+                spreadRadius: 5.0, //extend the shadow
+                offset: Offset(
+                  15.0,
+                  15.0,
                 ),
-                validator: (value) =>
-                    value == "Choose Type" ? "Choose material Type" : null,
-                hint: Text("Choose Type"),
-                icon: Icon(Icons.arrow_downward),
-                iconSize: 24,
-                elevation: 16,
-                onChanged: (String newValue) {
-                  setState(() {
-                    dropdownValue = newValue;
-                  });
-                },
-                items: <String>[
-                  "Choose Type",
-                  'Research Paper',
-                  'Question Paper',
-                  'PPT',
-                  'Book/Article',
-                  'Other'
-                ].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
-              DropdownButtonFormField<String>(
-                value: _subject,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.science, color: Colors.grey),
-                ),
-                validator: (value) =>
-                    value == "Choose Subject" ? "Choose Valid Subject" : null,
-                hint: Text("Choose Subject"),
-                icon: Icon(Icons.arrow_downward),
-                iconSize: 24,
-                elevation: 16,
-                onChanged: (String newValue) {
-                  setState(() {
-                    _subject = newValue;
-                  });
-                },
-                items: subjectList.map<DropdownMenuItem<String>>((value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
-              TextFormField(
-                inputFormatters: [LengthLimitingTextInputFormatter(100)],
-                validator: (val) => val.isEmpty ? 'Title is Required' : null,
-                onSaved: (val) => _title = val,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.edit),
-                  hintText: 'Enter the title',
-                  labelText: 'Title',
-                ),
-              ),
-              TextFormField(
-                inputFormatters: [LengthLimitingTextInputFormatter(300)],
-                onSaved: (val) => _description = val,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.book),
-                  hintText: 'Describe(optional)',
-                  labelText: 'Description',
-                ),
-              ),
-              Container(
-                padding:
-                    EdgeInsets.all(MediaQuery.of(context).size.height / 20),
-                child: OutlineButton(
-                  splashColor: Colors.yellow,
-                  onPressed: () {
-                    if (dropdownValue != "Choose Type") {
+              )
+            ], color: Colors.amber[100], border: Border.all(color: Colors.white)),
+            child: Form(
+              key: _formKey,
+              autovalidateMode: AutovalidateMode.always,
+              child: ListView(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                children: [
+                  DropdownButtonFormField<String>(
+                    value: dropdownValue,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.category, color: Colors.grey),
+                    ),
+                    validator: (value) =>
+                        value == "Choose Type" ? "Choose material Type" : null,
+                    hint: Text("Choose Type"),
+                    icon: Icon(Icons.arrow_downward),
+                    iconSize: 24,
+                    elevation: 16,
+                    onChanged: (String newValue) {
                       setState(() {
-                        getPDF();
-                      });
-                    } else {
-                      Fluttertoast.showToast(
-                          msg: "Choose a valid type",
-                          gravity: ToastGravity.BOTTOM);
-                    }
-                  },
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50)),
-                  borderSide: BorderSide(color: Color(0xFF3EC3C1), width: 2.0),
-                  child: Text(
-                    'Select PDF',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Center(
-                  child: Text(
-                "File selected : $absolutePath",
-                style: TextStyle(fontSize: 16.0),
-              )),
-              Visibility(
-                visible: showUploadButton,
-                child: Container(
-                  padding: EdgeInsets.all(40.0),
-                  child: OutlineButton(
-                    onPressed: () {
-                      setState(() {
-                        loadProgress();
-                        showUploadButton = false;
-                        uploadStarted();
+                        dropdownValue = newValue;
                       });
                     },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
-                    borderSide:
-                        BorderSide(color: Color(0xFF3EC3C1), width: 2.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'Upload PDF',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w400),
-                        ),
-                      ],
+                    items: <String>[
+                      "Choose Type",
+                      'Research Paper',
+                      'Question Paper',
+                      'PPT',
+                      'Book/Article',
+                      'Other'
+                    ].map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                  DropdownButtonFormField<String>(
+                    value: _subject,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.science, color: Colors.grey),
+                    ),
+                    validator: (value) =>
+                        value == "Choose Subject" ? "Choose Valid Subject" : null,
+                    hint: Text("Choose Subject"),
+                    icon: Icon(Icons.arrow_downward),
+                    iconSize: 24,
+                    elevation: 16,
+                    onChanged: (String newValue) {
+                      setState(() {
+                        _subject = newValue;
+                      });
+                    },
+                    items: subjectList.map<DropdownMenuItem<String>>((value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                  TextFormField(
+                    inputFormatters: [LengthLimitingTextInputFormatter(100)],
+                    validator: (val) => val.isEmpty ? 'Title is Required' : null,
+                    onSaved: (val) => _title = val,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.edit),
+                      hintText: 'Enter the title',
+                      labelText: 'Title',
                     ),
                   ),
-                ),
-              ),
-              Column(
-                children: [
-                  Visibility(
-                      visible: visible, child: CircularProgressIndicator()),
-                  Visibility(
-                      visible: visible,
+                  TextFormField(
+                    inputFormatters: [LengthLimitingTextInputFormatter(300)],
+                    onSaved: (val) => _description = val,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.book),
+                      hintText: 'Describe(optional)',
+                      labelText: 'Description',
+                    ),
+                  ),
+                  Container(
+                    padding:
+                        EdgeInsets.all(MediaQuery.of(context).size.height / 20),
+                    child: OutlineButton(
+                      splashColor: Colors.yellow,
+                      onPressed: () {
+                        if (dropdownValue != "Choose Type") {
+                          setState(() {
+                            getPDF();
+                          });
+                        } else {
+                          Fluttertoast.showToast(
+                              msg: "Choose a valid type",
+                              gravity: ToastGravity.BOTTOM);
+                        }
+                      },
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)),
+                      borderSide: BorderSide(color: Color(0xFF3EC3C1), width: 2.0),
                       child: Text(
-                          "Uploading your file.. Please wait. Do not navigate back."))
+                        'Select PDF',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Center(
+                      child: Text(
+                    "File selected : $absolutePath",
+                    style: TextStyle(fontSize: 16.0),
+                  )),
+                  Visibility(
+                    visible: showUploadButton,
+                    child: Container(
+                      padding: EdgeInsets.all(40.0),
+                      child: OutlineButton(
+                        onPressed: () {
+                          setState(() {
+                            loadProgress();
+                            showUploadButton = false;
+                            uploadStarted();
+                          });
+                        },
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50)),
+                        borderSide:
+                            BorderSide(color: Color(0xFF3EC3C1), width: 2.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              'Upload PDF',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w400),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      Visibility(
+                          visible: visible, child: CircularProgressIndicator()),
+                      Visibility(
+                          visible: visible,
+                          child: Text(
+                              "Uploading your file.. Please wait. Do not navigate back."))
+                    ],
+                  ),
+                  Visibility(
+                    visible: _pdfUrl == null ? false : true,
+                    child: Container(
+                      padding: EdgeInsets.all(20.0),
+                      child: RaisedButton(
+                        splashColor: Colors.grey,
+                        color: Colors.yellow,
+                        onPressed: () {
+                          _submitForm();
+                        },
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        highlightElevation: 0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(
+                                'Submit for Admin Approval',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
-              Visibility(
-                visible: _pdfUrl == null ? false : true,
-                child: Container(
-                  padding: EdgeInsets.all(20.0),
-                  child: RaisedButton(
-                    splashColor: Colors.grey,
-                    color: Colors.yellow,
-                    onPressed: () {
-                      _submitForm();
-                    },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    highlightElevation: 0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            'Submit for Admin Approval',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
         ));
   }

@@ -24,42 +24,57 @@ class _MyJobShowApplicationsState extends State<MyJobShowApplications> {
       appBar: AppBar(
         title: Text("Applications"),
       ),
-      body: Container(
-        child: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection("jobs")
-              .doc(widget.jobId)
-              .collection("applicants")
-              .snapshots(),
-          builder: (context, snapshot) {
-            return !snapshot.hasData
-                ? Center(child: CircularProgressIndicator())
-                : ListView.builder(
-                    itemCount: snapshot.data.documents.length,
-                    itemBuilder: (context, index) {
-                      DocumentSnapshot applicant =
-                          snapshot.data.documents[index];
-                      return GestureDetector(
-                        onTap: () {
-                          Fluttertoast.showToast(
-                              msg: "PDF Download started...",
-                              gravity: ToastGravity.BOTTOM);
-                          _launchURL(applicant['cvUrl']);
-                        },
-                        child: ApplicantCard(
-                            appliedBy: applicant['appliedBy'],
-                            cvFileName: applicant['cvFileName'],
-                            cvUrl: applicant['cvUrl'],
-                            appliedByName: applicant['appliedByName'],
-                            index: index),
-                      );
-                    });
-          },
+      body: Center(
+        child: Container(
+          width: 700.0,
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 25.0, // soften the shadow
+              spreadRadius: 5.0, //extend the shadow
+              offset: Offset(
+                15.0,
+                15.0,
+              ),
+            )
+          ], color: Colors.amber[100], border: Border.all(color: Colors.white)),
+          child: StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection("jobs")
+                .doc(widget.jobId)
+                .collection("applicants")
+                .snapshots(),
+            builder: (context, snapshot) {
+              return !snapshot.hasData
+                  ? Center(child: CircularProgressIndicator())
+                  : ListView.builder(
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (context, index) {
+                        DocumentSnapshot applicant =
+                            snapshot.data.documents[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Fluttertoast.showToast(
+                                msg: "PDF Download started...",
+                                gravity: ToastGravity.BOTTOM);
+                            _launchURL(applicant['cvUrl']);
+                          },
+                          child: ApplicantCard(
+                              appliedBy: applicant['appliedBy'],
+                              cvFileName: applicant['cvFileName'],
+                              cvUrl: applicant['cvUrl'],
+                              appliedByName: applicant['appliedByName'],
+                              index: index),
+                        );
+                      });
+            },
+          ),
         ),
       ),
     );
   }
 
-  void _launchURL(url) async =>
-      await canLaunch(url) ? await launch(url) : Fluttertoast.showToast(msg: "Could not launch $url");
+  void _launchURL(url) async => await canLaunch(url)
+      ? await launch(url)
+      : Fluttertoast.showToast(msg: "Could not launch $url");
 }

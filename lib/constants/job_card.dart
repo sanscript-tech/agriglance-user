@@ -38,8 +38,8 @@ class _JobCardState extends State<JobCard> {
   int count = 0;
   @override
   void initState() {
-    super.initState();
     countDocuments();
+    super.initState();
   }
   @override
   Widget build(BuildContext context) {

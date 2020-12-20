@@ -56,48 +56,67 @@ class _QuizQuestionsState extends State<QuizQuestions> {
       body: SafeArea(
           top: true,
           bottom: true,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(height: screenHeight * 0.03),
-              Expanded(
-                child: StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection("QuizTestName")
-                      .doc(widget.quizName)
-                      .collection("questions")
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                    final questionNames = snapshot.data.docs;
-                    List<QuestionCard> questionsWidgets = [];
-                    for (var question in questionNames) {
-                      final questionTest = question.get('ques').toString();
-                      final option1 = question.get('option1').toString();
-                      final option2 = question.get('option2').toString();
-                      final option3 = question.get('option3').toString();
-                      final option4 = question.get('option4').toString();
-                      final correct = question.get('correct').toString();
-                      final questionWidget = QuestionCard(
-                        quizName: widget.quizName,
-                        question: questionTest,
-                        option1: option1,
-                        option2: option2,
-                        option3: option3,
-                        option4: option4,
-                        correct: correct,
-                      );
+          child: Center(
+            child: Container(
+              width: 700.0,
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 25.0, // soften the shadow
+                      spreadRadius: 5.0, //extend the shadow
+                      offset: Offset(
+                        15.0,
+                        15.0,
+                      ),
+                    )
+                  ],
+                  color: Colors.amber[100],
+                  border: Border.all(color: Colors.white)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: screenHeight * 0.03),
+                  Expanded(
+                    child: StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection("QuizTestName")
+                          .doc(widget.quizName)
+                          .collection("questions")
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        final questionNames = snapshot.data.docs;
+                        List<QuestionCard> questionsWidgets = [];
+                        for (var question in questionNames) {
+                          final questionTest = question.get('ques').toString();
+                          final option1 = question.get('option1').toString();
+                          final option2 = question.get('option2').toString();
+                          final option3 = question.get('option3').toString();
+                          final option4 = question.get('option4').toString();
+                          final correct = question.get('correct').toString();
+                          final questionWidget = QuestionCard(
+                            quizName: widget.quizName,
+                            question: questionTest,
+                            option1: option1,
+                            option2: option2,
+                            option3: option3,
+                            option4: option4,
+                            correct: correct,
+                          );
 
-                      questionsWidgets.add(questionWidget);
-                    }
+                          questionsWidgets.add(questionWidget);
+                        }
 
-                    return (ListView(children: questionsWidgets));
-                  },
-                ),
+                        return (ListView(children: questionsWidgets));
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           )),
     );
   }

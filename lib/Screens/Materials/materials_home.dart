@@ -1,6 +1,7 @@
 import 'package:agriglance/Screens/Polls/poll_home.dart';
 import 'package:agriglance/Screens/StudyMaterials/study_materials__home.dart';
 import 'package:agriglance/Screens/Videos/video_home.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../News/news_home.dart';
 import '../Quiz/quiz_home.dart';
@@ -9,9 +10,15 @@ class MaterialsHome extends StatelessWidget {
   @override
   Widget categoryButton(
       String category, BuildContext context, Widget newScreen) {
+    var style;
+    if (kIsWeb)
+      style = TextStyle(fontSize: 30.0, fontWeight: FontWeight.w400);
+    else
+      style = TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400);
     return ButtonTheme(
-      minWidth: MediaQuery.of(context).size.width * 0.4,
-      height: MediaQuery.of(context).size.width * 0.2,
+      minWidth: MediaQuery.of(context).size.width * 0.3,
+      height: MediaQuery.of(context).size.width * 0.09,
+      hoverColor: Colors.amber[200],
       child: OutlineButton(
         onPressed: () {
           switch (category) {
@@ -41,7 +48,8 @@ class MaterialsHome extends StatelessWidget {
               }
             case "Quiz":
               {
-                Navigator.push(context, MaterialPageRoute(builder:(context)=>newScreen));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => newScreen));
                 break;
               }
 
@@ -56,7 +64,7 @@ class MaterialsHome extends StatelessWidget {
         },
         child: Text(
           category,
-          style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
+          style: style,
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
         borderSide: BorderSide(color: Colors.blue, width: 10.0),

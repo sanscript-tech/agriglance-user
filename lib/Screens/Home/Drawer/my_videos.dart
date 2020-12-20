@@ -21,63 +21,105 @@ class _MyVideosState extends State<MyVideos> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(title: Text("My Videos"), centerTitle: true),
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection("Videos")
-            .where("postedBy",
-                isEqualTo: FirebaseAuth.instance.currentUser.uid.toString())
-            .orderBy('isApprovedByAdmin', descending: true)
-            .snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
-            return Center(
-              child: CircularProgressIndicator(
-                backgroundColor: Colors.amber,
+      body: Center(
+        child: Container(
+          width: 700.0,
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 25.0, // soften the shadow
+              spreadRadius: 5.0, //extend the shadow
+              offset: Offset(
+                15.0,
+                15.0,
               ),
-            );
-          }
+            )
+          ], color: Colors.amber[100], border: Border.all(color: Colors.white)),
+          child: StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection("Videos")
+                .where("postedBy",
+                    isEqualTo: FirebaseAuth.instance.currentUser.uid.toString())
+                .orderBy('isApprovedByAdmin', descending: true)
+                .snapshots(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    backgroundColor: Colors.amber,
+                  ),
+                );
+              }
 
-          return ListView.builder(
-            itemCount: snapshot.data.docs.length,
-            itemBuilder: (context, index) {
-              DocumentSnapshot videos = snapshot.data.docs[index];
-              var url = videos['videoUrl'];
+              return ListView.builder(
+                itemCount: snapshot.data.docs.length,
+                itemBuilder: (context, index) {
+                  DocumentSnapshot videos = snapshot.data.docs[index];
+                  var url = videos['videoUrl'];
 
-              return Center(
-                child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                        width: width / 1,
-                        child: (!kIsWeb)
-                            ? YoutubePlayerBuilder(
-                                player: YoutubePlayer(
-                                  controller: YoutubePlayerController(
-                                    initialVideoId:
-                                        YoutubePlayer.convertUrlToId(url),
-                                    flags: YoutubePlayerFlags(
-                                        controlsVisibleAtStart: true,
-                                        autoPlay: false,
-                                        mute: false,
-                                        disableDragSeek: false,
-                                        loop: false,
-                                        isLive: false,
-                                        forceHD: false),
-                                  ),
-                                  showVideoProgressIndicator: true,
-                                  liveUIColor: Colors.redAccent,
-                                  bottomActions: [
-                                    FullScreenButton(
-                                      color: Colors.amber[700],
+                  return Center(
+                    child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                            width: width / 1,
+                            child: (!kIsWeb)
+                                ? YoutubePlayerBuilder(
+                                    player: YoutubePlayer(
+                                      controller: YoutubePlayerController(
+                                        initialVideoId:
+                                            YoutubePlayer.convertUrlToId(url),
+                                        flags: YoutubePlayerFlags(
+                                            controlsVisibleAtStart: true,
+                                            autoPlay: false,
+                                            mute: false,
+                                            disableDragSeek: false,
+                                            loop: false,
+                                            isLive: false,
+                                            forceHD: false),
+                                      ),
+                                      showVideoProgressIndicator: true,
+                                      liveUIColor: Colors.redAccent,
+                                      bottomActions: [
+                                        FullScreenButton(
+                                          color: Colors.amber[700],
+                                        ),
+                                        CurrentPosition(),
+                                        PlaybackSpeedButton(),
+                                      ],
                                     ),
-                                    CurrentPosition(),
-                                    PlaybackSpeedButton(),
-                                  ],
-                                ),
-                                builder: (context, player) {
-                                  return Column(
+                                    builder: (context, player) {
+                                      return Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                videos['lectureTitle'],
+                                                style: GoogleFonts.notoSans(
+                                                    fontStyle: FontStyle.normal,
+                                                    fontSize: 20.0),
+                                              ),
+                                              Text(
+                                                ((videos['isApprovedByAdmin'] ==
+                                                        true)
+                                                    ? "Approved by Admin"
+                                                    : "Waiting for approval"),
+                                                style: TextStyle(fontSize: 8.0),
+                                              ),
+                                            ],
+                                          ),
+                                          player,
+                                        ],
+                                      );
+                                    },
+                                  )
+                                : Column(
                                     children: [
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Text(
                                             videos['lectureTitle'],
@@ -86,52 +128,31 @@ class _MyVideosState extends State<MyVideos> {
                                                 fontSize: 20.0),
                                           ),
                                           Text(
-                                            ((videos['isApprovedByAdmin'] == true)
+                                            ((videos['isApprovedByAdmin'] ==
+                                                    true)
                                                 ? "Approved by Admin"
                                                 : "Waiting for approval"),
                                             style: TextStyle(fontSize: 8.0),
                                           ),
                                         ],
                                       ),
-                                      player,
-                                    ],
-                                  );
-                                },
-                              )
-                            : Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        videos['lectureTitle'],
-                                        style: GoogleFonts.notoSans(
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: 20.0),
-                                      ),
-                                      Text(
-                                        ((videos['isApprovedByAdmin'] == true)
-                                            ? "Approved by Admin"
-                                            : "Waiting for approval"),
-                                        style: TextStyle(fontSize: 8.0),
+                                      GestureDetector(
+                                        onTap: () {
+                                          _launchURL(url);
+                                        },
+                                        child: Text(
+                                          "Link to the video",
+                                          style: linkStyle,
+                                        ),
                                       ),
                                     ],
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      _launchURL(url);
-                                    },
-                                    child: Text(
-                                      "Link to the video",
-                                      style: linkStyle,
-                                    ),
-                                  ),
-                                ],
-                              ))),
+                                  ))),
+                  );
+                },
               );
             },
-          );
-        },
+          ),
+        ),
       ),
     );
   }

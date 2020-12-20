@@ -18,39 +18,53 @@ class _MyPollState extends State<MyPoll> {
       appBar: AppBar(
         title: Text("My Polls"),
       ),
-      body: Container(
-        child: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection("polls")
-              .where("postedBy", isEqualTo: auth.currentUser.uid.toString())
-              .orderBy('createdOn')
-              .snapshots(),
-          builder: (context, snapshot) {
-            return !snapshot.hasData
-                ? Center(child: CircularProgressIndicator())
-                : ListView.builder(
-                    itemCount: snapshot.data.documents.length,
-                    itemBuilder: (context, index) {
-                      DocumentSnapshot p = snapshot.data.documents[index];
-                      return PollCard(
-                        voters: p['voters'],
-                        question: p['question'],
-                        option1: p['option1'],
-                        option2: p['option2'],
-                        option3: p['option3'],
-                        option4: p['option4'],
-                        totalVotesOnOption1: p['totalVotesOnOption1'],
-                        totalVotesOnOption2: p['totalVotesOnOption2'],
-                        totalVotesOnOption3: p['totalVotesOnOption3'],
-                        totalVotesOnOption4: p['totalVotesOnOption4'],
-                        postedByName: p['postedByName'],
-                        approved : p['isApprovedByAdmin'],
-                        index: index,
-                        pollID: p.id,
-                      );
-                    },
-                  );
-          },
+      body: Center(
+        child: Container(
+          width: 700.0,
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 25.0, // soften the shadow
+              spreadRadius: 5.0, //extend the shadow
+              offset: Offset(
+                15.0,
+                15.0,
+              ),
+            )
+          ], color: Colors.amber[100], border: Border.all(color: Colors.white)),
+          child: StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection("polls")
+                .where("postedBy", isEqualTo: auth.currentUser.uid.toString())
+                .orderBy('createdOn')
+                .snapshots(),
+            builder: (context, snapshot) {
+              return !snapshot.hasData
+                  ? Center(child: CircularProgressIndicator())
+                  : ListView.builder(
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (context, index) {
+                        DocumentSnapshot p = snapshot.data.documents[index];
+                        return PollCard(
+                          voters: p['voters'],
+                          question: p['question'],
+                          option1: p['option1'],
+                          option2: p['option2'],
+                          option3: p['option3'],
+                          option4: p['option4'],
+                          totalVotesOnOption1: p['totalVotesOnOption1'],
+                          totalVotesOnOption2: p['totalVotesOnOption2'],
+                          totalVotesOnOption3: p['totalVotesOnOption3'],
+                          totalVotesOnOption4: p['totalVotesOnOption4'],
+                          postedByName: p['postedByName'],
+                          approved: p['isApprovedByAdmin'],
+                          index: index,
+                          pollID: p.id,
+                        );
+                      },
+                    );
+            },
+          ),
         ),
       ),
     );

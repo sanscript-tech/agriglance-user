@@ -2,6 +2,7 @@ import 'package:agriglance/Services/authenticate.dart';
 import 'package:agriglance/constants/comment_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Discussion extends StatefulWidget {
@@ -52,49 +53,67 @@ class _DiscussionState extends State<Discussion> {
         title: Text("QNA"),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          Container(
-            child: Column(
-              children: [
-                Text(
-                  widget.question,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0),
+      body: Center(
+        child: Container(
+          width: 700.0,
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 25.0, // soften the shadow
+              spreadRadius: 5.0, //extend the shadow
+              offset: Offset(
+                15.0,
+                15.0,
+              ),
+            )
+          ], color: Colors.amber[100], border: Border.all(color: Colors.white)),
+          child: Column(
+            children: [
+              Container(
+                child: Column(
+                  children: [
+                    Text(
+                      widget.question,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 25.0),
+                    ),
+                    Text(
+                      widget.description,
+                      style: TextStyle(fontSize: 18.0),
+                    ),
+                    Divider(
+                      thickness: 4.0,
+                    ),
+                  ],
                 ),
-                Text(
-                  widget.description,
-                  style: TextStyle(fontSize: 18.0),
+              ),
+              Flexible(
+                child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection("qna")
+                      .doc(widget.qid)
+                      .collection("comments")
+                      .orderBy('timeOfComment')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    return !snapshot.hasData
+                        ? Text("Loading")
+                        : ListView.builder(
+                            itemCount: snapshot.data.documents.length,
+                            itemBuilder: (context, index) {
+                              DocumentSnapshot com =
+                                  snapshot.data.documents[index];
+                              return CommentCard(
+                                  comment: com['content'],
+                                  postedBy: com['postedBy']);
+                            },
+                          );
+                  },
                 ),
-                Divider(
-                  thickness: 4.0,
-                ),
-              ],
-            ),
+              )
+            ],
           ),
-          Flexible(
-            child: StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection("qna")
-                  .doc(widget.qid)
-                  .collection("comments")
-                  .orderBy('timeOfComment')
-                  .snapshots(),
-              builder: (context, snapshot) {
-                return !snapshot.hasData
-                    ? Text("Loading")
-                    : ListView.builder(
-                        itemCount: snapshot.data.documents.length,
-                        itemBuilder: (context, index) {
-                          DocumentSnapshot com = snapshot.data.documents[index];
-                          return CommentCard(
-                              comment: com['content'],
-                              postedBy: com['postedBy']);
-                        },
-                      );
-              },
-            ),
-          )
-        ],
+        ),
       ),
       bottomNavigationBar: (FirebaseAuth.instance.currentUser != null)
           ? Padding(
@@ -105,7 +124,7 @@ class _DiscussionState extends State<Discussion> {
               child: Row(
                 children: [
                   Container(
-                    width: deviceWidth / 1.5,
+                    width: (kIsWeb) ? deviceWidth * 0.90 : deviceWidth / 1.4,
                     child: TextField(
                       controller: myController,
                       decoration: InputDecoration(
