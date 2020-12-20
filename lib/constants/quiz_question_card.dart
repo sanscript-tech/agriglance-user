@@ -29,7 +29,9 @@ class _QuestionCardState extends State<QuestionCard> {
   int _totalCorrectAnswered = 0;
   int _totalIncorrectAnswered = 0;
 
-  var _uid = FirebaseAuth.instance.currentUser!=null ? FirebaseAuth.instance.currentUser.uid : "";
+  var _uid = FirebaseAuth.instance.currentUser != null
+      ? FirebaseAuth.instance.currentUser.uid
+      : "";
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +54,8 @@ class _QuestionCardState extends State<QuestionCard> {
                   _totalIncorrectAnswered++;
                 }
               }
-              if(FirebaseAuth.instance.currentUser!=null) {
+              _isAttempted = true;
+              if (FirebaseAuth.instance.currentUser != null) {
                 await FirebaseFirestore.instance
                     .collection("attemptedQuiz")
                     .doc(_uid)
@@ -63,10 +66,6 @@ class _QuestionCardState extends State<QuestionCard> {
                   "totalCorrect": _totalCorrectAnswered,
                   "totalIncorrect": _totalIncorrectAnswered,
                   "quizName": widget.quizName
-                });
-
-                setState(() {
-                  _isAttempted = true;
                 });
               }
             },
@@ -93,7 +92,8 @@ class _QuestionCardState extends State<QuestionCard> {
                   _totalIncorrectAnswered++;
                 }
               }
-              if(FirebaseAuth.instance.currentUser!=null) {
+              _isAttempted = true;
+              if (FirebaseAuth.instance.currentUser != null) {
                 await FirebaseFirestore.instance
                     .collection("attemptedQuiz")
                     .doc(_uid)
@@ -104,10 +104,6 @@ class _QuestionCardState extends State<QuestionCard> {
                   "totalCorrect": _totalCorrectAnswered,
                   "totalIncorrect": _totalIncorrectAnswered,
                   "quizName": widget.quizName
-                });
-
-                setState(() {
-                  _isAttempted = true;
                 });
               }
             },
@@ -134,7 +130,8 @@ class _QuestionCardState extends State<QuestionCard> {
                   _totalIncorrectAnswered++;
                 }
               }
-              if(FirebaseAuth.instance.currentUser!=null) {
+              _isAttempted = true;
+              if (FirebaseAuth.instance.currentUser != null) {
                 await FirebaseFirestore.instance
                     .collection("attemptedQuiz")
                     .doc(_uid)
@@ -145,10 +142,6 @@ class _QuestionCardState extends State<QuestionCard> {
                   "totalCorrect": _totalCorrectAnswered,
                   "totalIncorrect": _totalIncorrectAnswered,
                   "quizName": widget.quizName
-                });
-
-                setState(() {
-                  _isAttempted = true;
                 });
               }
             },
@@ -175,7 +168,8 @@ class _QuestionCardState extends State<QuestionCard> {
                   _totalIncorrectAnswered++;
                 }
               }
-              if(FirebaseAuth.instance.currentUser!=null) {
+              _isAttempted = true;
+              if (FirebaseAuth.instance.currentUser != null) {
                 await FirebaseFirestore.instance
                     .collection("attemptedQuiz")
                     .doc(_uid)
@@ -186,10 +180,6 @@ class _QuestionCardState extends State<QuestionCard> {
                   "totalCorrect": _totalCorrectAnswered,
                   "totalIncorrect": _totalIncorrectAnswered,
                   "quizName": widget.quizName
-                });
-
-                setState(() {
-                  _isAttempted = true;
                 });
               }
             },

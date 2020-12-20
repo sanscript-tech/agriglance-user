@@ -16,6 +16,7 @@ class QuestionsList extends StatefulWidget {
 }
 
 class _QuestionsListState extends State<QuestionsList> {
+  List<String> _options = [];
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -32,10 +33,7 @@ class _QuestionsListState extends State<QuestionsList> {
               })
           : FloatingActionButton(
               child: Column(
-                children: [
-                  Icon(Icons.login),
-                  Text("Login")
-                ],
+                children: [Icon(Icons.login), Text("Login")],
               ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
@@ -85,14 +83,22 @@ class _QuestionsListState extends State<QuestionsList> {
                       final option2 = question.get('option2').toString();
                       final option3 = question.get('option3').toString();
                       final option4 = question.get('option4').toString();
+                      final correct = option1;
+                      _options.add(option1);
+                      _options.add(option2);
+                      _options.add(option3);
+                      _options.add(option4);
+                      _options.shuffle();
+
                       final questionWidget = QuestionCard(
                         subjectName: widget.subjectName,
                         testName: widget.testname,
                         question: questionTest,
-                        option1: option1,
-                        option2: option2,
-                        option3: option3,
-                        option4: option4,
+                        option1: _options[0],
+                        option2: _options[1],
+                        option3: _options[2],
+                        option4: _options[3],
+                        correct: correct,
                       );
 
                       questionsWidgets.add(questionWidget);

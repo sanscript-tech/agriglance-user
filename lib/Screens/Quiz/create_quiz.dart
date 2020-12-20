@@ -25,7 +25,6 @@ class _QuizState extends State<Quiz> {
   String _option2 = "";
   String _option3 = "";
   String _option4 = "";
-  String _rightAnswer = "";
 
   final TextEditingController eCtrl = new TextEditingController();
   final myController = TextEditingController();
@@ -136,8 +135,8 @@ class _QuizState extends State<Quiz> {
                               },
                             ),
                             TextFormField(
-                                decoration:
-                                    InputDecoration(labelText: "option a"),
+                                decoration: InputDecoration(
+                                    labelText: "option a (Correct Answer)"),
                                 validator: (val) =>
                                     val.isEmpty ? "option is required" : null,
                                 onSaved: (val) {
@@ -176,16 +175,16 @@ class _QuizState extends State<Quiz> {
                                     _option4 = val;
                                   });
                                 }),
-                            TextFormField(
-                                decoration: InputDecoration(
-                                    labelText: "correct answer"),
-                                validator: (val) =>
-                                    val.isEmpty ? "option is required" : null,
-                                onSaved: (val) {
-                                  setState(() {
-                                    _rightAnswer = val;
-                                  });
-                                }),
+                            // TextFormField(
+                            //     decoration: InputDecoration(
+                            //         labelText: "correct answer"),
+                            //     validator: (val) =>
+                            //         val.isEmpty ? "option is required" : null,
+                            //     onSaved: (val) {
+                            //       setState(() {
+                            //         _rightAnswer = val;
+                            //       });
+                            //     }),
                             RaisedButton(
                               child: Text("Submit"),
                               color: Colors.yellow,
@@ -212,7 +211,6 @@ class _QuizState extends State<Quiz> {
                                       "option2": _option2,
                                       "option3": _option3,
                                       "option4": _option4,
-                                      "correct": _rightAnswer
                                     });
                                   } else {
                                     await FirebaseFirestore.instance
@@ -235,7 +233,6 @@ class _QuizState extends State<Quiz> {
                                       "option2": _option2,
                                       "option3": _option3,
                                       "option4": _option4,
-                                      "correct": _rightAnswer
                                     });
                                   }
                                   setState(() {

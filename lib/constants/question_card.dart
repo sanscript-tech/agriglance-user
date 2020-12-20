@@ -10,7 +10,8 @@ class QuestionCard extends StatefulWidget {
       this.option1,
       this.option2,
       this.option3,
-      this.option4});
+      this.option4,
+      this.correct});
 
   final String question;
   final String option1;
@@ -19,6 +20,7 @@ class QuestionCard extends StatefulWidget {
   final String option4;
   final String testName;
   final String subjectName;
+  final String correct;
 
   @override
   _QuestionCardState createState() => _QuestionCardState();
@@ -30,7 +32,9 @@ class _QuestionCardState extends State<QuestionCard> {
   int _totalCorrectAnswered = 0;
   int _totalIncorrectAnswered = 0;
 
-  var _uid = FirebaseAuth.instance.currentUser!=null ? FirebaseAuth.instance.currentUser.uid : "";
+  var _uid = FirebaseAuth.instance.currentUser != null
+      ? FirebaseAuth.instance.currentUser.uid
+      : "";
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +51,14 @@ class _QuestionCardState extends State<QuestionCard> {
                   _optionSelected = widget.option2;
                 });
 
-                if (widget.option2 == widget.option1) {
+                if (widget.option2 == widget.correct) {
                   _totalCorrectAnswered++;
                 } else {
                   _totalIncorrectAnswered++;
                 }
               }
-              if(FirebaseAuth.instance.currentUser!=null) {
+              _isAttempted = true;
+              if (FirebaseAuth.instance.currentUser != null) {
                 await FirebaseFirestore.instance
                     .collection("attemptedTest")
                     .doc(_uid)
@@ -65,14 +70,10 @@ class _QuestionCardState extends State<QuestionCard> {
                   "totalIncorrect": _totalIncorrectAnswered,
                   "testName": widget.testName
                 });
-
-                setState(() {
-                  _isAttempted = true;
-                });
               }
             },
             child: OptionTile(
-              correctAnswer: widget.option1,
+              correctAnswer: widget.correct,
               description: widget.option2,
               option: "A",
               optionSelected: _optionSelected,
@@ -88,13 +89,14 @@ class _QuestionCardState extends State<QuestionCard> {
                   _optionSelected = widget.option3;
                 });
 
-                if (widget.option3 == widget.option1) {
+                if (widget.option3 == widget.correct) {
                   _totalCorrectAnswered++;
                 } else {
                   _totalIncorrectAnswered++;
                 }
               }
-              if(FirebaseAuth.instance.currentUser!=null) {
+              _isAttempted = true;
+              if (FirebaseAuth.instance.currentUser != null) {
                 await FirebaseFirestore.instance
                     .collection("attemptedTest")
                     .doc(_uid)
@@ -106,14 +108,10 @@ class _QuestionCardState extends State<QuestionCard> {
                   "totalIncorrect": _totalIncorrectAnswered,
                   "testName": widget.testName
                 });
-
-                setState(() {
-                  _isAttempted = true;
-                });
               }
             },
             child: OptionTile(
-              correctAnswer: widget.option1,
+              correctAnswer: widget.correct,
               description: widget.option3,
               option: "B",
               optionSelected: _optionSelected,
@@ -129,13 +127,14 @@ class _QuestionCardState extends State<QuestionCard> {
                   _optionSelected = widget.option1;
                 });
 
-                if (widget.option1 == widget.option1) {
+                if (widget.option1 == widget.correct) {
                   _totalCorrectAnswered++;
                 } else {
                   _totalIncorrectAnswered++;
                 }
               }
-              if(FirebaseAuth.instance.currentUser!=null) {
+              _isAttempted = true;
+              if (FirebaseAuth.instance.currentUser != null) {
                 await FirebaseFirestore.instance
                     .collection("attemptedTest")
                     .doc(_uid)
@@ -147,14 +146,10 @@ class _QuestionCardState extends State<QuestionCard> {
                   "totalIncorrect": _totalIncorrectAnswered,
                   "testName": widget.testName
                 });
-
-                setState(() {
-                  _isAttempted = true;
-                });
               }
             },
             child: OptionTile(
-              correctAnswer: widget.option1,
+              correctAnswer: widget.correct,
               description: widget.option1,
               option: "C",
               optionSelected: _optionSelected,
@@ -170,13 +165,14 @@ class _QuestionCardState extends State<QuestionCard> {
                   _optionSelected = widget.option4;
                 });
 
-                if (widget.option4 == widget.option1) {
+                if (widget.option4 == widget.correct) {
                   _totalCorrectAnswered++;
                 } else {
                   _totalIncorrectAnswered++;
                 }
               }
-              if(FirebaseAuth.instance.currentUser!=null) {
+              _isAttempted = true;
+              if (FirebaseAuth.instance.currentUser != null) {
                 await FirebaseFirestore.instance
                     .collection("attemptedTest")
                     .doc(_uid)
@@ -188,14 +184,10 @@ class _QuestionCardState extends State<QuestionCard> {
                   "totalIncorrect": _totalIncorrectAnswered,
                   "testName": widget.testName
                 });
-
-                setState(() {
-                  _isAttempted = true;
-                });
               }
             },
             child: OptionTile(
-              correctAnswer: widget.option1,
+              correctAnswer: widget.correct,
               description: widget.option4,
               option: "D",
               optionSelected: _optionSelected,
