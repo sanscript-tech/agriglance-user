@@ -22,9 +22,20 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController universityController = TextEditingController();
   final TextStyle defaultStyle = TextStyle(color: Colors.grey, fontSize: 20.0);
   final TextStyle linkStyle = TextStyle(color: Colors.blue, fontSize: 20.0);
-  var opacity = 0.0;
   String dob = "";
-  var response;
+  bool visible = false;
+
+  loadProgress() {
+    if (visible == true) {
+      setState(() {
+        visible = false;
+      });
+    } else {
+      setState(() {
+        visible = true;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +49,6 @@ class _SignUpState extends State<SignUp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Opacity(
-                opacity: opacity,
-                child: CircularProgressIndicator(
-                  backgroundColor: Colors.yellow,
-                  strokeWidth: 8,
-                ),
-              ),
               TextFormField(
                 controller: nameController,
                 decoration: InputDecoration(labelText: 'Full Name'),
@@ -81,29 +85,42 @@ class _SignUpState extends State<SignUp> {
                   color: Colors.yellow,
                   onPressed: () async {
                     setState(() {
-                      opacity = 1.0;
+                      loadProgress();
                     });
-                    response = await context.read<AuthenticationService>().signUp(
-                        emailController.text,
-                        passwordController.text,
-                        nameController.text,
-                        dobController.text,
-                        qualificationController.text,
-                        universityController.text);
-                    if (response != "Signed Up") {
-                      setState(() {
-                        opacity = 0.0;
-                      });
-                      Fluttertoast.showToast(
-                          msg: response,
-                          toastLength: Toast.LENGTH_LONG,
-                          gravity: ToastGravity.BOTTOM);
-                    }
+                    await context
+                        .read<AuthenticationService>()
+                        .signUp(
+                            emailController.text,
+                            passwordController.text,
+                            nameController.text,
+                            dobController.text,
+                            qualificationController.text,
+                            universityController.text)
+                        .then((value) {
+                      if (value == "Signed Up") {
+                        Navigator.pop(context);
+                      } else {
+                        setState(() {
+                          loadProgress();
+                        });
+                        Fluttertoast.showToast(
+                            msg: value,
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.BOTTOM);
+                      }
+                    });
                   },
                   child: Text(
                     "Sign Up",
                     style: TextStyle(color: Colors.black),
                   ),
+                ),
+              ),
+              Visibility(
+                visible: visible,
+                child: CircularProgressIndicator(
+                  backgroundColor: Colors.yellow,
+                  strokeWidth: 8,
                 ),
               ),
               Padding(
@@ -112,9 +129,24 @@ class _SignUpState extends State<SignUp> {
                   splashColor: Colors.grey,
                   onPressed: () {
                     setState(() {
-                      opacity = 1.0;
+                      loadProgress();
                     });
-                    context.read<AuthenticationService>().signInWithGoogle();
+                    context
+                        .read<AuthenticationService>()
+                        .signInWithGoogle()
+                        .then((value) {
+                      if (value == "Signed In") {
+                        Navigator.pop(context);
+                      } else {
+                        setState(() {
+                          loadProgress();
+                        });
+                        Fluttertoast.showToast(
+                            msg: value,
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.BOTTOM);
+                      }
+                    });
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40)),

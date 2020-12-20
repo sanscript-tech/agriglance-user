@@ -57,11 +57,11 @@ class _PollHomeState extends State<PollHome> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: (FirebaseAuth.instance.currentUser != null) ? FloatingActionButton(
         onPressed: () => Navigator.push(
             context, MaterialPageRoute(builder: (context) => AddPoll())),
         child: Icon(Icons.add),
-      ),
+      ) : null,
     );
   }
 }

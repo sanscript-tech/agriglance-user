@@ -49,7 +49,7 @@ class _JobsHomeState extends State<JobsHome> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: (FirebaseAuth.instance.currentUser != null) ? FloatingActionButton(
         onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(
@@ -57,7 +57,7 @@ class _JobsHomeState extends State<JobsHome> {
                     uid: auth.currentUser.uid,
                     uName: auth.currentUser.displayName))),
         child: Icon(Icons.add),
-      ),
+      ) : null,
     );
   }
 }

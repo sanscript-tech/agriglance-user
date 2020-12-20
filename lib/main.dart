@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'Screens/Home/home.dart';
-import 'Services/authenticate.dart';
 import 'Services/authentication_service.dart';
 
 void main() async {
@@ -32,22 +31,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.amber,
           ),
-          home: AuthenticationWrapper(),
+          home: Home(),
         ));
-  }
-}
-
-class AuthenticationWrapper extends StatelessWidget {
-  const AuthenticationWrapper({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final firebaseUser = context.watch<User>();
-    if (firebaseUser != null) {
-      return Home();
-    }
-    return Authenticate();
   }
 }

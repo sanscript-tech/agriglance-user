@@ -11,6 +11,7 @@ class QnaHome extends StatefulWidget {
 
 class _QnaHomeState extends State<QnaHome> {
   final FirebaseAuth auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,15 +41,17 @@ class _QnaHomeState extends State<QnaHome> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => AddQuestionScreen(
-                    uid: auth.currentUser.uid,
-                    uName: auth.currentUser.displayName))),
-      ),
+      floatingActionButton: (FirebaseAuth.instance.currentUser != null)
+          ? FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AddQuestionScreen(
+                          uid: auth.currentUser.uid,
+                          uName: auth.currentUser.displayName))),
+            )
+          : null,
     );
   }
 }

@@ -33,7 +33,7 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
       appBar: AppBar(
         title: Text("Study Materials"),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: (FirebaseAuth.instance.currentUser != null) ? FloatingActionButton(
         onPressed: () async {
           UserModel updateUser = await FirestoreService()
               .getUser(FirebaseAuth.instance.currentUser.uid);
@@ -47,7 +47,7 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
                       uid: auth.currentUser.uid, uName: uName)));
         },
         child: Icon(Icons.add),
-      ),
+      ): null,
       body: Container(
         child: StreamBuilder(
           stream: FirebaseFirestore.instance

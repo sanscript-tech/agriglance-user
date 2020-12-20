@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:agriglance/Models/usermodel.dart';
+import 'package:agriglance/Services/authenticate.dart';
 import 'package:agriglance/Services/firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
@@ -251,64 +252,78 @@ class _JobDetailsState extends State<JobDetails> {
                 ),
               ],
             ),
-            Container(
-              padding: EdgeInsets.all(20.0),
-              child: RaisedButton(
-                splashColor: Colors.yellow,
-                color: Colors.blue,
-                onPressed: () {
-                  selectCV();
-                },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Select CV',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
+            (FirebaseAuth.instance.currentUser != null)
+                ? Container(
+                    padding: EdgeInsets.all(20.0),
+                    child: RaisedButton(
+                      splashColor: Colors.yellow,
+                      color: Colors.blue,
+                      onPressed: () {
+                        selectCV();
+                      },
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'Select CV',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-            Center(child: Text("File selected : $absolutePath")),
-            Visibility(
-              visible: showUploadButton,
-              child: Container(
-                padding: EdgeInsets.all(20.0),
-                child: RaisedButton(
-                  splashColor: Colors.yellow,
-                  color: Colors.blue,
-                  onPressed: () {
-                    setState(() {
-                      loadProgress();
-                      showUploadButton = false;
-                      _uploadFileCV();
-                      if (_pdfUrl != null) {
-                        Navigator.pop(context);
-                      }
-                    });
-                  },
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'Submit Application',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
+                  )
+                : Text(""),
+            (FirebaseAuth.instance.currentUser != null)
+                ? Center(child: Text("File selected : $absolutePath"))
+                : Text(""),
+            (FirebaseAuth.instance.currentUser != null)
+                ? Visibility(
+                    visible: showUploadButton,
+                    child: Container(
+                      padding: EdgeInsets.all(20.0),
+                      child: RaisedButton(
+                        splashColor: Colors.yellow,
+                        color: Colors.blue,
+                        onPressed: () {
+                          setState(() {
+                            loadProgress();
+                            showUploadButton = false;
+                            _uploadFileCV();
+                            if (_pdfUrl != null) {
+                              Navigator.pop(context);
+                            }
+                          });
+                        },
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              'Submit Application',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
+                    ),
+                  )
+                : RaisedButton(
+              color: Colors.amber,
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Authenticate()));
+              },
+              child: Text("Login to Apply"),
             ),
             Visibility(visible: visible, child: CircularProgressIndicator()),
             Visibility(

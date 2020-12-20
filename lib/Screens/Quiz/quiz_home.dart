@@ -10,25 +10,26 @@ class QuizHome extends StatefulWidget {
 }
 
 class _QuizHomeState extends State<QuizHome> {
-  final _uid = FirebaseAuth.instance.currentUser.uid;
-  String _uname;
+  var _uid = FirebaseAuth.instance.currentUser!=null ? FirebaseAuth.instance.currentUser.uid : "";
 
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          tooltip: "Add quiz",
-          child: Icon(
-            Icons.add,
-            size: 40.0,
-          ),
-          backgroundColor: Colors.amber,
-          onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Quiz()));
-          }),
+      floatingActionButton: (FirebaseAuth.instance.currentUser != null)
+          ? FloatingActionButton(
+              tooltip: "Add quiz",
+              child: Icon(
+                Icons.add,
+                size: 40.0,
+              ),
+              backgroundColor: Colors.amber,
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Quiz()));
+              })
+          : null,
       appBar: AppBar(
         title: Text("Quizzes"),
         centerTitle: true,
@@ -53,7 +54,7 @@ class _QuizHomeState extends State<QuizHome> {
                     final testNames = snapshot.data.docs;
                     List<QuizCard> testsWidgets = [];
                     for (var test in testNames) {
-                      if(test.get('isApprovedByAdmin')) {
+                      if (test.get('isApprovedByAdmin')) {
                         final quizName = test.get('quizName').toString();
                         final uuid = test.get('uid').toString();
 

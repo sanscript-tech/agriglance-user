@@ -3,6 +3,7 @@ import 'package:agriglance/Screens/Jobs/jobs_home.dart';
 import 'package:agriglance/Screens/Materials/materials_home.dart';
 import 'package:agriglance/Screens/Qna/qna_home.dart';
 import 'package:agriglance/Screens/Test/test_home.dart';
+import 'package:agriglance/Services/authenticate.dart';
 import 'package:agriglance/Services/authentication_service.dart';
 import 'package:agriglance/Services/firestore_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,7 +26,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
-    checkUserIsBanned();
+    if (FirebaseAuth.instance.currentUser != null) checkUserIsBanned();
     _tabController = new TabController(length: 4, vsync: this);
     super.initState();
   }
@@ -35,12 +36,34 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       appBar: AppBar(
           title: Center(child: Text("Agriglance")),
           actions: [
-            IconButton(
-              icon: Icon(Icons.logout),
-              onPressed: () {
-                context.read<AuthenticationService>().signOut();
-              },
-            ),
+            (FirebaseAuth.instance.currentUser != null)
+                ? Row(
+                  children: [
+                    Text("Logout", style: TextStyle(fontWeight: FontWeight.bold),),
+                    IconButton(
+                        icon: Icon(Icons.logout),
+                        onPressed: () {
+                          context.read<AuthenticationService>().signOut();
+                          setState(() {});
+                          Fluttertoast.showToast(msg: "Logged Out");
+                        },
+                      ),
+                  ],
+                )
+                : Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text("Login", style: TextStyle(fontWeight: FontWeight.bold),),
+                    IconButton(
+                        icon: Icon(Icons.login),
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Authenticate()));
+                          setState(() {});
+                        },
+                      ),
+                  ],
+                )
           ],
           bottom: TabBar(
             controller: _tabController,

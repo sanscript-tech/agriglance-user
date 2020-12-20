@@ -1,4 +1,5 @@
 import 'package:agriglance/Screens/News/create_news.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../constants/news_card.dart';
@@ -14,14 +15,14 @@ class _NewsHomeState extends State<NewsHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: (FirebaseAuth.instance.currentUser != null) ? FloatingActionButton(
         child: Icon(
           Icons.add,
           size: 30.0,
         ),
         onPressed: () => Navigator.push(
             context, MaterialPageRoute(builder: (context) => CreateNews())),
-      ),
+      ) : null,
       appBar: AppBar(title: Text("News"), centerTitle: true),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance

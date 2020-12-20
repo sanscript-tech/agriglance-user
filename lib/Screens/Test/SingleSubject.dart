@@ -1,5 +1,5 @@
 import 'package:agriglance/Screens/Test/add_test.dart';
-import 'package:agriglance/Screens/Test/questions_list.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../constants/test_card.dart';
@@ -22,19 +22,11 @@ class _SingleSubjectState extends State<SingleSubject> {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: (FirebaseAuth.instance.currentUser != null) ? FloatingActionButton(
           tooltip: "Add test",
-          child: Column(
-            children: <Widget>[
-              Icon(
-                Icons.add,
-                size: 40.0,
-              ),
-              Text(
-                "Add Test",
-                style: TextStyle(fontSize: 10.0),
-              ),
-            ],
+          child: Icon(
+            Icons.add,
+            size: 40.0,
           ),
           backgroundColor: Colors.amber,
           onPressed: () {
@@ -45,7 +37,7 @@ class _SingleSubjectState extends State<SingleSubject> {
                       category: widget.category,
                           testSubject: widget.subjectName,
                         )));
-          }),
+          }): null,
       appBar: AppBar(
         title: Text("Agriglance"),
         centerTitle: true,
