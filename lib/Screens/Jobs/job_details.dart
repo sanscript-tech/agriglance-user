@@ -254,6 +254,7 @@ class _JobDetailsState extends State<JobDetails> {
             ),
             (FirebaseAuth.instance.currentUser != null)
                 ? Container(
+                    width: 700.0,
                     padding: EdgeInsets.all(20.0),
                     child: RaisedButton(
                       splashColor: Colors.yellow,
@@ -285,6 +286,7 @@ class _JobDetailsState extends State<JobDetails> {
                 ? Visibility(
                     visible: showUploadButton,
                     child: Container(
+                      width: 700.0,
                       padding: EdgeInsets.all(20.0),
                       child: RaisedButton(
                         splashColor: Colors.yellow,
@@ -317,14 +319,16 @@ class _JobDetailsState extends State<JobDetails> {
                     ),
                   )
                 : RaisedButton(
-              color: Colors.amber,
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Authenticate()));
-              },
-              child: Text("Login to Apply"),
-            ),
+                    color: Colors.amber,
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Authenticate()));
+                    },
+                    child: Text("Login to Apply"),
+                  ),
             Visibility(visible: visible, child: CircularProgressIndicator()),
             Visibility(
                 visible: visible,

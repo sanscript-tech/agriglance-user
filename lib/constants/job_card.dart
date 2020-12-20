@@ -74,7 +74,7 @@ class _JobCardState extends State<JobCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "${widget.index + 1}. ${widget.orgName}",
+                  "${widget.orgName}",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
                 Text(

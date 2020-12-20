@@ -72,7 +72,7 @@ class _PollCardState extends State<PollCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "${widget.index + 1}. ${widget.question}",
+                      "${widget.question}",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),

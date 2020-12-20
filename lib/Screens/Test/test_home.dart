@@ -23,9 +23,16 @@ class TestHome extends StatelessWidget {
                           category: category,
                         )));
           },
-          child: Text(
-            category,
-            style: style,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Icon(Icons.menu_book_outlined, size: 40.0, color: Color(0xFF3EC3C1)),
+              Text(
+                category,
+                style: style,
+              ),
+              Icon(Icons.arrow_forward, size: 40.0, color: Color(0xFF3EC3C1))
+            ],
           ),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
@@ -37,46 +44,63 @@ class TestHome extends StatelessWidget {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: 8.0),
-            child: Text(
-              "Category",
-              style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
-            ),
-          ),
-          SizedBox(
-            height: deviceHeight / 15,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      child: Center(
+        child: Container(
+          width: deviceWidth * 0.9,
+          height: deviceHeight * 0.9,
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 25.0, // soften the shadow
+              spreadRadius: 5.0, //extend the shadow
+              offset: Offset(
+                15.0,
+                15.0,
+              ),
+            )
+          ], color: Colors.white, border: Border.all(color: Colors.white)),
+          child: Column(
             children: [
-              categoryButton("IPS", context),
-              categoryButton("IAS", context),
+              Padding(
+                padding: EdgeInsets.only(top: 8.0),
+                child: Text(
+                  "Test Category",
+                  style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
+                ),
+              ),
+              SizedBox(
+                height: deviceHeight / 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  categoryButton("IPS", context),
+                  categoryButton("IAS", context),
+                ],
+              ),
+              SizedBox(
+                height: deviceHeight / 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  categoryButton("ICAR SRF", context),
+                  categoryButton("NET", context),
+                ],
+              ),
+              SizedBox(
+                height: deviceHeight / 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  categoryButton("BHU", context),
+                  categoryButton("AFO", context),
+                ],
+              ),
             ],
           ),
-          SizedBox(
-            height: deviceHeight / 15,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              categoryButton("ICAR SRF", context),
-              categoryButton("NET", context),
-            ],
-          ),
-          SizedBox(
-            height: deviceHeight / 15,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              categoryButton("BHU", context),
-              categoryButton("AFO", context),
-            ],
-          ),
-        ],
+        ),
       ),
     );
   }

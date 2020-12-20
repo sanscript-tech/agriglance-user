@@ -70,14 +70,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             onTap: (index) {},
             tabs: [
               Tab(
-                text: "Test",
+                text: "Test",icon: Icon(Icons.edit),
               ),
               Tab(
-                text: "Material",
+                text: "Material",icon: Icon(Icons.my_library_books),
               ),
-              Tab(text: "QNA"),
+              Tab(text: "QNA",icon: Icon(Icons.question_answer),),
               Tab(
-                text: "Jobs",
+                text: "Jobs",icon: Icon(Icons.cases),
               )
             ],
           )),

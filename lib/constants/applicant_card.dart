@@ -40,7 +40,7 @@ class _ApplicantCardState extends State<ApplicantCard> {
             children: [
               widget.appliedByName != null
                   ? Text(
-                      "${widget.index + 1}. Applied by ${widget.appliedByName}",
+                      "Applied by ${widget.appliedByName}",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     )

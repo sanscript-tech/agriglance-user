@@ -45,7 +45,7 @@ class _StudyMaterialCardState extends State<StudyMaterialCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "${widget.index + 1}. ${widget.title}".toUpperCase(),
+                "${widget.title}".toUpperCase(),
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18.0),
               ),
               Padding(
