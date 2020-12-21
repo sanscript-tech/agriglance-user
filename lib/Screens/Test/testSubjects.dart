@@ -35,7 +35,7 @@ class _TestSubjectState extends State<TestSubject> {
                 15.0,
               ),
             )
-          ], color: Colors.amber[100], border: Border.all(color: Colors.white)),
+          ], color: Colors.yellow[50], border: Border.all(color: Colors.white)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

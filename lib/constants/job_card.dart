@@ -42,8 +42,8 @@ class _JobCardState extends State<JobCard> {
   int count = 0;
   @override
   void initState() {
-    countDocuments();
     super.initState();
+    countDocuments();
   }
 
   @override

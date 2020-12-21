@@ -84,7 +84,7 @@ class _AddPollState extends State<AddPoll> {
                       ),
                     )
                   ],
-                  color: Colors.amber[100],
+                  color: Colors.yellow[50],
                   border: Border.all(color: Colors.white)),
               child: Form(
                 key: _formKey,

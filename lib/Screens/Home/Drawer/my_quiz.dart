@@ -39,7 +39,7 @@ class _MyQuizState extends State<MyQuiz> {
                       ),
                     )
                   ],
-                  color: Colors.amber[100],
+                  color: Colors.yellow[50],
                   border: Border.all(color: Colors.white)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

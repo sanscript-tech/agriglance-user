@@ -32,6 +32,7 @@ class _QnaCardState extends State<QnaCard> {
     return Container(
       padding: EdgeInsets.all(10.0),
       child: Card(
+        color: Colors.yellow[50],
         shape: RoundedRectangleBorder(
           side: BorderSide(color: Colors.orange, width: 3.0),
           borderRadius: BorderRadius.circular(15.0),
