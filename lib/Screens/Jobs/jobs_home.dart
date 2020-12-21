@@ -1,7 +1,11 @@
 import 'package:agriglance/Screens/Jobs/add_jobs.dart';
+import 'package:agriglance/Screens/Materials/materials_home.dart';
 import 'package:agriglance/constants/job_card.dart';
+import 'package:agriglance/services/admob_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class JobsHome extends StatefulWidget {
@@ -14,6 +18,7 @@ class _JobsHomeState extends State<JobsHome> {
 
   @override
   Widget build(BuildContext context) {
+    final ams = AdMobService();
     return Scaffold(
       body: Center(
         child: Container(
@@ -63,15 +68,31 @@ class _JobsHomeState extends State<JobsHome> {
           ),
         ),
       ),
-      floatingActionButton: (FirebaseAuth.instance.currentUser != null) ? FloatingActionButton(
-        onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => AddJobs(
-                    uid: auth.currentUser.uid,
-                    uName: auth.currentUser.displayName))),
-        child: Icon(Icons.add),
-      ) : null,
+      floatingActionButton: (FirebaseAuth.instance.currentUser != null)
+          ? FloatingActionButton(
+              onPressed: () {
+                if (!kIsWeb && noOfClicks % 5 == 0) {
+                  InterstitialAd newAd = ams.getInterstitialAd();
+                  newAd.load();
+                  newAd.show(
+                    anchorType: AnchorType.bottom,
+                    anchorOffset: 0.0,
+                    horizontalCenterOffset: 0.0,
+                  );
+                  noOfClicks++;
+                }
+                noOfClicks++;
+                print("No of clicks $noOfClicks");
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddJobs(
+                            uid: auth.currentUser.uid,
+                            uName: auth.currentUser.displayName)));
+              },
+              child: Icon(Icons.add),
+            )
+          : null,
     );
   }
 }

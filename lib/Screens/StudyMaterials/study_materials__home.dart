@@ -2,12 +2,16 @@ import 'dart:async';
 import 'dart:core';
 
 import 'package:agriglance/Models/usermodel.dart';
+import 'package:agriglance/Screens/Materials/materials_home.dart';
 import 'package:agriglance/Screens/StudyMaterials/add_study_material.dart';
 import 'package:agriglance/Services/firestore_service.dart';
 import 'package:agriglance/constants/study_material_card.dart';
+import 'package:agriglance/services/admob_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -22,6 +26,7 @@ class StudyMaterialsHome extends StatefulWidget {
 enum options { View, Download, Share }
 
 class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
+  final ams = AdMobService();
   final FirebaseAuth auth = FirebaseAuth.instance;
   final papersCollectionReference =
       FirebaseStorage.instance.ref().child("studyMaterials");
@@ -33,21 +38,33 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
       appBar: AppBar(
         title: Text("Study Materials"),
       ),
-      floatingActionButton: (FirebaseAuth.instance.currentUser != null) ? FloatingActionButton(
-        onPressed: () async {
-          UserModel updateUser = await FirestoreService()
-              .getUser(FirebaseAuth.instance.currentUser.uid);
-          setState(() {
-            uName = updateUser.fullName;
-          });
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => AddStudyMaterial(
-                      uid: auth.currentUser.uid, uName: uName)));
-        },
-        child: Icon(Icons.add),
-      ): null,
+      floatingActionButton: (FirebaseAuth.instance.currentUser != null)
+          ? FloatingActionButton(
+              onPressed: () async {
+                UserModel updateUser = await FirestoreService()
+                    .getUser(FirebaseAuth.instance.currentUser.uid);
+                setState(() {
+                  uName = updateUser.fullName;
+                });
+                if (!kIsWeb && noOfClicks % 5 == 0) {
+                  InterstitialAd newAd = ams.getInterstitialAd();
+                  newAd.load();
+                  newAd.show(
+                    anchorType: AnchorType.bottom,
+                    anchorOffset: 0.0,
+                    horizontalCenterOffset: 0.0,
+                  );
+                  noOfClicks++;
+                }
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddStudyMaterial(
+                            uid: auth.currentUser.uid, uName: uName)));
+              },
+              child: Icon(Icons.add),
+            )
+          : null,
       body: Center(
         child: Container(
           width: 700.0,
@@ -73,12 +90,25 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
                   : ListView.builder(
                       itemCount: snapshot.data.documents.length,
                       itemBuilder: (context, index) {
-                        DocumentSnapshot papers = snapshot.data.documents[index];
+                        DocumentSnapshot papers =
+                            snapshot.data.documents[index];
                         if (papers['isApprovedByAdmin']) {
                           return GestureDetector(
                             onTap: () async {
-                              await _asyncSimpleDialog(
-                                  context, papers['pdfUrl'], papers['fileName']);
+                              if (!kIsWeb && noOfClicks % 5 == 0) {
+                                InterstitialAd newAd = ams.getInterstitialAd();
+                                newAd.load();
+                                newAd.show(
+                                  anchorType: AnchorType.bottom,
+                                  anchorOffset: 0.0,
+                                  horizontalCenterOffset: 0.0,
+                                );
+                                noOfClicks++;
+                              }
+                              noOfClicks++;
+                              print("No Of Clicks $noOfClicks");
+                              await _asyncSimpleDialog(context,
+                                  papers['pdfUrl'], papers['fileName']);
                             },
                             child: StudyMaterialCard(
                               type: papers['type'],

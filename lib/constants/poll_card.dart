@@ -1,4 +1,8 @@
+import 'package:agriglance/Screens/Materials/materials_home.dart';
 import 'package:agriglance/Screens/Polls/poll_vote.dart';
+import 'package:agriglance/services/admob_service.dart';
+import 'package:firebase_admob/firebase_admob.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class PollCard extends StatefulWidget {
@@ -40,27 +44,42 @@ class PollCard extends StatefulWidget {
 }
 
 class _PollCardState extends State<PollCard> {
+  final ams = AdMobService();
   @override
   Widget build(BuildContext context) {
     return Container(
         padding: EdgeInsets.all(10.0),
         child: GestureDetector(
-          onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => PollVote(
-                        question: widget.question,
-                        option1: widget.option1,
-                        option2: widget.option2,
-                        option3: widget.option3,
-                        option4: widget.option4,
-                        totalVotesOnOption1: widget.totalVotesOnOption1,
-                        totalVotesOnOption2: widget.totalVotesOnOption2,
-                        totalVotesOnOption3: widget.totalVotesOnOption3,
-                        totalVotesOnOption4: widget.totalVotesOnOption4,
-                        voters: widget.voters,
-                        pollID: widget.pollID,
-                      ))),
+          onTap: () {
+            if (!kIsWeb && noOfClicks % 5 == 0) {
+              InterstitialAd newAd = ams.getInterstitialAd();
+              newAd.load();
+              newAd.show(
+                anchorType: AnchorType.bottom,
+                anchorOffset: 0.0,
+                horizontalCenterOffset: 0.0,
+              );
+              noOfClicks++;
+            }
+            noOfClicks++;
+            print("No of clicks $noOfClicks");
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PollVote(
+                          question: widget.question,
+                          option1: widget.option1,
+                          option2: widget.option2,
+                          option3: widget.option3,
+                          option4: widget.option4,
+                          totalVotesOnOption1: widget.totalVotesOnOption1,
+                          totalVotesOnOption2: widget.totalVotesOnOption2,
+                          totalVotesOnOption3: widget.totalVotesOnOption3,
+                          totalVotesOnOption4: widget.totalVotesOnOption4,
+                          voters: widget.voters,
+                          pollID: widget.pollID,
+                        )));
+          },
           child: Card(
               shape: RoundedRectangleBorder(
                 side: BorderSide(),

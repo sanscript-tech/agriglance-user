@@ -1,9 +1,13 @@
+import 'package:agriglance/Screens/Materials/materials_home.dart';
+import 'package:agriglance/services/admob_service.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'testSubjects.dart';
 
 class TestHome extends StatelessWidget {
   Widget categoryButton(String category, BuildContext context) {
+    final ams = AdMobService();
     var style;
     if (kIsWeb)
       style = TextStyle(fontSize: 30.0, fontWeight: FontWeight.w400);
@@ -16,6 +20,16 @@ class TestHome extends StatelessWidget {
       child: OutlineButton(
           splashColor: Colors.grey,
           onPressed: () {
+            if (!kIsWeb && noOfClicks % 5 == 0) {
+              InterstitialAd newAd = ams.getInterstitialAd();
+              newAd.load();
+              newAd.show(
+                anchorType: AnchorType.bottom,
+                anchorOffset: 0.0,
+                horizontalCenterOffset: 0.0,
+              );
+              noOfClicks++;
+            }
             Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -26,7 +40,8 @@ class TestHome extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Icon(Icons.menu_book_outlined, size: 40.0, color: Color(0xFF3EC3C1)),
+              Icon(Icons.menu_book_outlined,
+                  size: 40.0, color: Color(0xFF3EC3C1)),
               Text(
                 category,
                 style: style,
