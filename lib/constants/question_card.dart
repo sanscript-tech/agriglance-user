@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class QuestionCard extends StatefulWidget {
   QuestionCard(
@@ -37,6 +36,29 @@ class _QuestionCardState extends State<QuestionCard> {
       ? FirebaseAuth.instance.currentUser.uid
       : "";
 
+  void getScores() async {
+    await FirebaseFirestore.instance
+        .collection("attemptedTest")
+        .doc(_uid)
+        .collection(widget.testName)
+        .get()
+        .then((QuerySnapshot querySnapshot) => {
+              querySnapshot.docs.forEach((doc) {
+                setState(() {
+                  _totalCorrectAnswered = doc["correct"];
+                  _totalIncorrectAnswered = doc["incorrect"];
+                });
+              })
+            });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getScores();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -63,13 +85,12 @@ class _QuestionCardState extends State<QuestionCard> {
                 await FirebaseFirestore.instance
                     .collection("attemptedTest")
                     .doc(_uid)
-                    .collection("tests")
+                    .collection(widget.testName)
                     .doc(widget.testName)
                     .set({
-                  "uid": _uid,
-                  "totalCorrect": _totalCorrectAnswered,
-                  "totalIncorrect": _totalIncorrectAnswered,
-                  "testName": widget.testName
+                  "uuid": _uid,
+                  "correct": _totalCorrectAnswered,
+                  "incorrect": _totalIncorrectAnswered,
                 });
               }
             },
@@ -101,13 +122,12 @@ class _QuestionCardState extends State<QuestionCard> {
                 await FirebaseFirestore.instance
                     .collection("attemptedTest")
                     .doc(_uid)
-                    .collection("tests")
+                    .collection(widget.testName)
                     .doc(widget.testName)
                     .set({
-                  "uid": _uid,
-                  "totalCorrect": _totalCorrectAnswered,
-                  "totalIncorrect": _totalIncorrectAnswered,
-                  "testName": widget.testName
+                  "uuid": _uid,
+                  "correct": _totalCorrectAnswered,
+                  "incorrect": _totalIncorrectAnswered,
                 });
               }
             },
@@ -139,13 +159,12 @@ class _QuestionCardState extends State<QuestionCard> {
                 await FirebaseFirestore.instance
                     .collection("attemptedTest")
                     .doc(_uid)
-                    .collection("tests")
+                    .collection(widget.testName)
                     .doc(widget.testName)
                     .set({
-                  "uid": _uid,
-                  "totalCorrect": _totalCorrectAnswered,
-                  "totalIncorrect": _totalIncorrectAnswered,
-                  "testName": widget.testName
+                  "uuid": _uid,
+                  "correct": _totalCorrectAnswered,
+                  "incorrect": _totalIncorrectAnswered,
                 });
               }
             },
@@ -177,13 +196,12 @@ class _QuestionCardState extends State<QuestionCard> {
                 await FirebaseFirestore.instance
                     .collection("attemptedTest")
                     .doc(_uid)
-                    .collection("quiz")
+                    .collection(widget.testName)
                     .doc(widget.testName)
                     .set({
-                  "uid": _uid,
-                  "totalCorrect": _totalCorrectAnswered,
-                  "totalIncorrect": _totalIncorrectAnswered,
-                  "testName": widget.testName
+                  "uuid": _uid,
+                  "correct": _totalCorrectAnswered,
+                  "incorrect": _totalIncorrectAnswered,
                 });
               }
             },

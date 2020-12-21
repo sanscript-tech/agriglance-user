@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../constants/question_card.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class QuestionsList extends StatefulWidget {
   final String subjectName;
@@ -17,6 +18,11 @@ class QuestionsList extends StatefulWidget {
 
 class _QuestionsListState extends State<QuestionsList> {
   List<String> _options = [];
+   var _uid = FirebaseAuth.instance.currentUser != null
+      ? FirebaseAuth.instance.currentUser.uid
+      : "";
+    String _correct = "";
+  String _incorrect = "";
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -25,9 +31,24 @@ class _QuestionsListState extends State<QuestionsList> {
       floatingActionButton: (FirebaseAuth.instance.currentUser != null)
           ? FloatingActionButton(
               child: Icon(Icons.done),
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Submitted test Successfully.")));
+              onPressed: () async{
+
+                  await FirebaseFirestore.instance
+                    .collection("attemptedTest")
+                    .doc(_uid)
+                    .collection(widget.testname)
+                    .get()
+                    .then((QuerySnapshot querySnapshot) => {
+                          querySnapshot.docs.forEach((doc) {
+                            _correct = doc["correct"].toString();
+                            _incorrect = doc['incorrect'].toString();
+                          })
+                        });
+
+                Fluttertoast.showToast(
+                    msg: "You got $_correct and $_incorrect",
+                    gravity: ToastGravity.BOTTOM);
+                
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => SingleSubject()));
               })

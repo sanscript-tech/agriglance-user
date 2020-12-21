@@ -28,16 +28,34 @@ class _QuestionCardState extends State<QuestionCard> {
   bool _isAttempted = false;
   int _totalCorrectAnswered = 0;
   int _totalIncorrectAnswered = 0;
+  var _uid = FirebaseAuth.instance.currentUser != null
+      ? FirebaseAuth.instance.currentUser.uid
+      : "";
+ 
+
+  void getScores() async {
+    await FirebaseFirestore.instance
+        .collection("attemptedQuiz")
+        .doc(_uid)
+        .collection(widget.quizName)
+        .get()
+        .then((QuerySnapshot querySnapshot) => {
+              querySnapshot.docs.forEach((doc) {
+                setState(() {
+                  _totalCorrectAnswered = doc["correct"];
+                  _totalIncorrectAnswered = doc["incorrect"];
+                });
+              })
+            });
+  }
 
   @override
   void initState() {
     // TODO: implement initState
+    getScores();
+
     super.initState();
   }
-
-  var _uid = FirebaseAuth.instance.currentUser != null
-      ? FirebaseAuth.instance.currentUser.uid
-      : "";
 
   @override
   Widget build(BuildContext context) {
@@ -65,13 +83,13 @@ class _QuestionCardState extends State<QuestionCard> {
                 await FirebaseFirestore.instance
                     .collection("attemptedQuiz")
                     .doc(_uid)
-                    .collection("quiz")
+                    .collection(widget.quizName)
                     .doc(widget.quizName)
                     .set({
-                  "uid": _uid,
-                  "totalCorrect": _totalCorrectAnswered,
-                  "totalIncorrect": _totalIncorrectAnswered,
-                  "quizName": widget.quizName
+                  "uuid": _uid,
+                  "correct": _totalCorrectAnswered,
+                  "incorrect": _totalIncorrectAnswered,
+                 
                 });
               }
             },
@@ -103,13 +121,13 @@ class _QuestionCardState extends State<QuestionCard> {
                 await FirebaseFirestore.instance
                     .collection("attemptedQuiz")
                     .doc(_uid)
-                    .collection("quiz")
+                    .collection(widget.quizName)
                     .doc(widget.quizName)
                     .set({
-                  "uid": _uid,
-                  "totalCorrect": _totalCorrectAnswered,
-                  "totalIncorrect": _totalIncorrectAnswered,
-                  "quizName": widget.quizName
+                  "uuid": _uid,
+                  "correct": _totalCorrectAnswered,
+                  "incorrect": _totalIncorrectAnswered,
+                  
                 });
               }
             },
@@ -141,13 +159,13 @@ class _QuestionCardState extends State<QuestionCard> {
                 await FirebaseFirestore.instance
                     .collection("attemptedQuiz")
                     .doc(_uid)
-                    .collection("quiz")
+                    .collection(widget.quizName)
                     .doc(widget.quizName)
                     .set({
-                  "uid": _uid,
-                  "totalCorrect": _totalCorrectAnswered,
-                  "totalIncorrect": _totalIncorrectAnswered,
-                  "quizName": widget.quizName
+                  "uuid": _uid,
+                  "correct": _totalCorrectAnswered,
+                  "incorrect": _totalIncorrectAnswered,
+                
                 });
               }
             },
@@ -179,13 +197,13 @@ class _QuestionCardState extends State<QuestionCard> {
                 await FirebaseFirestore.instance
                     .collection("attemptedQuiz")
                     .doc(_uid)
-                    .collection("quiz")
+                    .collection(widget.quizName)
                     .doc(widget.quizName)
                     .set({
-                  "uid": _uid,
-                  "totalCorrect": _totalCorrectAnswered,
-                  "totalIncorrect": _totalIncorrectAnswered,
-                  "quizName": widget.quizName
+                  "uuid": _uid,
+                  "correct": _totalCorrectAnswered,
+                  "incorrect": _totalIncorrectAnswered,
+                
                 });
               }
             },
