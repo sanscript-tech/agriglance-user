@@ -37,7 +37,7 @@ class _SubmitVideoState extends State<SubmitVideo> {
                 15.0,
               ),
             )
-          ], color: Colors.amber[100], border: Border.all(color: Colors.white)),
+          ], color: Colors.yellow[50], border: Border.all(color: Colors.white)),
           child: Form(
             key: _formKey,
             child: ListView(

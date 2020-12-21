@@ -33,7 +33,7 @@ class _QnaHomeState extends State<QnaHome> {
                 15.0,
               ),
             )
-          ], color: Colors.amber[100], border: Border.all(color: Colors.white)),
+          ], color: Colors.white, border: Border.all(color: Colors.white)),
           child: StreamBuilder(
             stream: FirebaseFirestore.instance
                 .collection("qna")

@@ -26,7 +26,7 @@ class StudyMaterialsHome extends StatefulWidget {
 enum options { View, Download, Share }
 
 class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
-  final ams = AdMobService();
+  final ams = (!kIsWeb) ? AdMobService() : null;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final papersCollectionReference =
       FirebaseStorage.instance.ref().child("studyMaterials");
@@ -78,7 +78,7 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
                 15.0,
               ),
             )
-          ], color: Colors.amber[100], border: Border.all(color: Colors.white)),
+          ], color: Colors.yellow[50], border: Border.all(color: Colors.white)),
           child: StreamBuilder(
             stream: FirebaseFirestore.instance
                 .collection("study_materials")

@@ -54,7 +54,7 @@ class _QuizHomeState extends State<QuizHome> {
                       ),
                     )
                   ],
-                  color: Colors.amber[100],
+                  color: Colors.yellow[50],
                   border: Border.all(color: Colors.white)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

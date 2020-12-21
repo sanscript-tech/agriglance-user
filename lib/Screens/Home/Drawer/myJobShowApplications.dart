@@ -37,7 +37,7 @@ class _MyJobShowApplicationsState extends State<MyJobShowApplications> {
                 15.0,
               ),
             )
-          ], color: Colors.amber[100], border: Border.all(color: Colors.white)),
+          ], color: Colors.yellow[50], border: Border.all(color: Colors.white)),
           child: StreamBuilder(
             stream: FirebaseFirestore.instance
                 .collection("jobs")

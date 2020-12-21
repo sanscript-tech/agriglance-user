@@ -81,7 +81,7 @@ class _QuizState extends State<Quiz> {
                     ),
                   )
                 ],
-                color: Colors.amber[100],
+                color: Colors.yellow[50],
                 border: Border.all(color: Colors.white)),
             child: Column(children: <Widget>[
               TextFormField(

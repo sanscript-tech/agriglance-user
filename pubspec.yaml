@@ -49,6 +49,7 @@ dependencies:
   google_sign_in_web: ^0.9.2
   universal_html: ^1.2.3
   firebase_admob: ^0.10.3
+  font_awesome_flutter: ^8.11.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -73,6 +74,11 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - Images/
+#  fonts:
+#    - family: Caveat
+#      fonts:
+#        - asset: Fonts/Caveat.ttf
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

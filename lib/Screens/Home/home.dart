@@ -38,9 +38,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           actions: [
             (FirebaseAuth.instance.currentUser != null)
                 ? Row(
-                  children: [
-                    Text("Logout", style: TextStyle(fontWeight: FontWeight.bold),),
-                    IconButton(
+                    children: [
+                      Text(
+                        "Logout",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
                         icon: Icon(Icons.logout),
                         onPressed: () {
                           context.read<AuthenticationService>().signOut();
@@ -48,36 +51,50 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           setState(() {});
                         },
                       ),
-                  ],
-                )
+                    ],
+                  )
                 : Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text("Login", style: TextStyle(fontWeight: FontWeight.bold),),
-                    IconButton(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        "Login",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
                         icon: Icon(Icons.login),
                         onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Authenticate()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Authenticate()));
                           setState(() {});
                         },
                       ),
-                  ],
-                )
+                    ],
+                  )
           ],
           bottom: TabBar(
             controller: _tabController,
+            indicatorColor: Colors.yellow,
+            labelColor: Colors.yellow,
+            unselectedLabelColor: Colors.white,
             onTap: (index) {},
             tabs: [
               Tab(
-                text: "Test",icon: Icon(Icons.edit),
+                text: "Test",
+                icon: Icon(Icons.edit),
               ),
               Tab(
-                text: "Material",icon: Icon(Icons.my_library_books),
+                text: "Material",
+                icon: Icon(Icons.my_library_books),
               ),
-              Tab(text: "QNA",icon: Icon(Icons.question_answer),),
               Tab(
-                text: "Jobs",icon: Icon(Icons.cases),
+                text: "QNA",
+                icon: Icon(Icons.question_answer),
+              ),
+              Tab(
+                text: "Jobs",
+                icon: Icon(Icons.work),
               )
             ],
           )),

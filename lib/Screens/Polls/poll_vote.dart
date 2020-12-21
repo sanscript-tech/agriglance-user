@@ -63,7 +63,7 @@ class _PollVoteState extends State<PollVote> {
                 15.0,
               ),
             )
-          ], color: Colors.amber[100], border: Border.all(color: Colors.white)),
+          ], color: Colors.yellow[50], border: Border.all(color: Colors.white)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
