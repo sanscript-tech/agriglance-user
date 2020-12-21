@@ -29,10 +29,15 @@ class _QuestionCardState extends State<QuestionCard> {
   int _totalCorrectAnswered = 0;
   int _totalIncorrectAnswered = 0;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   var _uid = FirebaseAuth.instance.currentUser != null
       ? FirebaseAuth.instance.currentUser.uid
       : "";
-
 
   @override
   Widget build(BuildContext context) {
