@@ -1,12 +1,22 @@
 import 'package:agriglance/Screens/Polls/poll_home.dart';
 import 'package:agriglance/Screens/StudyMaterials/study_materials__home.dart';
 import 'package:agriglance/Screens/Videos/video_home.dart';
+import 'package:agriglance/services/admob_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../News/news_home.dart';
 import '../Quiz/quiz_home.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 
-class MaterialsHome extends StatelessWidget {
+int noOfClicks = 0;
+
+class MaterialsHome extends StatefulWidget {
+  @override
+  _MaterialsHomeState createState() => _MaterialsHomeState();
+}
+
+class _MaterialsHomeState extends State<MaterialsHome> {
+  final ams = AdMobService();
   @override
   Widget categoryButton(
       String category, BuildContext context, Widget newScreen) {
@@ -21,6 +31,18 @@ class MaterialsHome extends StatelessWidget {
       hoverColor: Colors.amber[200],
       child: OutlineButton(
         onPressed: () {
+          if (!kIsWeb && noOfClicks % 5 == 0) {
+            InterstitialAd newAd = ams.getInterstitialAd();
+            newAd.load();
+            newAd.show(
+              anchorType: AnchorType.bottom,
+              anchorOffset: 0.0,
+              horizontalCenterOffset: 0.0,
+            );
+            noOfClicks++;
+          }
+          noOfClicks++;
+          print("No of clicls $noOfClicks");
           switch (category) {
             case "Study Materials":
               {
@@ -90,6 +112,8 @@ class MaterialsHome extends StatelessWidget {
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
+    InterstitialAd newAd = ams.getInterstitialAd();
+    newAd.load();
     return SingleChildScrollView(
       child: Center(
         child: Container(
@@ -138,7 +162,7 @@ class MaterialsHome extends StatelessWidget {
                   categoryButton("Polls", context, PollHome()),
                   categoryButton("Quiz", context, QuizHome())
                 ],
-              )
+              ),
             ],
           ),
         ),

@@ -1,7 +1,11 @@
+import 'package:agriglance/Screens/Materials/materials_home.dart';
 import 'package:agriglance/Screens/Polls/add_polls.dart';
 import 'package:agriglance/constants/poll_card.dart';
+import 'package:agriglance/services/admob_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class PollHome extends StatefulWidget {
@@ -11,6 +15,7 @@ class PollHome extends StatefulWidget {
 
 class _PollHomeState extends State<PollHome> {
   final FirebaseAuth auth = FirebaseAuth.instance;
+  final ams = AdMobService();
 
   @override
   Widget build(BuildContext context) {
@@ -73,8 +78,20 @@ class _PollHomeState extends State<PollHome> {
       ),
       floatingActionButton: (FirebaseAuth.instance.currentUser != null)
           ? FloatingActionButton(
-              onPressed: () => Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => AddPoll())),
+              onPressed: () {
+                if (!kIsWeb && noOfClicks % 5 == 0) {
+                  InterstitialAd newAd = ams.getInterstitialAd();
+                  newAd.load();
+                  newAd.show(
+                    anchorType: AnchorType.bottom,
+                    anchorOffset: 0.0,
+                    horizontalCenterOffset: 0.0,
+                  );
+                  noOfClicks++;
+                }
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AddPoll()));
+              },
               child: Icon(Icons.add),
             )
           : null,

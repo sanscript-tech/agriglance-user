@@ -1,5 +1,9 @@
 import 'package:agriglance/Screens/Jobs/job_details.dart';
+import 'package:agriglance/Screens/Materials/materials_home.dart';
+import 'package:agriglance/services/admob_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_admob/firebase_admob.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -41,28 +45,44 @@ class _JobCardState extends State<JobCard> {
     countDocuments();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
+    final ams = AdMobService();
     return Container(
       padding: EdgeInsets.all(10.0),
       child: GestureDetector(
-        onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => JobDetails(
-                      jobDesc: widget.jobDesc,
-                      jobPosts: widget.jobPosts,
-                      jobSkills: widget.jobSkills,
-                      jobSubject: widget.jobSubject,
-                      jobType: widget.jobType,
-                      orgLink: widget.orgLink,
-                      orgName: widget.orgName,
-                      salary: widget.salary,
-                      postedByName: widget.postedByName,
-                      jobId: widget.jobId,
-                    ))),
+        onTap: () {
+          if (!kIsWeb && noOfClicks % 5 == 0) {
+            InterstitialAd newAd = ams.getInterstitialAd();
+            newAd.load();
+            newAd.show(
+              anchorType: AnchorType.bottom,
+              anchorOffset: 0.0,
+              horizontalCenterOffset: 0.0,
+            );
+            noOfClicks++;
+          }
+          noOfClicks++;
+          print("No of clicks $noOfClicks");
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => JobDetails(
+                        jobDesc: widget.jobDesc,
+                        jobPosts: widget.jobPosts,
+                        jobSkills: widget.jobSkills,
+                        jobSubject: widget.jobSubject,
+                        jobType: widget.jobType,
+                        orgLink: widget.orgLink,
+                        orgName: widget.orgName,
+                        salary: widget.salary,
+                        postedByName: widget.postedByName,
+                        jobId: widget.jobId,
+                      )));
+        },
         child: Card(
           shape: RoundedRectangleBorder(
             side: BorderSide(color: Colors.indigo, width: 3.0),

@@ -1,5 +1,9 @@
+import 'package:agriglance/Screens/Materials/materials_home.dart';
 import 'package:agriglance/Screens/News/create_news.dart';
+import 'package:agriglance/services/admob_service.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../constants/news_card.dart';
@@ -11,6 +15,7 @@ class NewsHome extends StatefulWidget {
 
 class _NewsHomeState extends State<NewsHome> {
   String _newsPostedBy = "";
+  final ams = AdMobService();
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +26,22 @@ class _NewsHomeState extends State<NewsHome> {
                 Icons.add,
                 size: 30.0,
               ),
-              onPressed: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => CreateNews())),
+              onPressed: () {
+                if (!kIsWeb && noOfClicks % 5 == 0) {
+                  InterstitialAd newAd = ams.getInterstitialAd();
+                  newAd.load();
+                  newAd.show(
+                    anchorType: AnchorType.bottom,
+                    anchorOffset: 0.0,
+                    horizontalCenterOffset: 0.0,
+                  );
+                  noOfClicks++;
+                }
+                noOfClicks++;
+                print("No Of Clicks $noOfClicks");
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CreateNews()));
+              },
             )
           : null,
       appBar: AppBar(title: Text("News"), centerTitle: true),
