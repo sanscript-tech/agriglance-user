@@ -135,21 +135,11 @@ class _TestHomeState extends State<TestHome> {
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    return Scrollbar(
-      thickness: 15.0,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: deviceHeight * 0.01,
-                ),
-                Container(
-                  width: deviceWidth,
-                  height: deviceHeight * 0.2,
+    return ListView(
+      children: [
+
+        Container(
+                  height: deviceHeight * 0.1,
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage('Images/baner.jpg'),
@@ -191,75 +181,46 @@ class _TestHomeState extends State<TestHome> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: deviceHeight * 0.01,
-                ),
-                Container(
-                  width: 700.0,
-                  height: deviceHeight * 2,
-                  decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          blurRadius: 25.0, // soften the shadow
-                          spreadRadius: 5.0, //extend the shadow
-                          offset: Offset(
-                            15.0,
-                            15.0,
+        Container(
+          height: deviceHeight*0.55,
+          
+          child: StreamBuilder(
+              stream:
+                  FirebaseFirestore.instance.collection("testCategories").snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.amber,
+                    ),
+                  );
+                }
+                return ListView.builder(
+                    itemCount: snapshot.data.docs.length,
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot categories = snapshot.data.docs[index];
+                      return categoryButton(categories["category"], context);
+                    });
+              }),
+        ),
+        Container(
+          height: deviceHeight*0.06,
+                          padding: const EdgeInsets.all(8.0),
+                          color: Colors.white,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Have any doubt? ask Admin or post "
+                                "your question on our QNA Forum.",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.orange, fontFamily: 'Times'),
+                              ),
+                            ],
                           ),
-                        )
-                      ],
-                      color: Colors.yellow[50],
-                      border: Border.all(color: Colors.white)),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 8.0),
-                        child: Text(
-                          "Test Categories",
-                          style: TextStyle(
-                              fontStyle: FontStyle.italic,
-                              fontFamily: 'Times',
-                              fontSize: 25.0,
-                              color: Colors.cyan[900],
-                              fontWeight: FontWeight.w500),
                         ),
-                      ),
-                      SizedBox(
-                        height: deviceHeight / 25,
-                      ),
-                      Flexible(
-                        child: (kIsWeb) ? DraggableScrollbar.rrect(
-                          backgroundColor: Colors.black26,
-                          alwaysVisibleScrollThumb: true,
-                          controller: _controller,
-                          child: ListView.builder(
-                              controller: _controller,
-                              primary: false,
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: false,
-                              itemCount: _category_names.length,
-                              itemBuilder: (context, index) {
-                                return categoryButton(
-                                    _category_names[index], context);
-                              }),
-                        ) : ListView.builder(
-                            controller: _controller,
-                            primary: false,
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: _category_names.length,
-                            itemBuilder: (context, index) {
-                              return categoryButton(
-                                  _category_names[index], context);
-                            }),
-                      ),
-                      SizedBox(
-                        height: deviceHeight / 25,
-                      ),
-                      if (kIsWeb)
+          if (kIsWeb)
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
@@ -279,31 +240,10 @@ class _TestHomeState extends State<TestHome> {
                             ),
                           ),
                         ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          padding: const EdgeInsets.all(8.0),
-                          color: Colors.white,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Have any doubt? ask Admin or post "
-                                "your question on our QNA Forum.",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.orange, fontFamily: 'Times'),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
+
+        Container(
                   width: deviceWidth,
-                  height: 100.0,
+                  height: deviceHeight*0.15,
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
@@ -332,7 +272,7 @@ class _TestHomeState extends State<TestHome> {
                         style: TextStyle(color: Colors.grey[300]),
                       ),
                       SizedBox(
-                        height: deviceHeight / 40,
+                        height: deviceHeight / 100,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -375,13 +315,9 @@ class _TestHomeState extends State<TestHome> {
                     ],
                   ),
                 ),
-                if (kIsWeb)
+                 if (kIsWeb)
                   Text("Copyright © 2020 - Agriglance | All rights reserved"),
-              ],
-            ),
-          ),
-        ),
-      ),
+      ],
     );
   }
 
@@ -389,3 +325,267 @@ class _TestHomeState extends State<TestHome> {
       ? await launch(url)
       : Fluttertoast.showToast(msg: "Could not launch $url");
 }
+
+
+
+
+
+
+
+
+
+
+
+
+// Scrollbar(
+//       thickness: 15.0,
+//       child: SingleChildScrollView(
+//         scrollDirection: Axis.vertical,
+//         child: Padding(
+//           padding: const EdgeInsets.all(8.0),
+//           child: Center(
+//             child: Column(
+//               children: [
+//                 SizedBox(
+//                   height: deviceHeight * 0.01,
+//                 ),
+//                 Container(
+//                   width: deviceWidth,
+//                   height: deviceHeight * 0.2,
+//                   decoration: BoxDecoration(
+//                       image: DecorationImage(
+//                           image: AssetImage('Images/baner.jpg'),
+//                           fit: BoxFit.cover,
+//                           colorFilter: ColorFilter.mode(
+//                               Colors.green[900], BlendMode.softLight)),
+//                       boxShadow: [
+//                         BoxShadow(
+//                           color: Colors.black26,
+//                           blurRadius: 25.0, // soften the shadow
+//                           spreadRadius: 5.0, //extend the shadow
+//                           offset: Offset(
+//                             15.0,
+//                             15.0,
+//                           ),
+//                         )
+//                       ],
+//                       color: Colors.indigo[900],
+//                       border: Border.all(color: Colors.white)),
+//                   child: Column(
+//                     mainAxisAlignment: MainAxisAlignment.center,
+//                     children: [
+//                       Padding(
+//                         padding: const EdgeInsets.only(
+//                             left: 8.0, right: 8.0, top: 5.0, bottom: 5.0),
+//                         child: SingleChildScrollView(
+//                           child: Text(
+//                             "Agriglance for Exam Preparation Like IBPS- AFO, Iffco, Kribhco, NFL,"
+//                             "NSC, and much more",
+//                             textAlign: TextAlign.center,
+//                             style: TextStyle(
+//                                 color: Colors.yellow,
+//                                 fontFamily: 'Times',
+//                                 fontSize: 15.0,
+//                                 fontWeight: FontWeight.bold),
+//                           ),
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//                 SizedBox(
+//                   height: deviceHeight * 0.01,
+//                 ),
+//                 Container(
+//                   width: 700.0,
+//                   height: deviceHeight * 2,
+//                   decoration: BoxDecoration(
+//                       boxShadow: [
+//                         BoxShadow(
+//                           color: Colors.black26,
+//                           blurRadius: 25.0, // soften the shadow
+//                           spreadRadius: 5.0, //extend the shadow
+//                           offset: Offset(
+//                             15.0,
+//                             15.0,
+//                           ),
+//                         )
+//                       ],
+//                       color: Colors.yellow[50],
+//                       border: Border.all(color: Colors.white)),
+//                   child: Column(
+//                     children: [
+//                       Padding(
+//                         padding: EdgeInsets.only(top: 8.0),
+//                         child: Text(
+//                           "Test Categories",
+//                           style: TextStyle(
+//                               fontStyle: FontStyle.italic,
+//                               fontFamily: 'Times',
+//                               fontSize: 25.0,
+//                               color: Colors.cyan[900],
+//                               fontWeight: FontWeight.w500),
+//                         ),
+//                       ),
+//                       SizedBox(
+//                         height: deviceHeight / 25,
+//                       ),
+
+                 
+
+//                       // Flexible(
+//                       //   child: (kIsWeb) ? DraggableScrollbar.rrect(
+//                       //     backgroundColor: Colors.black26,
+//                       //     alwaysVisibleScrollThumb: true,
+//                       //     controller: _controller,
+//                       //     child: ListView.builder(
+//                       //         controller: _controller,
+//                       //         primary: false,
+//                       //         physics: const AlwaysScrollableScrollPhysics(),
+//                       //         scrollDirection: Axis.vertical,
+//                       //         shrinkWrap: false,
+//                       //         itemCount: _category_names.length,
+//                       //         itemBuilder: (context, index) {
+//                       //           return categoryButton(
+//                       //               _category_names[index], context);
+//                       //         }),
+//                       //   ) : ListView.builder(
+//                       //       controller: _controller,
+//                       //       primary: false,
+//                       //       physics: const AlwaysScrollableScrollPhysics(),
+//                       //       scrollDirection: Axis.vertical,
+//                       //       shrinkWrap: true,
+//                       //       itemCount: _category_names.length,
+//                       //       itemBuilder: (context, index) {
+//                       //         return categoryButton(
+//                       //             _category_names[index], context);
+//                       //       }),
+//                       // ),
+
+//                       SizedBox(
+//                         height: deviceHeight / 25,
+//                       ),
+//                       if (kIsWeb)
+//                         Padding(
+//                           padding: const EdgeInsets.all(8.0),
+//                           child: Container(
+//                             color: Colors.white,
+//                             child: Row(
+//                               mainAxisAlignment: MainAxisAlignment.center,
+//                               children: [
+//                                 Text("Download Our Application from PlayStore"),
+//                                 GestureDetector(
+//                                   onTap: () {},
+//                                   child: Image(
+//                                     image: AssetImage("Images/playstore.png"),
+//                                     width: deviceWidth / 5,
+//                                   ),
+//                                 )
+//                               ],
+//                             ),
+//                           ),
+//                         ),
+//                       Padding(
+//                         padding: const EdgeInsets.all(8.0),
+//                         child: Container(
+//                           padding: const EdgeInsets.all(8.0),
+//                           color: Colors.white,
+//                           child: Column(
+//                             mainAxisAlignment: MainAxisAlignment.center,
+//                             children: [
+//                               Text(
+//                                 "Have any doubt? ask Admin or post "
+//                                 "your question on our QNA Forum.",
+//                                 textAlign: TextAlign.center,
+//                                 style: TextStyle(
+//                                     color: Colors.orange, fontFamily: 'Times'),
+//                               ),
+//                             ],
+//                           ),
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//                 Container(
+//                   width: deviceWidth,
+//                   height: 100.0,
+//                   decoration: BoxDecoration(
+//                       gradient: LinearGradient(
+//                         colors: [
+//                           Colors.cyan,
+//                           Colors.blue[900],
+//                           Colors.red,
+//                         ],
+//                       ),
+//                       boxShadow: [
+//                         BoxShadow(
+//                           color: Colors.black26,
+//                           blurRadius: 25.0, // soften the shadow
+//                           spreadRadius: 5.0, //extend the shadow
+//                           offset: Offset(
+//                             15.0,
+//                             15.0,
+//                           ),
+//                         )
+//                       ],
+//                       border: Border.all(color: Colors.white)),
+//                   child: Column(
+//                     mainAxisAlignment: MainAxisAlignment.center,
+//                     children: [
+//                       Text(
+//                         "Follow us on Social Media for daily Updates",
+//                         style: TextStyle(color: Colors.grey[300]),
+//                       ),
+//                       SizedBox(
+//                         height: deviceHeight / 40,
+//                       ),
+//                       Row(
+//                         mainAxisAlignment: MainAxisAlignment.center,
+//                         children: [
+//                           RaisedButton(
+//                               child: FaIcon(
+//                                 FontAwesomeIcons.facebookF,
+//                                 color: Colors.blue[600],
+//                               ),
+//                               color: Colors.grey[300],
+//                               onPressed: () {
+//                                 _launchURL(
+//                                     'https://www.facebook.com/Agriglance/?pageid=1587328474830432&ftentidentifier=2727538327476102&padding=0');
+//                               },
+//                               shape: CircleBorder()),
+//                           RaisedButton(
+//                               child: FaIcon(
+//                                 FontAwesomeIcons.youtube,
+//                                 color: Colors.red,
+//                               ),
+//                               color: Colors.grey[300],
+//                               onPressed: () {
+//                                 _launchURL(
+//                                     'https://www.youtube.com/channel/UCTdud6FaN4rYas1OnHO6JoQ');
+//                               },
+//                               shape: CircleBorder()),
+//                           RaisedButton(
+//                               child: FaIcon(
+//                                 FontAwesomeIcons.linkedin,
+//                                 color: Colors.blue[900],
+//                               ),
+//                               color: Colors.grey[300],
+//                               onPressed: () {
+//                                 _launchURL(
+//                                     'https://www.linkedin.com/in/agriglance-icar-6060ab9a/');
+//                               },
+//                               shape: CircleBorder()),
+//                         ],
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//                 if (kIsWeb)
+//                   Text("Copyright © 2020 - Agriglance | All rights reserved"),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
