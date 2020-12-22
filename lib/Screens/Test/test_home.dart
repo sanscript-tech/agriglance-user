@@ -229,7 +229,7 @@ class _TestHomeState extends State<TestHome> {
                         height: deviceHeight / 25,
                       ),
                       Flexible(
-                        child: DraggableScrollbar.rrect(
+                        child: (kIsWeb) ? DraggableScrollbar.rrect(
                           backgroundColor: Colors.black26,
                           alwaysVisibleScrollThumb: true,
                           controller: _controller,
@@ -244,7 +244,17 @@ class _TestHomeState extends State<TestHome> {
                                 return categoryButton(
                                     _category_names[index], context);
                               }),
-                        ),
+                        ) : ListView.builder(
+                            controller: _controller,
+                            primary: false,
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: _category_names.length,
+                            itemBuilder: (context, index) {
+                              return categoryButton(
+                                  _category_names[index], context);
+                            }),
                       ),
                       SizedBox(
                         height: deviceHeight / 25,
