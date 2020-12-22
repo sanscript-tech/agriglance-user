@@ -93,15 +93,17 @@ class _SingleSubjectState extends State<SingleSubject> {
                         final testNames = snapshot.data.docs;
                         List<TestCard> testsWidgets = [];
                         for (var test in testNames) {
-                          String testName = test.get('testName').toString();
-                          // final numQuestions =
-                          //     test.get('numOfQuestions').toString();
-                          final testWidget = TestCard(
-                            testName: testName,
-                            subjectName: widget.subjectName,
-                          );
+                          if (test.get("isApprovedByAdmin")) {
+                            String testName = test.get('testName').toString();
+                            // final numQuestions =
+                            //     test.get('numOfQuestions').toString();
+                            final testWidget = TestCard(
+                              testName: testName,
+                              subjectName: widget.subjectName,
+                            );
 
-                          testsWidgets.add(testWidget);
+                            testsWidgets.add(testWidget);
+                          }
                         }
 
                         return (ListView(children: testsWidgets));

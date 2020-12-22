@@ -95,28 +95,30 @@ class _QuizQuestionsState extends State<QuizQuestions> {
                   final questionNames = snapshot.data.docs;
                   List<QuestionCard> questionsWidgets = [];
                   for (var question in questionNames) {
-                    final questionTest = question.get('ques').toString();
-                    final option1 = question.get('option1').toString();
-                    final option2 = question.get('option2').toString();
-                    final option3 = question.get('option3').toString();
-                    final option4 = question.get('option4').toString();
-                    final correct = option1;
-                    _options.add(option1);
-                    _options.add(option2);
-                    _options.add(option3);
-                    _options.add(option4);
-                    _options.shuffle();
-                    final questionWidget = QuestionCard(
-                      quizName: widget.quizName,
-                      question: questionTest,
-                      option1: _options[0],
-                      option2: _options[1],
-                      option3: _options[2],
-                      option4: _options[3],
-                      correct: correct,
-                    );
+                    if (question.get("isApprovedByAdmin")) {
+                      final questionTest = question.get('ques').toString();
+                      final option1 = question.get('option1').toString();
+                      final option2 = question.get('option2').toString();
+                      final option3 = question.get('option3').toString();
+                      final option4 = question.get('option4').toString();
+                      final correct = option1;
+                      _options.add(option1);
+                      _options.add(option2);
+                      _options.add(option3);
+                      _options.add(option4);
+                      _options.shuffle();
+                      final questionWidget = QuestionCard(
+                        quizName: widget.quizName,
+                        question: questionTest,
+                        option1: _options[0],
+                        option2: _options[1],
+                        option3: _options[2],
+                        option4: _options[3],
+                        correct: correct,
+                      );
 
-                    questionsWidgets.add(questionWidget);
+                      questionsWidgets.add(questionWidget);
+                    }
                   }
 
                   return (ListView(children: questionsWidgets));

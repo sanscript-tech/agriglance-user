@@ -19,6 +19,7 @@ class _AddTestState extends State<AddTest> {
   String _testName = "";
   String _testDescription = "";
   String _image = "";
+  bool _isApproved = false;
 
   void showMessage(String message, [MaterialColor color = Colors.red]) {
     _scaffoldKey.currentState.showSnackBar(
@@ -85,6 +86,7 @@ class _AddTestState extends State<AddTest> {
         "testName": _testName,
         "testDescription": _testDescription,
         "testImage": _image,
+        "isApprovedByAdmin":_isApproved
       });
     }
 

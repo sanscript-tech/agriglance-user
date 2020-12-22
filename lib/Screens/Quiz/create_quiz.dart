@@ -15,6 +15,7 @@ class _QuizState extends State<Quiz> {
   String _uname;
   bool _isApproved = false;
   bool isAvailable = false;
+  bool _isQuestionApproved = false;
 
   String _quizName = "";
   int time = 0;
@@ -155,8 +156,8 @@ class _QuizState extends State<Quiz> {
                                   },
                                 ),
                                 TextFormField(
-                                    decoration:
-                                        InputDecoration(labelText: "option a(Correct Answer)"),
+                                    decoration: InputDecoration(
+                                        labelText: "option a(Correct Answer)"),
                                     validator: (val) => val.isEmpty
                                         ? "option is required"
                                         : null,
@@ -198,7 +199,6 @@ class _QuizState extends State<Quiz> {
                                         _option4 = val;
                                       });
                                     }),
-                            
                                 RaisedButton(
                                   child: Text("Submit"),
                                   color: Colors.yellow,
@@ -226,6 +226,7 @@ class _QuizState extends State<Quiz> {
                                           "option2": _option2,
                                           "option3": _option3,
                                           "option4": _option4,
+                                          "isApprovedByAdmin":_isQuestionApproved
                                         });
                                       } else {
                                         await FirebaseFirestore.instance
@@ -248,6 +249,8 @@ class _QuizState extends State<Quiz> {
                                           "option2": _option2,
                                           "option3": _option3,
                                           "option4": _option4,
+                                          "isApprovedByAdmin":_isQuestionApproved
+                                        
                                         });
                                       }
                                       setState(() {
