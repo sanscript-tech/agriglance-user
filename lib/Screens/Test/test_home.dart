@@ -134,6 +134,7 @@ class _TestHomeState extends State<TestHome> {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     return Scrollbar(
+      thickness: 15.0,
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Padding(
@@ -226,16 +227,19 @@ class _TestHomeState extends State<TestHome> {
                         height: deviceHeight / 25,
                       ),
                       Flexible(
-                        child: ListView.builder(
-                            primary: false,
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: _category_names.length,
-                            itemBuilder: (context, index) {
-                              return categoryButton(
-                                  _category_names[index], context);
-                            }),
+                        child: Scrollbar(
+                          thickness: 10.0,
+                          child: ListView.builder(
+                              primary: false,
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: _category_names.length,
+                              itemBuilder: (context, index) {
+                                return categoryButton(
+                                    _category_names[index], context);
+                              }),
+                        ),
                       ),
                       SizedBox(
                         height: deviceHeight / 25,
