@@ -22,13 +22,15 @@ class FirestoreService {
     }
   }
 
-  String isUserRegistered(uid) {
+  Future<String> isUserRegistered(uid) async{
     try {
-      _userCollectionReference.doc(uid).get().then((value) {
+      String valueReturn;
+     await _userCollectionReference.doc(uid).get().then((value) {
         print("******************${value.exists}*********************");
+        valueReturn = value.exists ? "true" : "false";
         return value.exists ? "true" : "false";
       });
-      return "Null";
+      return valueReturn;
     } catch (e) {
       return e.message;
     }

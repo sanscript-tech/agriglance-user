@@ -70,13 +70,15 @@ class AuthenticationService {
       assert(user.uid == currentUser.uid);
 
       print('signInWithGoogle succeeded: $user');
-      if (_firestoreService.isUserRegistered(user.uid) != "true") {
-        _currentUser =
-            UserModel(user.uid, "", user.email, "", "", "", 0, false);
-        await _firestoreService.createOrUpdateUser(_currentUser);
-      } else {
-        await _populateCurrentUser(currentUser);
-      }
+      _firestoreService.isUserRegistered(user.uid).then((value) async {
+        if ((value) != "true") {
+          _currentUser =
+              UserModel(user.uid, "", user.email, "", "", "", 0, false);
+          await _firestoreService.createOrUpdateUser(_currentUser);
+        } else {
+          await _populateCurrentUser(currentUser);
+        }
+      });
       return 'Signed In';
     }
 
