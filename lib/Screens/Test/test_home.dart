@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:agriglance/Screens/Materials/materials_home.dart';
 import 'package:agriglance/services/admob_service.dart';
+import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
@@ -128,6 +129,7 @@ class _TestHomeState extends State<TestHome> {
     );
   }
 
+  ScrollController _controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -227,13 +229,16 @@ class _TestHomeState extends State<TestHome> {
                         height: deviceHeight / 25,
                       ),
                       Flexible(
-                        child: Scrollbar(
-                          thickness: 10.0,
+                        child: DraggableScrollbar.rrect(
+                          backgroundColor: Colors.black26,
+                          alwaysVisibleScrollThumb: true,
+                          controller: _controller,
                           child: ListView.builder(
+                              controller: _controller,
                               primary: false,
                               physics: const AlwaysScrollableScrollPhysics(),
                               scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
+                              shrinkWrap: false,
                               itemCount: _category_names.length,
                               itemBuilder: (context, index) {
                                 return categoryButton(
