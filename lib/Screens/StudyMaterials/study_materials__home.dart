@@ -7,6 +7,7 @@ import 'package:agriglance/Screens/StudyMaterials/add_study_material.dart';
 import 'package:agriglance/Services/firestore_service.dart';
 import 'package:agriglance/constants/study_material_card.dart';
 import 'package:agriglance/services/admob_service.dart';
+import 'package:clipboard/clipboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,7 +30,7 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
   final ams = (!kIsWeb) ? AdMobService() : null;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final papersCollectionReference =
-      FirebaseStorage.instance.ref().child("studyMaterials");
+  FirebaseStorage.instance.ref().child("studyMaterials");
   String uName = "";
 
   @override
@@ -40,30 +41,31 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
       ),
       floatingActionButton: (FirebaseAuth.instance.currentUser != null)
           ? FloatingActionButton(
-              onPressed: () async {
-                UserModel updateUser = await FirestoreService()
-                    .getUser(FirebaseAuth.instance.currentUser.uid);
-                setState(() {
-                  uName = updateUser.fullName;
-                });
-                if (!kIsWeb && noOfClicks % 5 == 0) {
-                  InterstitialAd newAd = ams.getInterstitialAd();
-                  newAd.load();
-                  newAd.show(
-                    anchorType: AnchorType.bottom,
-                    anchorOffset: 0.0,
-                    horizontalCenterOffset: 0.0,
-                  );
-                  noOfClicks++;
-                }
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => AddStudyMaterial(
-                            uid: auth.currentUser.uid, uName: uName)));
-              },
-              child: Icon(Icons.add),
-            )
+        onPressed: () async {
+          UserModel updateUser = await FirestoreService()
+              .getUser(FirebaseAuth.instance.currentUser.uid);
+          setState(() {
+            uName = updateUser.fullName;
+          });
+          if (!kIsWeb && noOfClicks % 5 == 0) {
+            InterstitialAd newAd = ams.getInterstitialAd();
+            newAd.load();
+            newAd.show(
+              anchorType: AnchorType.bottom,
+              anchorOffset: 0.0,
+              horizontalCenterOffset: 0.0,
+            );
+            noOfClicks++;
+          }
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      AddStudyMaterial(
+                          uid: auth.currentUser.uid, uName: uName)));
+        },
+        child: Icon(Icons.add),
+      )
           : null,
       body: Center(
         child: Container(
@@ -88,43 +90,43 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
               return !snapshot.hasData
                   ? Center(child: CircularProgressIndicator())
                   : ListView.builder(
-                      itemCount: snapshot.data.documents.length,
-                      itemBuilder: (context, index) {
-                        DocumentSnapshot papers =
-                            snapshot.data.documents[index];
-                        if (papers['isApprovedByAdmin']) {
-                          return GestureDetector(
-                            onTap: () async {
-                              if (!kIsWeb && noOfClicks % 5 == 0) {
-                                InterstitialAd newAd = ams.getInterstitialAd();
-                                newAd.load();
-                                newAd.show(
-                                  anchorType: AnchorType.bottom,
-                                  anchorOffset: 0.0,
-                                  horizontalCenterOffset: 0.0,
-                                );
-                                noOfClicks++;
-                              }
-                              noOfClicks++;
-                              print("No Of Clicks $noOfClicks");
-                              await _asyncSimpleDialog(context,
-                                  papers['pdfUrl'], papers['fileName']);
-                            },
-                            child: StudyMaterialCard(
-                              type: papers['type'],
-                              title: papers['title'],
-                              description: papers['description'],
-                              pdfUrl: papers['pdfUrl'],
-                              postedByName: papers['postedByName'],
-                              fileName: papers['fileName'],
-                              approved: papers['isApprovedByAdmin'],
-                              index: index,
-                            ),
+                itemCount: snapshot.data.documents.length,
+                itemBuilder: (context, index) {
+                  DocumentSnapshot papers =
+                  snapshot.data.documents[index];
+                  if (papers['isApprovedByAdmin']) {
+                    return GestureDetector(
+                      onTap: () async {
+                        if (!kIsWeb && noOfClicks % 5 == 0) {
+                          InterstitialAd newAd = ams.getInterstitialAd();
+                          newAd.load();
+                          newAd.show(
+                            anchorType: AnchorType.bottom,
+                            anchorOffset: 0.0,
+                            horizontalCenterOffset: 0.0,
                           );
+                          noOfClicks++;
                         }
-                        return null;
+                        noOfClicks++;
+                        print("No Of Clicks $noOfClicks");
+                        await _asyncSimpleDialog(context,
+                            papers['pdfUrl'], papers['fileName']);
                       },
+                      child: StudyMaterialCard(
+                        type: papers['type'],
+                        title: papers['title'],
+                        description: papers['description'],
+                        pdfUrl: papers['pdfUrl'],
+                        postedByName: papers['postedByName'],
+                        fileName: papers['fileName'],
+                        approved: papers['isApprovedByAdmin'],
+                        index: index,
+                      ),
                     );
+                  }
+                  return null;
+                },
+              );
             },
           ),
         ),
@@ -132,25 +134,26 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
     );
   }
 
-  void _share(String link) async {
+  void _shareInApps(String link) async {
     try {
       WcFlutterShare.share(
           sharePopupTitle: "Agriglance",
           subject: "Download",
           text:
-              "Download pdf via this link: $link \n Visit agriglance.com for more such materials",
+          "Download pdf via this link: $link \n Visit agriglance.com for more such materials",
           mimeType: 'text/plain');
     } catch (e) {
       print(e);
     }
   }
 
-  void _launchURL(url) async => await canLaunch(url)
-      ? await launch(url)
-      : Fluttertoast.showToast(msg: "Could not launch $url");
+  void _launchURL(url) async =>
+      await canLaunch(url)
+          ? await launch(url)
+          : Fluttertoast.showToast(msg: "Could not launch $url");
 
-  Future<options> _asyncSimpleDialog(
-      BuildContext context, String url, String filename) async {
+  Future<options> _asyncSimpleDialog(BuildContext context, String url,
+      String filename) async {
     return await showDialog<options>(
         context: context,
         barrierDismissible: true,
@@ -170,12 +173,25 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
               ),
               SimpleDialogOption(
                 onPressed: () {
-                  _share(url);
+                  if (!kIsWeb)
+                    _shareInApps(url);
+                  else
+                    _shareInWeb(url);
                 },
                 child: const Text('Share'),
               ),
             ],
           );
         });
+  }
+
+  void _shareInWeb(String url) {
+    FlutterClipboard.copy(
+        'Download pdf via this link: $url \nGet more study materials and free mock test on agriglance.com ')
+        .then((value) {
+      Fluttertoast.showToast(
+          msg: "Copied To Clipboard!",
+          gravity: ToastGravity.BOTTOM, toastLength: Toast.LENGTH_LONG);
+    });
   }
 }
