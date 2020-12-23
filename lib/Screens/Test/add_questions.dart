@@ -1,7 +1,11 @@
+import 'package:agriglance/Screens/Home/home.dart';
+import 'package:agriglance/Screens/Materials/materials_home.dart';
 import 'package:agriglance/Screens/Test/test_home.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/rendering.dart';
 
 class AddQuestions extends StatefulWidget {
   final String testName;
@@ -22,24 +26,11 @@ class _AddQuestionsState extends State<AddQuestions> {
   String _option3 = "";
   String _option4 = "";
 
-  void showMessage(String message, [MaterialColor color = Colors.red]) {
-    _scaffoldKey.currentState.showSnackBar(
-        new SnackBar(backgroundColor: color, content: new Text(message)));
-  }
-
   void _submitForm() async {
-    final FormState form = _formKey.currentState;
-    if (!form.validate()) {
-      showMessage('Form is not valid!  Please review and correct.');
-    } else {
-      print(widget.testName);
-      form.save();
-      _uploadQuestion();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Submitted to admin for approval"),
-      ));
-      Navigator.pop(context);
-    }
+    _uploadQuestion();
+    Fluttertoast.showToast(
+        msg: "Submitted question for admin approval",
+        gravity: ToastGravity.BOTTOM);
   }
 
   Future<void> _uploadQuestion() async {
@@ -66,7 +57,6 @@ class _AddQuestionsState extends State<AddQuestions> {
           bottom: true,
           child: Form(
             key: _formKey,
-            autovalidateMode: AutovalidateMode.always,
             child: ListView(children: <Widget>[
               Text("Question: "),
               TextFormField(
@@ -133,7 +123,7 @@ class _AddQuestionsState extends State<AddQuestions> {
                   elevation: 10.0,
                   highlightElevation: 30.0,
                   child: const Text(
-                    'Submit for Approval',
+                    'Submit and add new question',
                     style: TextStyle(
                       color: Colors.black87,
                       fontSize: 20.0,
@@ -142,8 +132,52 @@ class _AddQuestionsState extends State<AddQuestions> {
                   color: Colors.blue[300],
                   textColor: Colors.white,
                   onPressed: () {
-                    _submitForm();
-                    _formKey.currentState.reset();
+                    if (_formKey.currentState.validate()) {
+                      _formKey.currentState.save();
+                       _submitForm();
+                       _formKey.currentState.reset();
+
+                    }
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 180.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Text(
+                  "After submitting all questions,press the finish button",
+                  style: TextStyle(
+                      fontSize: 15.0,
+                      color: Colors.orange,
+                      fontFamily: 'Times'),
+                ),
+              ),
+              SizedBox(height: 10.0),
+              Padding(
+                padding: const EdgeInsets.only(left: 80.0, right: 80.0),
+                child: RaisedButton(
+                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    side: BorderSide(color: Colors.black87),
+                  ),
+                  splashColor: Colors.purple,
+                  elevation: 10.0,
+                  highlightElevation: 30.0,
+                  child: const Text(
+                    'Finish',
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 20.0,
+                    ),
+                  ),
+                  color: Colors.blue[300],
+                  textColor: Colors.white,
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Home()));
                   },
                 ),
               ),

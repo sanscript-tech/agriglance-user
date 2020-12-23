@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:agriglance/Screens/Home/home.dart';
 
 class Quiz extends StatefulWidget {
   @override
@@ -226,7 +228,12 @@ class _QuizState extends State<Quiz> {
                                           "option2": _option2,
                                           "option3": _option3,
                                           "option4": _option4,
-                                          "isApprovedByAdmin":_isQuestionApproved
+                                          "isApprovedByAdmin":
+                                              _isQuestionApproved
+                                        });
+
+                                        setState(() {
+                                          numOfQues -= 1;
                                         });
                                       } else {
                                         await FirebaseFirestore.instance
@@ -249,13 +256,26 @@ class _QuizState extends State<Quiz> {
                                           "option2": _option2,
                                           "option3": _option3,
                                           "option4": _option4,
-                                          "isApprovedByAdmin":_isQuestionApproved
-                                        
+                                          "isApprovedByAdmin":
+                                              _isQuestionApproved
+                                        });
+
+                                        setState(() {
+                                          numOfQues -= 1;
                                         });
                                       }
-                                      setState(() {
-                                        numOfQues -= 1;
-                                      });
+                                    }
+
+                                    if (numOfQues == 0) {
+                                      Fluttertoast.showToast(
+                                          msg:
+                                              "Submitted Quiz successfully for admin approval",
+                                          gravity: ToastGravity.BOTTOM);
+
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Home()));
                                     }
                                   },
                                 )

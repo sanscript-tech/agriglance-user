@@ -63,7 +63,7 @@ class _QuizQuestionsState extends State<QuizQuestions> {
                         });
 
                 Fluttertoast.showToast(
-                    msg: "You got $_correct and $_incorrect",
+                    msg: "You got $_correct correct and $_incorrect incorrect",
                     gravity: ToastGravity.BOTTOM);
 
                 Navigator.push(context,

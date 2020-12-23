@@ -22,9 +22,14 @@ class _QuizHomeState extends State<QuizHome> {
       floatingActionButton: (FirebaseAuth.instance.currentUser != null)
           ? FloatingActionButton(
               tooltip: "Add quiz",
-              child: Icon(
-                Icons.add,
-                size: 40.0,
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.add,
+                    size: 40.0,
+                  ),
+                  Text("Add Quiz",style: TextStyle(fontSize:8.0),)
+                ],
               ),
               backgroundColor: Colors.amber,
               onPressed: () {

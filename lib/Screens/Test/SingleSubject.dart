@@ -26,9 +26,14 @@ class _SingleSubjectState extends State<SingleSubject> {
       floatingActionButton: (FirebaseAuth.instance.currentUser != null)
           ? FloatingActionButton(
               tooltip: "Add test",
-              child: Icon(
-                Icons.add,
-                size: 40.0,
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.add,
+                    size: 40.0,
+                  ),
+                  Text("Add Test",style: TextStyle(fontSize:8.0),)
+                ],
               ),
               backgroundColor: Colors.amber,
               onPressed: () {

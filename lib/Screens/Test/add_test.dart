@@ -2,6 +2,7 @@ import 'package:agriglance/Screens/Test/add_questions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AddTest extends StatefulWidget {
   final String testSubject;
@@ -70,6 +71,10 @@ class _AddTestState extends State<AddTest> {
     // print(numOfTests);
 
     if (isAvailable) {
+      Fluttertoast.showToast(
+          msg: "Test already exists,now add more questions in this !!!",
+          gravity: ToastGravity.BOTTOM);
+
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -78,6 +83,7 @@ class _AddTestState extends State<AddTest> {
                     testSubject: widget.testSubject,
                   )));
     } else {
+
       await FirebaseFirestore.instance
           .collection("testSubjects")
           .doc(widget.testSubject)
@@ -86,8 +92,22 @@ class _AddTestState extends State<AddTest> {
         "testName": _testName,
         "testDescription": _testDescription,
         "testImage": _image,
-        "isApprovedByAdmin":_isApproved
+        "isApprovedByAdmin": _isApproved
       });
+
+       Fluttertoast.showToast(
+          msg: "Now add some questions !!!",
+          gravity: ToastGravity.BOTTOM);
+
+
+
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => AddQuestions(
+                    testName: _testName,
+                    testSubject: widget.testSubject,
+                  )));
     }
 
     // final update = await FirebaseFirestore.instance
@@ -172,18 +192,9 @@ class _AddTestState extends State<AddTest> {
                           color: Colors.blue[300],
                           textColor: Colors.white,
                           onPressed: () {
-                            _formKey.currentState.save();
-
                             if (_formKey.currentState.validate()) {
+                              _formKey.currentState.save();
                               _submitForm();
-
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AddQuestions(
-                                            testName: _testName,
-                                            testSubject: widget.testSubject,
-                                          )));
                             }
                           })),
                 ]),
