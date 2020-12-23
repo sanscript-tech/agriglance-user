@@ -36,7 +36,7 @@ class AuthenticationService {
       await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
       _currentUser = UserModel(_firebaseAuth.currentUser.uid, fullName, email,
-          dob, qualification, university, 0, false);
+          dob, qualification, university, 5, false, false);
       await _firestoreService.createOrUpdateUser(_currentUser);
       return "Signed Up";
     } on FirebaseAuthException catch (e) {
@@ -73,7 +73,7 @@ class AuthenticationService {
       _firestoreService.isUserRegistered(user.uid).then((value) async {
         if ((value) != "true") {
           _currentUser =
-              UserModel(user.uid, "", user.email, "", "", "", 0, false);
+              UserModel(user.uid, "", user.email, "", "", "", 5, false, false);
           await _firestoreService.createOrUpdateUser(_currentUser);
         } else {
           await _populateCurrentUser(currentUser);
@@ -90,7 +90,7 @@ class AuthenticationService {
     try {
       _firebaseAuth.currentUser.updateEmail(email);
       _currentUser = UserModel(_firebaseAuth.currentUser.uid, fullName, email,
-          dob, qualification, university, points, false);
+          dob, qualification, university, points, false, false);
       await _firestoreService.createOrUpdateUser(_currentUser);
       return "Signed Up";
     } on FirebaseAuthException catch (e) {

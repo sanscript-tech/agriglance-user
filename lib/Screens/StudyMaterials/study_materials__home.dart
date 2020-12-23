@@ -61,8 +61,7 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      AddStudyMaterial(
-                          uid: auth.currentUser.uid, uName: uName)));
+                      AddStudyMaterial()));
         },
         child: Icon(Icons.add),
       )
