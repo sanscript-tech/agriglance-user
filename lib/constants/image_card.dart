@@ -38,27 +38,24 @@ class _ImageCardState extends State<ImageCard> {
         child: Padding(
           padding: EdgeInsets.all(8.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 "${widget.title}".toUpperCase(),
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18.0),
               ),
-              Padding(
-                padding: EdgeInsets.only(left: deviceWidth / 20),
-                child: Text(
-                  "Description: " + widget.description,
-                  style: TextStyle(fontSize: 12.0),
-                ),
+              Image.network(
+                widget.imageUrl,
               ),
-              Padding(
-                padding: EdgeInsets.only(left: deviceWidth / 20),
-                child: Text(
-                  (widget.postedByName != null && widget.postedByName != "")
-                      ? "Posted By: " + widget.postedByName
-                      : "Posted By: Anonymous",
-                  style: TextStyle(fontSize: 12.0),
-                ),
+              Text(
+                "Description: " + widget.description,
+                style: TextStyle(fontSize: 12.0),
+              ),
+              Text(
+                (widget.postedByName != null && widget.postedByName != "")
+                    ? "Posted By: " + widget.postedByName
+                    : "Posted By: Anonymous",
+                style: TextStyle(fontSize: 12.0),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

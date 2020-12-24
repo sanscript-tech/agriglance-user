@@ -83,42 +83,42 @@ class _ImageHomeState extends State<ImageHome> {
               return !snapshot.hasData
                   ? Center(child: CircularProgressIndicator())
                   : ListView.builder(
-                itemCount: snapshot.data.documents.length,
-                itemBuilder: (context, index) {
-                  DocumentSnapshot images =
-                  snapshot.data.documents[index];
-                  if (images['isApprovedByAdmin']) {
-                    return GestureDetector(
-                      onTap: () async {
-                        if (!kIsWeb && noOfClicks % 5 == 0) {
-                          InterstitialAd newAd = ams.getInterstitialAd();
-                          newAd.load();
-                          newAd.show(
-                            anchorType: AnchorType.bottom,
-                            anchorOffset: 0.0,
-                            horizontalCenterOffset: 0.0,
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (context, index) {
+                        DocumentSnapshot images =
+                            snapshot.data.documents[index];
+                        if (images['isApprovedByAdmin']) {
+                          return GestureDetector(
+                            onTap: () async {
+                              if (!kIsWeb && noOfClicks % 5 == 0) {
+                                InterstitialAd newAd = ams.getInterstitialAd();
+                                newAd.load();
+                                newAd.show(
+                                  anchorType: AnchorType.bottom,
+                                  anchorOffset: 0.0,
+                                  horizontalCenterOffset: 0.0,
+                                );
+                                noOfClicks++;
+                              }
+                              noOfClicks++;
+                              print("No Of Clicks $noOfClicks");
+                              await _asyncSimpleDialog(context,
+                                  images['imageUrl'], images['fileName']);
+                            },
+                            child: ImageCard(
+                              title: images['title'],
+                              description: images['description'],
+                              imageUrl: images['imageUrl'],
+                              postedByName: images['postedByName'],
+                              fileName: images['fileName'],
+                              approved: images['isApprovedByAdmin'],
+                              index: index,
+                            ),
                           );
-                          noOfClicks++;
                         }
-                        noOfClicks++;
-                        print("No Of Clicks $noOfClicks");
-                        await _asyncSimpleDialog(context,
-                            images['imageUrl'], images['fileName']);
+                        return null;
                       },
-                      child: ImageCard(
-                        title: images['title'],
-                        description: images['description'],
-                        imageUrl: images['imageUrl'],
-                        postedByName: images['postedByName'],
-                        fileName: images['fileName'],
-                        approved: images['isApprovedByAdmin'],
-                        index: index,
-                      ),
                     );
-                  }
-                  return null;
-                },
-              );
             },
           ),
         ),
