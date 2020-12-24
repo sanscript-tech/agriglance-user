@@ -110,12 +110,20 @@ class _VideoHomeState extends State<VideoHome> {
                                             return Column(
                                               children: [
                                                 Text(
+                                                  videos['category'],
+                                                  style: GoogleFonts.notoSans(
+                                                      fontStyle:
+                                                      FontStyle.normal,
+                                                      fontSize: 20.0),
+                                                ),
+                                                Text(
                                                   videos['lectureTitle'],
                                                   style: GoogleFonts.notoSans(
                                                       fontStyle:
                                                           FontStyle.normal,
                                                       fontSize: 20.0),
                                                 ),
+
                                                 player,
                                               ],
                                             );
@@ -124,11 +132,18 @@ class _VideoHomeState extends State<VideoHome> {
                                       : Column(
                                           children: [
                                             Text(
+                                              videos['category'],
+                                              style: GoogleFonts.notoSans(
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 20.0),
+                                            ),
+                                            Text(
                                               videos['lectureTitle'],
                                               style: GoogleFonts.notoSans(
                                                   fontStyle: FontStyle.normal,
                                                   fontSize: 20.0),
                                             ),
+
                                             GestureDetector(
                                               onTap: () {
                                                 _launchURL(url);

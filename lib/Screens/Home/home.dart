@@ -8,6 +8,7 @@ import 'package:agriglance/Services/authentication_service.dart';
 import 'package:agriglance/Services/firestore_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -49,6 +50,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           context.read<AuthenticationService>().signOut();
                           Fluttertoast.showToast(msg: "Logged Out");
                           setState(() {});
+                          if (!kIsWeb) Navigator.pop(context);
                         },
                       ),
                     ],

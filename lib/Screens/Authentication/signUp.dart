@@ -1,5 +1,7 @@
+import 'package:agriglance/Screens/Home/home.dart';
 import 'package:agriglance/Services/authentication_service.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -134,7 +136,13 @@ class _SignUpState extends State<SignUp> {
                                 universityController.text)
                             .then((value) {
                           if (value == "Signed Up") {
-                            Navigator.pop(context);
+                            if (kIsWeb)
+                              Navigator.pop(context);
+                            else
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Home()));
                           } else {
                             setState(() {
                               loadProgress();
@@ -172,7 +180,13 @@ class _SignUpState extends State<SignUp> {
                             .signInWithGoogle()
                             .then((value) {
                           if (value == "Signed In") {
-                            Navigator.pop(context);
+                            if (kIsWeb)
+                              Navigator.pop(context);
+                            else
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Home()));
                           } else {
                             setState(() {
                               loadProgress();

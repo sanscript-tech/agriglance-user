@@ -12,6 +12,7 @@ class QnaCard extends StatefulWidget {
   String postedBy;
   int index;
   String qid;
+
   QnaCard(
       {this.category,
       this.description,
@@ -19,6 +20,7 @@ class QnaCard extends StatefulWidget {
       this.postedBy,
       this.index,
       this.qid});
+
   @override
   _QnaCardState createState() => _QnaCardState();
 }
@@ -45,6 +47,10 @@ class _QnaCardState extends State<QnaCard> {
               Text(
                 "${widget.question}",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              Text(
+                "Category: ${widget.category}",
+                style: TextStyle(fontSize: 15),
               ),
               (widget.postedBy != null && widget.postedBy != "")
                   ? Text(
@@ -74,11 +80,11 @@ class _QnaCardState extends State<QnaCard> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => Discussion(
-                                question: widget.question,
-                                postedBy: widget.postedBy,
-                                description: widget.description,
-                                qid: widget.qid,
-                              )));
+                              question: widget.question,
+                              postedBy: widget.postedBy,
+                              description: widget.description,
+                              qid: widget.qid,
+                              category: widget.category)));
                 },
                 color: Colors.orangeAccent.shade100,
                 child: Text("Reply"),

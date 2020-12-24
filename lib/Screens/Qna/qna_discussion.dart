@@ -10,8 +10,14 @@ class Discussion extends StatefulWidget {
   String description;
   String postedBy;
   String qid;
+  String category;
 
-  Discussion({this.description, this.postedBy, this.question, this.qid});
+  Discussion(
+      {this.description,
+      this.postedBy,
+      this.question,
+      this.qid,
+      this.category});
 
   @override
   _DiscussionState createState() => _DiscussionState();
@@ -50,7 +56,7 @@ class _DiscussionState extends State<Discussion> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        title: Text("QNA"),
+        title: Text("QNA - ${widget.category}"),
         centerTitle: true,
       ),
       body: Center(

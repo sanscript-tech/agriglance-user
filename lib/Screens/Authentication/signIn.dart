@@ -1,6 +1,8 @@
 import 'package:agriglance/Screens/Authentication/forgotPassword.dart';
+import 'package:agriglance/Screens/Home/home.dart';
 import 'package:agriglance/Services/authentication_service.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -98,8 +100,14 @@ class _SignInState extends State<SignIn> {
                                 emailController.text, passwordController.text)
                             .then((value) {
                           if (value == "Signed In") {
-                            Navigator.popUntil(
-                                context, (route) => route.isFirst);
+                            if (kIsWeb)
+                              Navigator.popUntil(
+                                  context, (route) => route.isFirst);
+                            else
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Home()));
                           } else {
                             setState(() {
                               loadProgress();
@@ -137,7 +145,14 @@ class _SignInState extends State<SignIn> {
                             .signInWithGoogle()
                             .then((value) {
                           if (value == "Signed In") {
-                            Navigator.pop(context);
+                            loadProgress();
+                            if (kIsWeb)
+                              Navigator.pop(context);
+                            else
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Home()));
                           } else {
                             setState(() {
                               loadProgress();

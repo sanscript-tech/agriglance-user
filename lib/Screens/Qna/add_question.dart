@@ -14,11 +14,22 @@ class AddQuestionScreen extends StatefulWidget {
 }
 
 class _AddQuestionScreenState extends State<AddQuestionScreen> {
-  String _category = "";
+  String _category = "Choose Category";
   String _question = "";
   String _questionDesc = "";
+  List<String> categoryList;
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+    categoryList = List<String>();
+    setState(() {
+      categoryList.add("Choose Category");
+    });
+    fetchCategoryList();
+  }
 
   void _submitForm() async {
     final FormState form = _formKey.currentState;
@@ -82,16 +93,30 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                 child: ListView(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   children: [
-                    TextFormField(
-                      inputFormatters: [LengthLimitingTextInputFormatter(30)],
-                      validator: (val) =>
-                          val.isEmpty ? 'Question Category is required' : null,
-                      onSaved: (val) => _category = val,
+                    DropdownButtonFormField<String>(
+                      value: _category,
                       decoration: InputDecoration(
-                        icon: Icon(Icons.category),
-                        hintText: 'Enter the category of question',
-                        labelText: 'Question Category',
+                        icon: Icon(Icons.category, color: Colors.grey),
                       ),
+                      validator: (value) => value == "Choose category"
+                          ? "Choose Valid Category"
+                          : null,
+                      hint: Text("Choose category"),
+                      icon: Icon(Icons.arrow_downward),
+                      iconSize: 24,
+                      elevation: 16,
+                      onChanged: (String newValue) {
+                        setState(() {
+                          _category = newValue;
+                        });
+                      },
+                      items:
+                          categoryList.map<DropdownMenuItem<String>>((value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
                     ),
                     TextFormField(
                       inputFormatters: [LengthLimitingTextInputFormatter(30)],
@@ -128,5 +153,18 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
             ),
           ),
         ));
+  }
+
+  Future<void> fetchCategoryList() async {
+    QuerySnapshot _myDoc =
+        await FirebaseFirestore.instance.collection("testCategories").get();
+    List<DocumentSnapshot> _myDocCount = _myDoc.docs;
+    for (int j = 0; j < _myDocCount.length; j++) {
+      DocumentSnapshot i = _myDocCount[j];
+      setState(() {
+        categoryList.add(i.id.trim());
+      });
+    }
+    categoryList.add("Other");
   }
 }

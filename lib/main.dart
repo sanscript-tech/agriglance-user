@@ -1,3 +1,4 @@
+import 'package:agriglance/Services/authenticate.dart';
 import 'package:agriglance/services/admob_service.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
             backgroundColor: Colors.grey,
             primaryColor: Colors.indigo[900],
           ),
-          home: Home(),
+          home: (kIsWeb) ? Home() : Authenticate(),
         ));
   }
 }

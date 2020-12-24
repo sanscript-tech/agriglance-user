@@ -91,6 +91,12 @@ class _MyVideosState extends State<MyVideos> {
                                     builder: (context, player) {
                                       return Column(
                                         children: [
+                                          Text(
+                                            videos['category'],
+                                            style: GoogleFonts.notoSans(
+                                                fontStyle: FontStyle.normal,
+                                                fontSize: 20.0),
+                                          ),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
@@ -117,6 +123,12 @@ class _MyVideosState extends State<MyVideos> {
                                   )
                                 : Column(
                                     children: [
+                                      Text(
+                                        videos['category'],
+                                        style: GoogleFonts.notoSans(
+                                            fontStyle: FontStyle.normal,
+                                            fontSize: 20.0),
+                                      ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,

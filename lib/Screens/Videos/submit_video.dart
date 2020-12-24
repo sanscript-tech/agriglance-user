@@ -16,6 +16,18 @@ class _SubmitVideoState extends State<SubmitVideo> {
   String _youtubeChannelKey = "";
   String _embedVideo = "";
   bool _isApproved = false;
+  List<String> categoryList;
+  String dropdownValue = "Choose category";
+
+  @override
+  void initState() {
+    super.initState();
+    categoryList = List<String>();
+    setState(() {
+      categoryList.add("Choose category");
+    });
+    fetchCategoryList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +55,30 @@ class _SubmitVideoState extends State<SubmitVideo> {
             child: ListView(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
                 children: <Widget>[
+                  DropdownButtonFormField<String>(
+                    value: dropdownValue,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.category, color: Colors.grey),
+                    ),
+                    validator: (value) => value == "Choose category"
+                        ? "Choose Valid Category"
+                        : null,
+                    hint: Text("Choose category"),
+                    icon: Icon(Icons.arrow_downward),
+                    iconSize: 24,
+                    elevation: 16,
+                    onChanged: (String newValue) {
+                      setState(() {
+                        dropdownValue = newValue;
+                      });
+                    },
+                    items: categoryList.map<DropdownMenuItem<String>>((value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
                   TextFormField(
                     inputFormatters: [LengthLimitingTextInputFormatter(30)],
                     keyboardType: TextInputType.text,
@@ -106,6 +142,7 @@ class _SubmitVideoState extends State<SubmitVideo> {
                             "isApprovedByAdmin": _isApproved,
                             "lectureTitle": _lectureTitle,
                             "videoUrl": _embedVideo,
+                            "category": dropdownValue,
                             "youtubeChannelName": _youtubeChannelKey,
                             "postedBy":
                                 FirebaseAuth.instance.currentUser.uid != null
@@ -123,5 +160,18 @@ class _SubmitVideoState extends State<SubmitVideo> {
         ),
       ),
     );
+  }
+
+  Future<void> fetchCategoryList() async {
+    QuerySnapshot _myDoc =
+        await FirebaseFirestore.instance.collection("testCategories").get();
+    List<DocumentSnapshot> _myDocCount = _myDoc.docs;
+    for (int j = 0; j < _myDocCount.length; j++) {
+      DocumentSnapshot i = _myDocCount[j];
+      setState(() {
+        categoryList.add(i.id.trim());
+      });
+    }
+    categoryList.add("Other");
   }
 }
