@@ -1,3 +1,4 @@
+import 'package:agriglance/Screens/Images/images_home.dart';
 import 'package:agriglance/Screens/Polls/poll_home.dart';
 import 'package:agriglance/Screens/StudyMaterials/study_materials__home.dart';
 import 'package:agriglance/Screens/Videos/video_home.dart';
@@ -111,6 +112,12 @@ class _MaterialsHomeState extends State<MaterialsHome> {
                           MaterialPageRoute(builder: (context) => newScreen));
                       break;
                     }
+                  case "Images":
+                    {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => newScreen));
+                      break;
+                    }
 
                   default:
                     {
@@ -133,7 +140,9 @@ class _MaterialsHomeState extends State<MaterialsHome> {
                   else if (category == "Polls")
                     Icon(Icons.poll, color: Colors.amber[100])
                   else if (category == "Quiz")
-                    Icon(Icons.lightbulb, color: Colors.amber[100]),
+                    Icon(Icons.lightbulb, color: Colors.amber[100])
+                  else if (category == "Images")
+                    Icon(Icons.image, color: Colors.amber[100]),
                   SizedBox(
                     width: 20.0,
                   ),
@@ -168,7 +177,7 @@ class _MaterialsHomeState extends State<MaterialsHome> {
           children: [
             Container(
               width: 700.0,
-              height: deviceHeight * 1.3,
+              height: deviceHeight * 1.5,
               decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -219,6 +228,10 @@ class _MaterialsHomeState extends State<MaterialsHome> {
                     height: deviceHeight / 50,
                   ),
                   categoryButton("Quiz", context, QuizHome()),
+                  SizedBox(
+                    height: deviceHeight / 50,
+                  ),
+                  categoryButton("Images", context, ImageHome()),
                   SizedBox(
                     height: deviceHeight / 50,
                   ),

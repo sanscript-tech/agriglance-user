@@ -1,4 +1,5 @@
 import 'package:agriglance/Screens/Home/Drawer/contactAdmin.dart';
+import 'package:agriglance/Screens/Home/Drawer/my_images.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_jobs.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_points.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_poll.dart';
@@ -153,6 +154,14 @@ class _DrawerWindowState extends State<DrawerWindow> {
             onTap: () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => MyVideos()));
+            },
+          ),
+          ListTile(
+            trailing: Icon(Icons.image),
+            title: Text("My Images"),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MyImages()));
             },
           ),
           ListTile(
