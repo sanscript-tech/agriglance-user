@@ -10,7 +10,11 @@ import 'package:provider/provider.dart';
 import 'Screens/Home/home.dart';
 import 'Services/authentication_service.dart';
 
+import 'configure_nonweb.dart' if (dart.library.html) 'configure_web.dart';
+
+
 void main() async {
+  configureApp();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   if (!kIsWeb)
