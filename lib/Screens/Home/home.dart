@@ -50,7 +50,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           context.read<AuthenticationService>().signOut();
                           Fluttertoast.showToast(msg: "Logged Out");
                           setState(() {});
-                          if (!kIsWeb) Navigator.pop(context);
+                          if (!kIsWeb)
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Authenticate()));
                         },
                       ),
                     ],
@@ -87,7 +91,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 icon: Icon(Icons.edit),
               ),
               Tab(
-                text: "Material",
+                text: "Materials",
                 icon: Icon(Icons.my_library_books),
               ),
               Tab(

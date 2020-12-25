@@ -1,33 +1,31 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class StudyMaterialCard extends StatefulWidget {
-  String examName;
-  String title;
+class QuestionPaperCard extends StatefulWidget {
   String subject;
-  String description;
+  String year;
   String pdfUrl;
+  String examName;
   String fileName;
   String postedByName;
   bool approved;
   int index;
 
-  StudyMaterialCard(
-      {this.examName,
-      this.title,
-      this.subject,
-      this.description,
+  QuestionPaperCard(
+      {this.subject,
+      this.year,
       this.pdfUrl,
+      this.examName,
       this.fileName,
       this.postedByName,
       this.approved,
       this.index});
 
   @override
-  _StudyMaterialCardState createState() => _StudyMaterialCardState();
+  _QuestionPaperCardState createState() => _QuestionPaperCardState();
 }
 
-class _StudyMaterialCardState extends State<StudyMaterialCard> {
+class _QuestionPaperCardState extends State<QuestionPaperCard> {
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
@@ -44,21 +42,15 @@ class _StudyMaterialCardState extends State<StudyMaterialCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: EdgeInsets.only(left: deviceWidth / 20),
-                child: Text(
-                  "Exam: " + widget.examName,
-                  style: TextStyle(fontSize: 12.0),
-                ),
-              ),
               Text(
-                "${widget.title}".toUpperCase(),
+                "Exam: ${widget.subject} | Subject: ${widget.examName}"
+                    .toUpperCase(),
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18.0),
               ),
               Padding(
                 padding: EdgeInsets.only(left: deviceWidth / 20),
                 child: Text(
-                  "Description: " + widget.description,
+                  "Year: " + widget.year,
                   style: TextStyle(fontSize: 12.0),
                 ),
               ),

@@ -1,6 +1,9 @@
+import 'package:agriglance/Screens/Documents/documents_home.dart';
 import 'package:agriglance/Screens/Images/images_home.dart';
 import 'package:agriglance/Screens/Polls/poll_home.dart';
+import 'package:agriglance/Screens/QuestionPaper/question_papers_home.dart';
 import 'package:agriglance/Screens/StudyMaterials/study_materials__home.dart';
+import 'package:agriglance/Screens/Thesis/thesis_home.dart';
 import 'package:agriglance/Screens/Videos/video_home.dart';
 import 'package:agriglance/services/admob_service.dart';
 import 'package:flutter/foundation.dart';
@@ -118,6 +121,24 @@ class _MaterialsHomeState extends State<MaterialsHome> {
                           MaterialPageRoute(builder: (context) => newScreen));
                       break;
                     }
+                  case "Question Papers":
+                    {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => newScreen));
+                      break;
+                    }
+                  case "Documents":
+                    {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => newScreen));
+                      break;
+                    }
+                    case "Thesis":
+                    {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => newScreen));
+                      break;
+                    }
 
                   default:
                     {
@@ -141,6 +162,12 @@ class _MaterialsHomeState extends State<MaterialsHome> {
                     Icon(Icons.poll, color: Colors.amber[100])
                   else if (category == "Quiz")
                     Icon(Icons.lightbulb, color: Colors.amber[100])
+                  else if (category == "Question Papers")
+                    FaIcon(FontAwesomeIcons.question, color: Colors.amber[100])
+                  else if (category == "Documents")
+                    FaIcon(FontAwesomeIcons.solidFile, color: Colors.amber[100])
+                  else if (category == "Thesis")
+                    FaIcon(FontAwesomeIcons.solidNewspaper, color: Colors.amber[100])
                   else if (category == "Images")
                     Icon(Icons.image, color: Colors.amber[100]),
                   SizedBox(
@@ -177,7 +204,7 @@ class _MaterialsHomeState extends State<MaterialsHome> {
           children: [
             Container(
               width: 700.0,
-              height: deviceHeight * 1.5,
+              height: deviceHeight * 2.1,
               decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -213,6 +240,23 @@ class _MaterialsHomeState extends State<MaterialsHome> {
                   SizedBox(
                     height: deviceHeight / 50,
                   ),
+                  categoryButton("Images", context, ImageHome()),
+                  SizedBox(
+                    height: deviceHeight / 50,
+                  ),
+                  categoryButton(
+                      "Question Papers", context, QuestionPapersHome()),
+                  SizedBox(
+                    height: deviceHeight / 50,
+                  ),
+                  categoryButton("Documents", context, DocumentsHome()),
+                  SizedBox(
+                    height: deviceHeight / 50,
+                  ),
+                  categoryButton("Thesis", context, ThesisHome()),
+                  SizedBox(
+                    height: deviceHeight / 50,
+                  ),
                   categoryButton(
                       "Study Materials", context, StudyMaterialsHome()),
                   SizedBox(
@@ -228,10 +272,6 @@ class _MaterialsHomeState extends State<MaterialsHome> {
                     height: deviceHeight / 50,
                   ),
                   categoryButton("Quiz", context, QuizHome()),
-                  SizedBox(
-                    height: deviceHeight / 50,
-                  ),
-                  categoryButton("Images", context, ImageHome()),
                   SizedBox(
                     height: deviceHeight / 50,
                   ),

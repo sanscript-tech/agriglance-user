@@ -1,33 +1,35 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class StudyMaterialCard extends StatefulWidget {
-  String examName;
+class DocumentCard extends StatefulWidget {
+  String type;
   String title;
-  String subject;
   String description;
+  String keywords;
+  String author;
   String pdfUrl;
   String fileName;
   String postedByName;
   bool approved;
   int index;
 
-  StudyMaterialCard(
-      {this.examName,
+  DocumentCard(
+      {this.type,
       this.title,
-      this.subject,
       this.description,
       this.pdfUrl,
+      this.keywords,
+      this.author,
       this.fileName,
       this.postedByName,
       this.approved,
       this.index});
 
   @override
-  _StudyMaterialCardState createState() => _StudyMaterialCardState();
+  _DocumentCardState createState() => _DocumentCardState();
 }
 
-class _StudyMaterialCardState extends State<StudyMaterialCard> {
+class _DocumentCardState extends State<DocumentCard> {
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
@@ -44,21 +46,29 @@ class _StudyMaterialCardState extends State<StudyMaterialCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(
+                "${widget.type} ",
+                style: TextStyle(fontSize: 12.0),
+              ),
+              Text(
+                "Title : ${widget.title} ".toUpperCase(),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18.0),
+              ),
+              Text(
+                "Author: ${widget.author} ",
+                style: TextStyle(fontSize: 12.0),
+              ),
               Padding(
                 padding: EdgeInsets.only(left: deviceWidth / 20),
                 child: Text(
-                  "Exam: " + widget.examName,
+                  "${widget.description}",
                   style: TextStyle(fontSize: 12.0),
                 ),
               ),
-              Text(
-                "${widget.title}".toUpperCase(),
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18.0),
-              ),
               Padding(
                 padding: EdgeInsets.only(left: deviceWidth / 20),
                 child: Text(
-                  "Description: " + widget.description,
+                  "Keywords: ${widget.keywords}",
                   style: TextStyle(fontSize: 12.0),
                 ),
               ),

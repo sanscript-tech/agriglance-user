@@ -1,17 +1,21 @@
 import 'package:agriglance/Screens/Home/Drawer/contactAdmin.dart';
+import 'package:agriglance/Screens/Home/Drawer/my_documents.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_images.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_jobs.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_points.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_poll.dart';
+import 'package:agriglance/Screens/Home/Drawer/my_question_papers.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_questions.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_quiz.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_study_materials.dart';
+import 'package:agriglance/Screens/Home/Drawer/my_thesis.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_videos.dart';
 import 'package:agriglance/Services/authenticate.dart';
 import 'package:agriglance/Services/firestore_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../Profile/profile.dart';
 import '../Profile/update_profile.dart';
@@ -105,6 +109,30 @@ class _DrawerWindowState extends State<DrawerWindow> {
             onTap: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => MyStudyMaterials()));
+            },
+          ),
+          ListTile(
+            trailing: FaIcon(FontAwesomeIcons.question),
+            title: Text("My Question Papers"),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => MyQuestionPapers()));
+            },
+          ),
+          ListTile(
+            trailing: FaIcon(FontAwesomeIcons.solidFile),
+            title: Text("My Documents"),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => MyDocuments()));
+            },
+          ),
+          ListTile(
+            trailing: FaIcon(FontAwesomeIcons.solidNewspaper),
+            title: Text("My Thesis"),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => MyThesis()));
             },
           ),
           ListTile(

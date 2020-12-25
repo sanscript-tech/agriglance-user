@@ -112,8 +112,9 @@ class _StudyMaterialsHomeState extends State<StudyMaterialsHome> {
                             papers['pdfUrl'], papers['fileName']);
                       },
                       child: StudyMaterialCard(
-                        type: papers['type'],
+                        subject: papers['subject'],
                         title: papers['title'],
+                        examName:papers['examName'],
                         description: papers['description'],
                         pdfUrl: papers['pdfUrl'],
                         postedByName: papers['postedByName'],

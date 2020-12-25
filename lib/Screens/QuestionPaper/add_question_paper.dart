@@ -3,9 +3,9 @@ import 'dart:math';
 
 import 'package:agriglance/Services/firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,39 +13,37 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:universal_html/html.dart' as html;
 
-class AddStudyMaterial extends StatefulWidget {
-  String uid = FirebaseAuth.instance.currentUser.uid;
-
+class AddQuestionPaper extends StatefulWidget {
   @override
-  _AddStudyMaterialState createState() => _AddStudyMaterialState();
+  _AddQuestionPaperState createState() => _AddQuestionPaperState();
 }
 
-class _AddStudyMaterialState extends State<AddStudyMaterial> {
+class _AddQuestionPaperState extends State<AddQuestionPaper> {
+  String uid = FirebaseAuth.instance.currentUser.uid;
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  String _title = "";
-  String _description = "";
-  String _pdfUrl;
-  String _examName = "Choose Exam";
+  String _year;
+  String _subject = "Choose Exam";
+  String _examName = "Choose Subject";
+  String _paperUrl;
   FilePickerResult _filePickerResult;
   String absolutePath = "";
   String fileName = "";
   String fileUrl = "";
   var file;
-  bool showUploadButton = true;
-  String _subject = "Choose Subject";
-  List<String> examList;
   String uName;
+  bool showUploadButton = true;
+  List<String> subjectList;
 
   @override
   void initState() {
     super.initState();
-    FirestoreService().getUser(widget.uid).then((value) {
+    FirestoreService().getUser(uid).then((value) {
       uName = value.fullName;
     });
-    examList = List<String>();
+    subjectList = List<String>();
     setState(() {
-      examList.add("Choose Exam");
+      subjectList.add("Choose Exam");
     });
     fetchSubjectList();
   }
@@ -56,21 +54,20 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
       showMessage('Form is not valid!  Please review and correct.');
     } else {
       form.save();
-      _uploadStudyMaterial();
+      _uploadImageToFirebase();
       Navigator.pop(context);
     }
   }
 
-  Future<void> _uploadStudyMaterial() async {
-    await FirebaseFirestore.instance.collection("study_materials").add({
+  Future<void> _uploadImageToFirebase() async {
+    await FirebaseFirestore.instance.collection("question_papers").add({
       'isApprovedByAdmin': false,
+      'year': _year,
       'subject': _subject,
-      'title': _title,
-      'description': _description,
-      'pdfUrl': _pdfUrl,
-      'fileName': fileName,
       'examName': _examName,
-      'postedBy': widget.uid,
+      'paperUrl': _paperUrl,
+      'fileName': fileName,
+      'postedBy': uid,
       'postedByName': uName
     });
   }
@@ -97,23 +94,26 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Add Research Paper"),
+          title: Text("Add Question Paper"),
           centerTitle: true,
         ),
         body: Center(
           child: Container(
             width: 700.0,
-            decoration: BoxDecoration(boxShadow: [
-              BoxShadow(
-                color: Colors.black26,
-                blurRadius: 25.0, // soften the shadow
-                spreadRadius: 5.0, //extend the shadow
-                offset: Offset(
-                  15.0,
-                  15.0,
-                ),
-              )
-            ], color: Colors.yellow[50], border: Border.all(color: Colors.white)),
+            decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 25.0, // soften the shadow
+                    spreadRadius: 5.0, //extend the shadow
+                    offset: Offset(
+                      15.0,
+                      15.0,
+                    ),
+                  )
+                ],
+                color: Colors.yellow[50],
+                border: Border.all(color: Colors.white)),
             child: Form(
               key: _formKey,
               autovalidateMode: AutovalidateMode.always,
@@ -121,22 +121,22 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
                 children: [
                   DropdownButtonFormField<String>(
-                    value: _examName,
+                    value: _subject,
                     decoration: InputDecoration(
-                      icon: Icon(Icons.edit, color: Colors.grey),
+                      icon: Icon(Icons.science, color: Colors.grey),
                     ),
                     validator: (value) =>
-                        value == "Choose Exam" ? "Choose Valid Exam" : null,
+                        value == "Choose Exam" ? "Choose Exam Name" : null,
                     hint: Text("Choose Exam"),
                     icon: Icon(Icons.arrow_downward),
                     iconSize: 24,
                     elevation: 16,
                     onChanged: (String newValue) {
                       setState(() {
-                        _examName = newValue;
+                        _subject = newValue;
                       });
                     },
-                    items: examList.map<DropdownMenuItem<String>>((value) {
+                    items: subjectList.map<DropdownMenuItem<String>>((value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
@@ -144,19 +144,19 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
                     }).toList(),
                   ),
                   DropdownButtonFormField<String>(
-                    value: _subject,
+                    value: _examName,
                     decoration: InputDecoration(
-                      icon: Icon(Icons.category, color: Colors.grey),
+                      icon: Icon(Icons.edit),
                     ),
                     validator: (value) =>
-                    value == "Choose Subject" ? "Choose Subject" : null,
+                        value == "Choose Subject" ? "Choose Subject" : null,
                     hint: Text("Choose Subject"),
                     icon: Icon(Icons.arrow_downward),
                     iconSize: 24,
                     elevation: 16,
                     onChanged: (String newValue) {
                       setState(() {
-                        _subject = newValue;
+                        _examName = newValue;
                       });
                     },
                     items: <String>[
@@ -189,21 +189,12 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
                   ),
                   TextFormField(
                     inputFormatters: [LengthLimitingTextInputFormatter(100)],
-                    validator: (val) => val.isEmpty ? 'Title is Required' : null,
-                    onSaved: (val) => _title = val,
+                    validator: (val) => val.isEmpty ? 'Year is Required' : null,
+                    onSaved: (val) => _year = val,
                     decoration: InputDecoration(
-                      icon: Icon(Icons.title),
-                      hintText: 'Enter the title',
-                      labelText: 'Title',
-                    ),
-                  ),
-                  TextFormField(
-                    inputFormatters: [LengthLimitingTextInputFormatter(300)],
-                    onSaved: (val) => _description = val,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.book),
-                      hintText: 'Describe(optional)',
-                      labelText: 'Description',
+                      icon: Icon(Icons.date_range),
+                      hintText: 'Enter the year',
+                      labelText: 'Year',
                     ),
                   ),
                   Container(
@@ -212,22 +203,18 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
                     child: OutlineButton(
                       splashColor: Colors.yellow,
                       onPressed: () {
-                        if (_subject != "Choose Type") {
-                          setState(() {
-                            getPDF();
-                          });
-                        } else {
-                          Fluttertoast.showToast(
-                              msg: "Choose a valid type",
-                              gravity: ToastGravity.BOTTOM);
-                        }
+                        setState(() {
+                          getPDF();
+                        });
                       },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50)),
-                      borderSide: BorderSide(color: Color(0xFF3EC3C1), width: 2.0),
+                      borderSide:
+                          BorderSide(color: Color(0xFF3EC3C1), width: 2.0),
                       child: Text(
                         'Select PDF',
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w400),
                       ),
                     ),
                   ),
@@ -279,7 +266,7 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
                     ],
                   ),
                   Visibility(
-                    visible: _pdfUrl == null ? false : true,
+                    visible: _paperUrl == null ? false : true,
                     child: Container(
                       padding: EdgeInsets.all(20.0),
                       child: RaisedButton(
@@ -359,8 +346,9 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
 
   Future uploadStarted() async {
     if (file != null) {
-      Reference storageReference =
-          FirebaseStorage.instance.ref().child("studyMaterials/" + fileName);
+      Reference storageReference = FirebaseStorage.instance
+          .ref()
+          .child("studyMaterials/question_papers/" + fileName);
       UploadTask uploadTask;
       if (kIsWeb) {
         uploadTask = storageReference.putBlob(file);
@@ -373,7 +361,7 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
           await storageReference.getDownloadURL().then((value) {
             print("***********" + value + "**********");
             setState(() {
-              _pdfUrl = value;
+              _paperUrl = value;
             });
           });
         } catch (onError) {
@@ -390,7 +378,7 @@ class _AddStudyMaterialState extends State<AddStudyMaterial> {
     for (int j = 0; j < _myDocCount.length; j++) {
       DocumentSnapshot i = _myDocCount[j];
       setState(() {
-        examList.add(i.id.trim());
+        subjectList.add(i.id.trim());
       });
     }
   }
