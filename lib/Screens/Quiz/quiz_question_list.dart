@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../constants/quiz_question_card.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'quiz_score.dart';
 
 class QuizQuestions extends StatefulWidget {
   QuizQuestions({this.quizName});
@@ -25,12 +26,20 @@ class _QuizQuestionsState extends State<QuizQuestions> {
   String _incorrect = "";
 
   Future<void> getNumberQuestions() async {
-    numOfQuestions = await FirebaseFirestore.instance
+    List<String> _ques = [];
+    final sample = await FirebaseFirestore.instance
         .collection("QuizTestName")
         .doc(widget.quizName)
         .collection("questions")
-        .snapshots()
-        .length;
+        .get()
+        .then((QuerySnapshot querySnapshot) => {
+              querySnapshot.docs.forEach((doc) {
+                if (doc["isApprovedByAdmin"]) {
+                  _ques.add(doc['ques']);
+                  numOfQuestions += 1;
+                }
+              })
+            });
   }
 
   @override
@@ -48,7 +57,18 @@ class _QuizQuestionsState extends State<QuizQuestions> {
     return Scaffold(
       floatingActionButton: (FirebaseAuth.instance.currentUser != null)
           ? FloatingActionButton(
-              child: Icon(Icons.done),
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.done,
+                    size: 40.0,
+                  ),
+                  Text(
+                    "Submit",
+                    style: TextStyle(fontSize: 8.0),
+                  )
+                ],
+              ),
               onPressed: () async {
                 await FirebaseFirestore.instance
                     .collection("attemptedQuiz")
@@ -62,12 +82,20 @@ class _QuizQuestionsState extends State<QuizQuestions> {
                           })
                         });
 
-                Fluttertoast.showToast(
-                    msg: "You got $_correct correct and $_incorrect incorrect",
-                    gravity: ToastGravity.BOTTOM);
+            
 
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => QuizHome()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => QuizScore(
+                              quizName: widget.quizName,
+                              numOfQuestions: numOfQuestions,
+                              correctAnswers: _correct,
+                              incorrectAnswers: _incorrect,
+                            )));
+
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => QuizHome()));
               })
           : null,
       appBar: AppBar(

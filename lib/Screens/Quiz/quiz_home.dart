@@ -28,7 +28,10 @@ class _QuizHomeState extends State<QuizHome> {
                     Icons.add,
                     size: 40.0,
                   ),
-                  Text("Add Quiz",style: TextStyle(fontSize:8.0),)
+                  Text(
+                    "Add Quiz",
+                    style: TextStyle(fontSize: 8.0),
+                  )
                 ],
               ),
               backgroundColor: Colors.amber,
@@ -81,11 +84,13 @@ class _QuizHomeState extends State<QuizHome> {
                           if (test.get('isApprovedByAdmin')) {
                             final quizName = test.get('quizName').toString();
                             final uuid = test.get('uid').toString();
+                            final uname = test.get('uname').toString();
 
                             final testWidget = QuizCard(
                               quizName: quizName,
                               uid: uuid,
                               currentUser: _uid,
+                              uname: uname,
                             );
 
                             testsWidgets.add(testWidget);

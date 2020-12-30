@@ -31,7 +31,6 @@ class _QuestionCardState extends State<QuestionCard> {
   var _uid = FirebaseAuth.instance.currentUser != null
       ? FirebaseAuth.instance.currentUser.uid
       : "";
- 
 
   void getScores() async {
     await FirebaseFirestore.instance
@@ -86,10 +85,10 @@ class _QuestionCardState extends State<QuestionCard> {
                     .collection(widget.quizName)
                     .doc(widget.quizName)
                     .set({
+                  "quizName": widget.quizName,
                   "uuid": _uid,
                   "correct": _totalCorrectAnswered,
                   "incorrect": _totalIncorrectAnswered,
-                 
                 });
               }
             },
@@ -124,10 +123,10 @@ class _QuestionCardState extends State<QuestionCard> {
                     .collection(widget.quizName)
                     .doc(widget.quizName)
                     .set({
+                  "quizName": widget.quizName,
                   "uuid": _uid,
                   "correct": _totalCorrectAnswered,
                   "incorrect": _totalIncorrectAnswered,
-                  
                 });
               }
             },
@@ -162,10 +161,10 @@ class _QuestionCardState extends State<QuestionCard> {
                     .collection(widget.quizName)
                     .doc(widget.quizName)
                     .set({
+                  "quizName": widget.quizName,
                   "uuid": _uid,
                   "correct": _totalCorrectAnswered,
                   "incorrect": _totalIncorrectAnswered,
-                
                 });
               }
             },
@@ -200,10 +199,10 @@ class _QuestionCardState extends State<QuestionCard> {
                     .collection(widget.quizName)
                     .doc(widget.quizName)
                     .set({
+                  "quizName": widget.quizName,
                   "uuid": _uid,
                   "correct": _totalCorrectAnswered,
                   "incorrect": _totalIncorrectAnswered,
-                
                 });
               }
             },
