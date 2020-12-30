@@ -45,12 +45,10 @@ class _QuestionsListState extends State<QuestionsList> {
                           })
                         });
 
-                Fluttertoast.showToast(
-                    msg: "You got $_correct and $_incorrect",
-                    gravity: ToastGravity.BOTTOM);
+           
                 
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SingleSubject()));
+                    MaterialPageRoute(builder: (context) => ));
               })
           : FloatingActionButton(
               child: Column(

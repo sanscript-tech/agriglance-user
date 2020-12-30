@@ -43,6 +43,8 @@ class _QuizCardState extends State<QuizCard> {
   @override
   void initState() {
     // TODO: implement initState
+    isAttempted();
+
     super.initState();
   }
 
