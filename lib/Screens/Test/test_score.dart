@@ -1,11 +1,11 @@
 import 'package:agriglance/Screens/Home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../constants/quiz_score_card.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../../constants/test_score_card.dart';
 class QuizScore extends StatefulWidget {
   final String quizName;
   final int numOfQuestions;
