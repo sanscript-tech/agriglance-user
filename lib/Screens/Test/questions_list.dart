@@ -126,7 +126,7 @@ class _QuestionsListState extends State<QuestionsList> {
                       MaterialPageRoute(builder: (context) => Authenticate()));
                 }),
         appBar: AppBar(
-          title: Text("Agriglance"),
+          title: Text("${widget.subjectName}- ${widget.testname}"),
           centerTitle: true,
         ),
         body: SafeArea(
