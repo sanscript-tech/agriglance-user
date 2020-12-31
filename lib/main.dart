@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
             primaryColor: Colors.indigo[900],
           ),
           home: (kIsWeb)
-              ? Home(
+              ? Home()
               : ((FirebaseAuth.instance.currentUser == null) ? Authenticate() : Home()),
         ));
   }
