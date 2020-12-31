@@ -5,7 +5,6 @@ import '../../constants/quiz_score_card.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 class QuizScore extends StatefulWidget {
   final String quizName;
   final int numOfQuestions;

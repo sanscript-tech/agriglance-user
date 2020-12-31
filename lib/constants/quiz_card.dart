@@ -58,6 +58,7 @@ class _QuizCardState extends State<QuizCard> {
                     "You can't attempt the quiz as the quiz is created by you.")));
           } else if (_isAttempted) {
             Fluttertoast.showToast(
+              toastLength: Toast.LENGTH_LONG,
                 msg: "You have already attempted this quiz",
                 gravity: ToastGravity.BOTTOM);
           } else {

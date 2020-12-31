@@ -96,6 +96,7 @@ class _AddTestState extends State<AddTest> {
       });
 
        Fluttertoast.showToast(
+         toastLength: Toast.LENGTH_LONG,
           msg: "Now add some questions !!!",
           gravity: ToastGravity.BOTTOM);
 
