@@ -58,8 +58,9 @@ class _TestCardState extends State<TestCard> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => QuizQuestions(
-                          quizName: widget.quizName,
+                    builder: (context) => QuestionsList(
+                          testname: widget.testName,
+                          subjectName: widget.subjectName,
                         )));
           }
         },
