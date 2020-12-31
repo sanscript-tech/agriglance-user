@@ -174,7 +174,7 @@ class _TestHomeState extends State<TestHome> {
                         fontFamily: 'Times',
                         fontSize: 15.0,
                         fontWeight: FontWeight.bold),
-                  ),
+                  )
                 ),
               ),
             ],
