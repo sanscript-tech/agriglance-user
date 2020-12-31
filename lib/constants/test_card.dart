@@ -7,13 +7,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 class TestCard extends StatefulWidget {
   final String testName;
   final String subjectName;
-  TestCard({this.testName,this.subjectName});
+  bool isAvailable = true;
+  TestCard({this.testName, this.subjectName});
   @override
   _TestCardState createState() => _TestCardState();
 }
 
 class _TestCardState extends State<TestCard> {
-    bool _isAttempted = false;
+  bool _isAttempted = false;
   var _uid = FirebaseAuth.instance.currentUser != null
       ? FirebaseAuth.instance.currentUser.uid
       : "";
@@ -27,7 +28,7 @@ class _TestCardState extends State<TestCard> {
         .then((QuerySnapshot querySnapshot) => {
               querySnapshot.docs.forEach((doc) {
                 setState(() {
-                  if (doc['quizName'] != null || doc['quizName'] != "") {
+                  if (doc['testName'] != null || doc['testName'] != "") {
                     setState(() {
                       _isAttempted = true;
                     });
@@ -36,9 +37,51 @@ class _TestCardState extends State<TestCard> {
               })
             });
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    isAttempted();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return GestureDetector(
+        onTap: () {
+        if (_isAttempted) {
+            Fluttertoast.showToast(
+              toastLength: Toast.LENGTH_LONG,
+                msg: "You have already attempted this quiz",
+                gravity: ToastGravity.BOTTOM);
+          } else {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => QuizQuestions(
+                          quizName: widget.quizName,
+                        )));
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(
+                border: Border(
+                    right: BorderSide(color: Colors.black, width: 2.0),
+                    left: BorderSide(color: Colors.black, width: 2.0),
+                    top: BorderSide(color: Colors.black, width: 2.0),
+                    bottom: BorderSide(color: Colors.black, width: 2.0))),
+            child: (ListTile(
+              subtitle: Text("${widget.subjectName}"),
+            
+              title: widget.isAvailable
+                  ? Text("${widget.testName}")
+                  : Text("${widget.testName}- Not Available",
+                      style: TextStyle(fontSize: 30.0)),
+            )),
+          ),
+        ));
   }
 }
 
