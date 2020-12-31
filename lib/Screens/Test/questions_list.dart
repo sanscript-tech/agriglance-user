@@ -20,15 +20,14 @@ class QuestionsList extends StatefulWidget {
 class _QuestionsListState extends State<QuestionsList> {
   int numOfQuestions = 0;
   List<String> _options = [];
-   var _uid = FirebaseAuth.instance.currentUser != null
+  var _uid = FirebaseAuth.instance.currentUser != null
       ? FirebaseAuth.instance.currentUser.uid
       : "";
-    String _correct = "";
+  String _correct = "";
   String _incorrect = "";
 
-
-  void getNumberQuestions()async{
-       List<String> _ques = [];
+  void getNumberQuestions() async {
+    List<String> _ques = [];
     final sample = await FirebaseFirestore.instance
         .collection("testQuestions")
         .doc(widget.testname)
@@ -42,60 +41,68 @@ class _QuestionsListState extends State<QuestionsList> {
                 }
               })
             });
-
   }
 
-
-@override
+  @override
   void initState() {
     // TODO: implement initState
     getNumberQuestions();
     super.initState();
   }
 
-  
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     return WillPopScope(
-      onWillPop: ()async{
-              Fluttertoast.showToast(
+      onWillPop: () async {
+        Fluttertoast.showToast(
           msg: 'You must attempt the test',
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
         );
         return false;
-
       },
-          child: Scaffold(
+      child: Scaffold(
         floatingActionButton: (FirebaseAuth.instance.currentUser != null)
             ? FloatingActionButton(
                 child: Column(
                   children: [
-                    Icon(Icons.done,size: 40.0,),
-                       Text(
+                    Icon(
+                      Icons.done,
+                      size: 40.0,
+                    ),
+                    Text(
                       "Submit",
                       style: TextStyle(fontSize: 8.0),
                     )
-
                   ],
                 ),
-                onPressed: () async{
-
-                    await FirebaseFirestore.instance
+                onPressed: () async {
+                  await FirebaseFirestore.instance
                       .collection("attemptedTest")
                       .doc(_uid)
                       .collection(widget.testname)
                       .get()
                       .then((QuerySnapshot querySnapshot) => {
                             querySnapshot.docs.forEach((doc) {
-                              _correct = doc["correct"].toString();
-                              _incorrect = doc['incorrect'].toString();
+                              if (doc["correct"] != null &&
+                                  doc['incorrect'] != null &&
+                                  doc['correct'] != "" &&
+                                  doc['incorrect'] != "") {
+                                setState(() {
+                                  _correct = doc["correct"].toString();
+                                  _incorrect = doc['incorrect'].toString();
+                                });
+                              } else {
+                                setState(() {
+                                  _correct = "0";
+                                  _incorrect = "0";
+                                });
+                              }
                             })
                           });
 
-                      
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -105,9 +112,6 @@ class _QuestionsListState extends State<QuestionsList> {
                                 correctAnswers: _correct,
                                 incorrectAnswers: _incorrect,
                               )));
-
-             
-                
                 })
             : FloatingActionButton(
                 child: Column(
@@ -170,31 +174,32 @@ class _QuestionsListState extends State<QuestionsList> {
                             return Text("Loading");
                           }
 
-                      final questionNames = snapshot.data.docs;
-                      List<QuestionCard> questionsWidgets = [];
-                      for (var question in questionNames) {
-                        final questionTest = question.get('Question').toString();
-                        final option1 = question.get('option1').toString();
-                        final option2 = question.get('option2').toString();
-                        final option3 = question.get('option3').toString();
-                        final option4 = question.get('option4').toString();
-                        final correct = option1;
-                        _options.add(option1);
-                        _options.add(option2);
-                        _options.add(option3);
-                        _options.add(option4);
-                        _options.shuffle();
+                          final questionNames = snapshot.data.docs;
+                          List<QuestionCard> questionsWidgets = [];
+                          for (var question in questionNames) {
+                            final questionTest =
+                                question.get('Question').toString();
+                            final option1 = question.get('option1').toString();
+                            final option2 = question.get('option2').toString();
+                            final option3 = question.get('option3').toString();
+                            final option4 = question.get('option4').toString();
+                            final correct = option1;
+                            _options.add(option1);
+                            _options.add(option2);
+                            _options.add(option3);
+                            _options.add(option4);
+                            _options.shuffle();
 
-                        final questionWidget = QuestionCard(
-                          subjectName: widget.subjectName,
-                          testName: widget.testname,
-                          question: questionTest,
-                          option1: _options[0],
-                          option2: _options[1],
-                          option3: _options[2],
-                          option4: _options[3],
-                          correct: correct,
-                        );
+                            final questionWidget = QuestionCard(
+                              subjectName: widget.subjectName,
+                              testName: widget.testname,
+                              question: questionTest,
+                              option1: _options[0],
+                              option2: _options[1],
+                              option3: _options[2],
+                              option4: _options[3],
+                              correct: correct,
+                            );
 
                             questionsWidgets.add(questionWidget);
                           }

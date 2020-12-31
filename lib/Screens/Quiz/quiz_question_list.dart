@@ -22,8 +22,8 @@ class _QuizQuestionsState extends State<QuizQuestions> {
       ? FirebaseAuth.instance.currentUser.uid
       : "";
 
-  String _correct = "";
-  String _incorrect = "";
+  String _correct = "0";
+  String _incorrect = "0";
 
   Future<void> getNumberQuestions() async {
     List<String> _ques = [];
@@ -86,10 +86,28 @@ class _QuizQuestionsState extends State<QuizQuestions> {
                       .get()
                       .then((QuerySnapshot querySnapshot) => {
                             querySnapshot.docs.forEach((doc) {
-                              _correct = doc["correct"].toString();
-                              _incorrect = doc['incorrect'].toString();
+                              if (doc["correct"] != null &&
+                                  doc['incorrect'] != null &&
+                                  doc['correct'] != "" &&
+                                  doc['incorrect'] != "") {
+                                setState(() {
+                                  _correct = doc["correct"].toString();
+                                  _incorrect = doc['incorrect'].toString();
+                                });
+                              } else {
+                                setState(() {
+                                  _correct = "0";
+                                  _incorrect = "0";
+                                });
+                              }
                             })
                           });
+                  print(
+                      "------------------------------------------------------------------");
+                  print(numOfQuestions);
+                  print(_correct);
+                  print(_incorrect);
+                  print("------------------------------");
 
                   Navigator.push(
                       context,
