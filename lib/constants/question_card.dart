@@ -88,6 +88,7 @@ class _QuestionCardState extends State<QuestionCard> {
                     .collection(widget.testName)
                     .doc(widget.testName)
                     .set({
+                  "testName": widget.testName,
                   "uuid": _uid,
                   "correct": _totalCorrectAnswered,
                   "incorrect": _totalIncorrectAnswered,
@@ -125,6 +126,7 @@ class _QuestionCardState extends State<QuestionCard> {
                     .collection(widget.testName)
                     .doc(widget.testName)
                     .set({
+                  "testName": widget.testName,
                   "uuid": _uid,
                   "correct": _totalCorrectAnswered,
                   "incorrect": _totalIncorrectAnswered,
@@ -162,6 +164,7 @@ class _QuestionCardState extends State<QuestionCard> {
                     .collection(widget.testName)
                     .doc(widget.testName)
                     .set({
+                  "testName": widget.testName,
                   "uuid": _uid,
                   "correct": _totalCorrectAnswered,
                   "incorrect": _totalIncorrectAnswered,
@@ -199,6 +202,7 @@ class _QuestionCardState extends State<QuestionCard> {
                     .collection(widget.testName)
                     .doc(widget.testName)
                     .set({
+                  "testName": widget.testName,
                   "uuid": _uid,
                   "correct": _totalCorrectAnswered,
                   "incorrect": _totalIncorrectAnswered,
