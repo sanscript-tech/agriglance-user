@@ -102,13 +102,13 @@ class _MyDocumentsState extends State<MyDocuments> {
     );
   }
 
-  void _shareInApps(String link) async {
+  void _shareInApps(String filename, String link) async {
     try {
       WcFlutterShare.share(
           sharePopupTitle: "Agriglance",
           subject: "Download",
           text:
-              "Download document via this link: $link \n Visit agriglance.com for more such materials",
+              "Download document via this link: FileName: $filename $link \n Visit agriglance.com for more such materials",
           mimeType: 'text/plain');
     } catch (e) {
       print(e);
@@ -141,9 +141,9 @@ class _MyDocumentsState extends State<MyDocuments> {
               SimpleDialogOption(
                 onPressed: () {
                   if (!kIsWeb)
-                    _shareInApps(url);
+                    _shareInApps(filename,url);
                   else
-                    _shareInWeb(url);
+                    _shareInWeb(filename, url);
                 },
                 child: const Text('Share'),
               ),
@@ -152,9 +152,9 @@ class _MyDocumentsState extends State<MyDocuments> {
         });
   }
 
-  void _shareInWeb(String url) {
+  void _shareInWeb(String filename, String url) {
     FlutterClipboard.copy(
-            'Download Document via this link: $url \nGet more study materials and free mock test on agriglance.com ')
+            'Download Document via this link: FileName: $filename $url \nGet more study materials and free mock test on agriglance.com ')
         .then((value) {
       Fluttertoast.showToast(
           msg: "Copied To Clipboard!",

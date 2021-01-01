@@ -1,4 +1,5 @@
 import 'package:agriglance/constants/study_material_card.dart';
+import 'package:clipboard/clipboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wc_flutter_share/wc_flutter_share.dart';
+import 'package:flutter/foundation.dart';
 
 class MyStudyMaterials extends StatefulWidget {
   @override
@@ -61,7 +63,7 @@ class _MyStudyMaterialsState extends State<MyStudyMaterials> {
                           },
                           child: StudyMaterialCard(
                             title: papers['title'],
-                            examName:papers['examName'],
+                            examName: papers['examName'],
                             description: papers['description'],
                             pdfUrl: papers['pdfUrl'],
                             postedByName: papers['postedByName'],
@@ -81,17 +83,28 @@ class _MyStudyMaterialsState extends State<MyStudyMaterials> {
   void _launchURL(url) async =>
       await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
 
-  void _share(String link) async {
+  void _shareInApps(String filename, String link) async {
     try {
       WcFlutterShare.share(
           sharePopupTitle: "Agriglance",
           subject: "Download",
           text:
-              "Download pdf via this link: $link \n Visit agriglance.com for more such materials",
+              "Download pdf via this link: FileName: $filename $link \n Visit agriglance.com for more such materials",
           mimeType: 'text/plain');
     } catch (e) {
       print(e);
     }
+  }
+
+  void _shareInWeb(String filename, String url) {
+    FlutterClipboard.copy(
+            'Download pdf via this link: FileName: $filename $url \nGet more study materials and free mock test on agriglance.com ')
+        .then((value) {
+      Fluttertoast.showToast(
+          msg: "Copied To Clipboard!",
+          gravity: ToastGravity.BOTTOM,
+          toastLength: Toast.LENGTH_LONG);
+    });
   }
 
   Future<options> _asyncSimpleDialog(
@@ -114,7 +127,10 @@ class _MyStudyMaterialsState extends State<MyStudyMaterials> {
               ),
               SimpleDialogOption(
                 onPressed: () {
-                  _share(url);
+                  if (kIsWeb)
+                    _shareInWeb(filename, url);
+                  else
+                    _shareInApps(filename, url);
                 },
                 child: const Text('Share'),
               ),
