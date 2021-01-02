@@ -1,3 +1,4 @@
+import 'package:agriglance/Screens/Home/Drawer/drawer.dart';
 import 'package:agriglance/Screens/Jobs/jobs_home.dart';
 import 'package:agriglance/Screens/Materials/materials_home.dart';
 import 'package:agriglance/Screens/Qna/qna_home.dart';
@@ -14,8 +15,18 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: DrawerWindow(),
+      appBar: AppBar(
+        backgroundColor: Colors.blue[700],
+        centerTitle: true,
+        title: Text(
+          "Agriglance"
+        )
+      ),
+
+     
       body: Center(
-        child: Column(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           
           children: [
