@@ -18,6 +18,7 @@ import 'package:firebase_admob/firebase_admob.dart';
 int noOfClicks = 0;
 
 class MaterialsHome extends StatefulWidget {
+  static const String route = "/materials";
   @override
   _MaterialsHomeState createState() => _MaterialsHomeState();
 }
@@ -133,7 +134,7 @@ class _MaterialsHomeState extends State<MaterialsHome> {
                           MaterialPageRoute(builder: (context) => newScreen));
                       break;
                     }
-                    case "Thesis":
+                  case "Thesis":
                     {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => newScreen));
@@ -167,7 +168,8 @@ class _MaterialsHomeState extends State<MaterialsHome> {
                   else if (category == "Documents")
                     FaIcon(FontAwesomeIcons.solidFile, color: Colors.amber[100])
                   else if (category == "Thesis")
-                    FaIcon(FontAwesomeIcons.solidNewspaper, color: Colors.amber[100])
+                    FaIcon(FontAwesomeIcons.solidNewspaper,
+                        color: Colors.amber[100])
                   else if (category == "Images")
                     Icon(Icons.image, color: Colors.amber[100]),
                   SizedBox(

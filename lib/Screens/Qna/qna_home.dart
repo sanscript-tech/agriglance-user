@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class QnaHome extends StatefulWidget {
+  static const String route = "/qna";
   @override
   _QnaHomeState createState() => _QnaHomeState();
 }

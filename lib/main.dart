@@ -1,3 +1,7 @@
+import 'package:agriglance/Screens/Jobs/jobs_home.dart';
+import 'package:agriglance/Screens/Materials/materials_home.dart';
+import 'package:agriglance/Screens/Qna/qna_home.dart';
+import 'package:agriglance/Screens/Test/test_home.dart';
 import 'package:agriglance/Services/authenticate.dart';
 import 'package:agriglance/services/admob_service.dart';
 import 'package:firebase_admob/firebase_admob.dart';
@@ -11,7 +15,6 @@ import 'Screens/Home/home.dart';
 import 'Services/authentication_service.dart';
 
 import 'configure_nonweb.dart' if (dart.library.html) 'configure_web.dart';
-
 
 void main() async {
   configureApp();
@@ -42,9 +45,14 @@ class MyApp extends StatelessWidget {
             backgroundColor: Colors.grey,
             primaryColor: Colors.indigo[900],
           ),
-          home: (kIsWeb)
-              ? Home()
-              : ((FirebaseAuth.instance.currentUser == null) ? Authenticate() : Home()),
+          initialRoute: Home.route,
+          routes: {
+            Home.route:(context)=>Home(),
+            TestHome.route:(context)=>TestHome(),
+            MaterialsHome.route:(context)=>MaterialsHome(),
+            QnaHome.route:(context)=>QnaHome(),
+            JobsHome.route:(context)=>JobsHome()
+          },
         ));
   }
 }

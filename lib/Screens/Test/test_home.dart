@@ -13,6 +13,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'testSubjects.dart';
 
 class TestHome extends StatefulWidget {
+  static const String route = "/tests";
   @override
   _TestHomeState createState() => _TestHomeState();
 }
@@ -202,23 +203,23 @@ class _TestHomeState extends State<TestHome> {
                     });
               }),
         ),
-        if(kIsWeb)
-        Container(
-          height: deviceHeight * 0.06,
-          padding: const EdgeInsets.all(8.0),
-          color: Colors.white,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Have any doubt? ask Admin or post "
-                "your question on our QNA Forum.",
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.orange, fontFamily: 'Times'),
-              ),
-            ],
+        if (kIsWeb)
+          Container(
+            height: deviceHeight * 0.06,
+            padding: const EdgeInsets.all(8.0),
+            color: Colors.white,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Have any doubt? ask Admin or post "
+                  "your question on our QNA Forum.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.orange, fontFamily: 'Times'),
+                ),
+              ],
+            ),
           ),
-        ),
         if (kIsWeb)
           Padding(
             padding: const EdgeInsets.all(8.0),

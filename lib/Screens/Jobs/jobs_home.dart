@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class JobsHome extends StatefulWidget {
+  static const String route="jobs";
   @override
   _JobsHomeState createState() => _JobsHomeState();
 }
