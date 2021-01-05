@@ -1,0 +1,16 @@
+const String homeViewRoute = '/';
+const String updateProfileRoute = '/updateProfile';
+const String profileRoute = '/profile';
+const String myPointsRoute = '/myPoints';
+const String myStudyMaterialsRoute = '/myStudyMaterials';
+const String myQuestionPaperRoute = '/myQuestionPaper';
+const String myDocumentRoute = '/myDocuments';
+const String myThesisRoute = '/myThesis';
+const String myJobsRoute = '/myJobs';
+const String myQuestionsRoute = '/myQuestions';
+const String myNewsRoute = '/myNews&CurrentAffairs';
+const String myPollRoute = '/myPolls';
+const String myQuizRoute = '/myQuiz';
+const String myVideoRoute = '/myVideos';
+const String myImageRoute = '/myImages';
+const String contactAdminRoute = '/contactAdmin';

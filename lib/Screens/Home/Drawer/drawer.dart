@@ -12,6 +12,7 @@ import 'package:agriglance/Screens/Home/Drawer/my_thesis.dart';
 import 'package:agriglance/Screens/Home/Drawer/my_videos.dart';
 import 'package:agriglance/Services/authenticate.dart';
 import 'package:agriglance/Services/firestore_service.dart';
+import 'package:agriglance/route_names.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
     if (FirebaseAuth.instance.currentUser != null) {
       return FutureBuilder(
           future:
-          _firestoreService.getUser(FirebaseAuth.instance.currentUser.uid),
+              _firestoreService.getUser(FirebaseAuth.instance.currentUser.uid),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               return drawerWidget(context, snapshot);
@@ -43,8 +44,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
                   child: Center(child: CircularProgressIndicator()));
             }
           });
-    }
-    else {
+    } else {
       return Drawer(
         elevation: 10.0,
         child: Center(
@@ -69,8 +69,7 @@ class _DrawerWindowState extends State<DrawerWindow> {
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Profile()));
+              Navigator.pushNamed(context, profileRoute);
             },
             child: UserAccountsDrawerHeader(
               accountName: Text(
@@ -91,114 +90,98 @@ class _DrawerWindowState extends State<DrawerWindow> {
             trailing: Icon(Icons.edit),
             title: Text("Update Profile"),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => UpdateProfile()));
+              Navigator.pushNamed(context, updateProfileRoute);
             },
           ),
           ListTile(
             trailing: Icon(Icons.monetization_on),
             title: Text("My Points"),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => MyPoints()));
+              Navigator.pushNamed(context, myPointsRoute);
             },
           ),
           ListTile(
             trailing: Icon(Icons.book),
             title: Text("My Study Materials"),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => MyStudyMaterials()));
+              Navigator.pushNamed(context, myStudyMaterialsRoute);
             },
           ),
           ListTile(
             trailing: FaIcon(FontAwesomeIcons.question),
             title: Text("My Question Papers"),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => MyQuestionPapers()));
+              Navigator.pushNamed(context, myQuestionPaperRoute);
             },
           ),
           ListTile(
             trailing: FaIcon(FontAwesomeIcons.solidFile),
             title: Text("My Documents"),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => MyDocuments()));
+              Navigator.pushNamed(context, myDocumentRoute);
             },
           ),
           ListTile(
             trailing: FaIcon(FontAwesomeIcons.solidNewspaper),
             title: Text("My Thesis"),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => MyThesis()));
+              Navigator.pushNamed(context, myThesisRoute);
             },
           ),
           ListTile(
             trailing: Icon(Icons.work),
             title: Text("My Jobs"),
             onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => MyJobs()));
+              Navigator.pushNamed(context, myJobsRoute);
             },
           ),
           ListTile(
             trailing: Icon(Icons.question_answer),
             title: Text("My Questions"),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => MyQuestions()));
+              Navigator.pushNamed(context, myQuestionsRoute);
             },
           ),
           ListTile(
             trailing: Icon(Icons.trending_up),
             title: Text("My News and CurrentAffairs"),
             onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(
-                  builder: (context) => MyNewsAndCurrentAffairs()));
+              Navigator.pushNamed(context, myNewsRoute);
             },
           ),
           ListTile(
             trailing: Icon(Icons.how_to_vote),
             title: Text("My Poll"),
             onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => MyPoll()));
+              Navigator.pushNamed(context, myPollRoute);
             },
           ),
           ListTile(
             trailing: Icon(Icons.lightbulb),
             title: Text("My Quiz"),
             onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => MyQuiz()));
+              Navigator.pushNamed(context, myQuizRoute);
             },
           ),
           ListTile(
             trailing: Icon(Icons.videocam),
             title: Text("My Videos"),
             onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => MyVideos()));
+              Navigator.pushNamed(context, myVideoRoute);
             },
           ),
           ListTile(
             trailing: Icon(Icons.image),
             title: Text("My Images"),
             onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => MyImages()));
+              Navigator.pushNamed(context, myImageRoute);
             },
           ),
           ListTile(
             trailing: Icon(Icons.contact_mail),
             title: Text("Contact Admin"),
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ContactAdmin()));
+              Navigator.pushNamed(context, contactAdminRoute);
             },
           ),
         ],
