@@ -53,7 +53,8 @@ dependencies:
   clipboard: ^0.1.2+8
   draggable_scrollbar: ^0.0.4
   pie_chart: ^4.0.1
-  get_it:
+  get_it: ^5.0.3
+
 
 
   # The following adds the Cupertino Icons font to your application.
