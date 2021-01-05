@@ -10,10 +10,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:universal_html/prefer_sdk/html.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../News/news_home.dart';
 import '../Quiz/quiz_home.dart';
 import 'package:firebase_admob/firebase_admob.dart';
+import '../../route_names.dart';
 
 int noOfClicks = 0;
 
@@ -26,8 +28,7 @@ class _MaterialsHomeState extends State<MaterialsHome> {
   final ams = (!kIsWeb) ? AdMobService() : null;
 
   @override
-  Widget categoryButton(
-      String category, BuildContext context, Widget newScreen) {
+  Widget categoryButton(String category) {
     var style;
     if (kIsWeb)
       style = TextStyle(
@@ -87,56 +88,49 @@ class _MaterialsHomeState extends State<MaterialsHome> {
                 switch (category) {
                   case "Study Materials":
                     {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => newScreen));
+                      Navigator.pushNamed(context, studyMaterials);
+
                       break;
                     }
                   case "Videos":
                     {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => newScreen));
+                      Navigator.pushNamed(context, vedios);
+
                       break;
                     }
                   case "News and Current Affairs":
                     {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => newScreen));
+                      Navigator.pushNamed(context, news);
                       break;
                     }
                   case "Polls":
                     {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => newScreen));
+                      Navigator.pushNamed(context, polls);
                       break;
                     }
                   case "Quiz":
                     {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => newScreen));
+                      Navigator.pushNamed(context, quiz);
                       break;
                     }
                   case "Images":
                     {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => newScreen));
+                      Navigator.pushNamed(context, images);
                       break;
                     }
                   case "Question Papers":
                     {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => newScreen));
+                      Navigator.pushNamed(context, questionPapers);
                       break;
                     }
                   case "Documents":
                     {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => newScreen));
+                      Navigator.pushNamed(context, documents);
                       break;
                     }
-                    case "Thesis":
+                  case "Thesis":
                     {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => newScreen));
+                      Navigator.pushNamed(context, thesis);
                       break;
                     }
 
@@ -167,7 +161,8 @@ class _MaterialsHomeState extends State<MaterialsHome> {
                   else if (category == "Documents")
                     FaIcon(FontAwesomeIcons.solidFile, color: Colors.amber[100])
                   else if (category == "Thesis")
-                    FaIcon(FontAwesomeIcons.solidNewspaper, color: Colors.amber[100])
+                    FaIcon(FontAwesomeIcons.solidNewspaper,
+                        color: Colors.amber[100])
                   else if (category == "Images")
                     Icon(Icons.image, color: Colors.amber[100]),
                   SizedBox(
@@ -236,42 +231,39 @@ class _MaterialsHomeState extends State<MaterialsHome> {
                   SizedBox(
                     height: deviceHeight / 50,
                   ),
-                  categoryButton("Videos", context, VideoHome()),
+                  categoryButton("Videos"),
                   SizedBox(
                     height: deviceHeight / 50,
                   ),
-                  categoryButton("Images", context, ImageHome()),
+                  categoryButton("Images"),
                   SizedBox(
                     height: deviceHeight / 50,
                   ),
-                  categoryButton(
-                      "Question Papers", context, QuestionPapersHome()),
+                  categoryButton("Question Papers"),
                   SizedBox(
                     height: deviceHeight / 50,
                   ),
-                  categoryButton("Documents", context, DocumentsHome()),
+                  categoryButton("Documents"),
                   SizedBox(
                     height: deviceHeight / 50,
                   ),
-                  categoryButton("Thesis", context, ThesisHome()),
+                  categoryButton("Thesis"),
                   SizedBox(
                     height: deviceHeight / 50,
                   ),
-                  categoryButton(
-                      "Study Materials", context, StudyMaterialsHome()),
+                  categoryButton("Study Materials"),
                   SizedBox(
                     height: deviceHeight / 50,
                   ),
-                  categoryButton(
-                      "News and Current Affairs", context, NewsHome()),
+                  categoryButton("News and Current Affairs"),
                   SizedBox(
                     height: deviceHeight / 50,
                   ),
-                  categoryButton("Polls", context, PollHome()),
+                  categoryButton("Polls"),
                   SizedBox(
                     height: deviceHeight / 50,
                   ),
-                  categoryButton("Quiz", context, QuizHome()),
+                  categoryButton("Quiz"),
                   SizedBox(
                     height: deviceHeight / 50,
                   ),

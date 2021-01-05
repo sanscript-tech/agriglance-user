@@ -12,6 +12,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import '../../route_names.dart';
 
 class Home extends StatefulWidget {
   const Home({Key key}) : super(key: key);
@@ -69,10 +70,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       IconButton(
                         icon: Icon(Icons.login),
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Authenticate()));
+                          Navigator.pushNamed(context,login);
                           setState(() {});
                         },
                       ),
