@@ -96,7 +96,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case '/materials/studyMaterials':
       return MaterialPageRoute(
           builder: (context) => StudyMaterialsHome(), settings: settings);
-    case '/materials/vedios':
+    case '/materials/videos':
       return MaterialPageRoute(
           builder: (context) => VideoHome(), settings: settings);
     case '/materials/news&CurrentAffairs':
