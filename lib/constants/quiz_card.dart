@@ -53,9 +53,12 @@ class _QuizCardState extends State<QuizCard> {
     return GestureDetector(
         onTap: () {
           if (widget.uid == widget.currentUser) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(
-                    "You can't attempt the quiz as the quiz is created by you.")));
+         
+             Fluttertoast.showToast(
+              toastLength: Toast.LENGTH_LONG,
+                msg: "You can't attempt the quiz as the quiz is created by you.",
+                gravity: ToastGravity.BOTTOM);
+
           } else if (_isAttempted) {
             Fluttertoast.showToast(
               toastLength: Toast.LENGTH_LONG,
